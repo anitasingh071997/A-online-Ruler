@@ -16,5 +16,10 @@
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "netlify-cli": "^27.10.0",
+    "tailwindcss": "^4.3.3"
   }
 }

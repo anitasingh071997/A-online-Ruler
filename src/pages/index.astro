@@ -1,11 +1,521 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const marks = Array.from({ length: 51 }, (_, i) => i);
+const faqItems = [
+	{ question: 'Can I use my phone as a ruler?', answer: 'Yes. Open the online ruler on your phone, choose a phone preset in the calibration card, and apply it. Swipe horizontally across the scale to see measurements beyond the screen width.' },
+	{ question: 'Is there a ruler online?', answer: 'Yes. This free online ruler runs in a web browser and offers inch, centimeter, and pixel settings, with millimeter divisions on the centimeter scale.' },
+	{ question: 'How to identify 1 inch?', answer: 'After calibrating, switch the ruler to inches. The distance from 0 to the mark labeled 1 is one inch, equal to 2.54 centimeters. Check the display against a physical ruler for actual-size accuracy.' },
+	{ question: 'How to measure cm online?', answer: "Calibrate your screen, select cm, and line up the object's starting edge with 0. Read the numbered centimeter marks, then count the small divisions; each small division is 1 mm, or 0.1 cm." },
+	{ question: 'Can a smartphone measure?', answer: 'A smartphone can show an on-screen ruler for measuring small objects beside its display. Calibrate the phone first; browser and screen differences mean the result is an estimate until checked against a known reference.' },
+	{ question: 'Can I use my camera as a ruler?', answer: 'This tool does not use the camera. It displays a ruler on the screen instead, so you can align an object beside the scale without granting camera access.' },
+	{ question: 'Can we measure online?', answer: 'Yes. Use a browser ruler for quick length checks: calibrate the display, align the object with zero, and read its endpoint. Confirm precision measurements with a physical ruler or caliper.' },
+	{ question: 'How to read a ruler online?', answer: 'Start at zero and read the mark where the object\'s other edge ends. Larger numbered marks show centimeters or inches; on the centimeter scale, each of ten small divisions equals one millimeter.' },
+	{ question: 'How to view ruler in Word Online?', answer: "Open your document and choose View, then Ruler. This shows Word's page-layout ruler for document formatting. It is separate from an on-screen ruler for measuring physical objects." },
+	{ question: 'How to add a ruler on Word Online?', answer: 'Word for the web displays its ruler from View > Ruler; it is a layout aid rather than an object inserted into the document. For an actual-size screen scale, use this online ruler and calibrate your display.' },
+	{ question: 'How to show a ruler in PowerPoint Online?', answer: "PowerPoint for the web does not currently display rulers or gridlines. It uses smart guides to help align slide objects. To use PowerPoint's rulers, open the presentation in the desktop app and select View > Ruler." },
+	{ question: 'How to use online ruler?', answer: 'Choose centimeters or inches, calibrate with a screen preset or standard card, and place the object beside the zero mark. Swipe across the ruler on a phone to reach the full scale; use a physical tool to verify close tolerances.' },
+];
+const faqStructuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'FAQPage',
+	mainEntity: faqItems.map(({ question, answer }) => ({
+		'@type': 'Question',
+		name: question,
+		acceptedAnswer: { '@type': 'Answer', text: answer },
+	})),
+};
 ---
 
 <Layout>
-	<Welcome />
+	<div class="screen-rulers" id="screen-rulers" aria-hidden="true">
+		{(['top', 'bottom', 'left', 'right'] as const).map((edge) => (
+			<div class:list={['screen-edge', `screen-edge-${edge}`]} data-screen-edge={edge}>
+				<div class="screen-edge-scale" data-edge-scale={edge}>
+					{marks.map((mark) => <div class="screen-mark" style={`--mark:${mark}`}><span class="screen-tick"></span><span class="screen-number">{mark}</span></div>)}
+				</div>
+			</div>
+		))}
+	</div>
+	<div class="app-shell">
+		<header class="topbar">
+			<a class="brand" href="#top" aria-label="A Online Ruler home">
+				<span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+				<span>A Online Ruler</span>
+			</a>
+			<nav aria-label="Main navigation">
+				<a href="#popular-tools">Popular Tools</a>
+				<a href="#ruler-faq">FAQs</a>
+				<details class="category-menu">
+					<summary><span>All Items</span><svg class="menu-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="m3 4.5 3 3 3-3" /></svg></summary>
+					<div class="category-dropdown">
+						<a href="#cat-classroom">Classroom Management Tools</a>
+						<a href="#cat-random">Random Tools</a>
+						<a href="#cat-measurement">Measurement</a>
+						<a href="#cat-facebook">Facebook Editor Utilities</a>
+						<a href="#cat-emoji">Emoji &amp; Symbols</a>
+						<a href="#cat-time">Time And Date</a>
+						<a href="#cat-utilities">Utilities</a>
+						<a href="#cat-travel">Travel</a>
+						<a href="#cat-text">Text Tool</a>
+						<a href="#cat-programming">Programming</a>
+						<a href="#cat-lifestyle">Lifestyle</a>
+						<a href="#cat-blog">Blog</a>
+					</div>
+				</details>
+			</nav>
+			<a class="nav-button" href="#ruler">Open ruler <span aria-hidden="true">↗</span></a>
+			<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="theme-icon" aria-hidden="true">☾</span></button>
+		</header>
+
+		<main id="top">
+			<section class="intro" aria-labelledby="page-title">
+				<div class="eyebrow"><span class="status-dot"></span> PRECISION TOOL · RUNS IN YOUR BROWSER</div>
+				<h1 id="page-title">Online ruler,<br /><span>always within reach.</span></h1>
+				<p class="intro-copy">Measure real objects on your screen in inches, centimeters, and millimeter divisions. Calibrate once, choose an edge, and get started in seconds.</p>
+				<div class="trust-line"><span class="checkmark">✓</span> No downloads <span class="trust-divider">·</span> No account <span class="trust-divider">·</span> Your calibration stays on this device</div>
+			</section>
+
+			<section class="workspace" id="popular-tools" aria-label="Popular tools">
+				<div id="ruler">
+				<div class="workspace-bar">
+					<div class="workspace-title"><span class="live-indicator"></span><div><strong>Screen ruler</strong><small id="calibration-status" aria-live="polite">Ready to calibrate</small></div></div>
+					<div class="workspace-actions">
+						<div class="segmented unit-toggle" role="group" aria-label="Ruler units">
+							<button class="segment is-active" type="button" data-unit="cm" aria-pressed="true">cm</button>
+							<button class="segment" type="button" data-unit="in" aria-pressed="false">in</button>
+							<button class="segment" type="button" data-unit="px" aria-pressed="false">px</button>
+						</div>
+						<button class="icon-button" id="fullscreen" type="button" aria-label="Enter fullscreen" title="Enter fullscreen"><svg viewBox="0 0 20 20" aria-hidden="true"><path id="fullscreen-icon-path" d="M7 3H3v4M13 3h4v4M17 13v4h-4M3 13v4h4" /></svg></button>
+					</div>
+				</div>
+				<div class="ruler-frame" id="ruler-frame" data-position="top">
+					<div class="edge-strip" aria-label="Place ruler on an edge">
+						<button type="button" class="edge-label" id="edge-toggle" aria-pressed="false">EDGE</button>
+						<button type="button" class="edge-option is-selected" data-edge="top" aria-pressed="true">Top</button>
+						<button type="button" class="edge-option" data-edge="bottom" aria-pressed="false">Bottom</button>
+						<button type="button" class="edge-option" data-edge="left" aria-pressed="false">Left</button>
+						<button type="button" class="edge-option" data-edge="right" aria-pressed="false">Right</button>
+					</div>
+					<div class="scale-wrap">
+						<div class="scale-ruler select-none" id="scale-ruler" aria-label="Ruler scale from zero to thirty centimeters">
+							{marks.map((mark) => <div class="major-mark" style={`--mark:${mark}`}><span class="tick"></span><span class="mark-number">{mark}</span></div>)}
+							<div class="measurement-line" id="measurement-line" aria-hidden="true"></div>
+						</div>
+					</div>
+					<div class="ruler-footer"><span>0 <span id="unit-start">cm</span></span><span id="ruler-length">30 cm · 11.81 in</span></div>
+				</div>
+				<div class="workspace-bottom">
+					<p><span class="keyboard-key">↔</span> Move your cursor along the scale to measure</p>
+					<div class="zoom-control"><span>Ruler length</span><button type="button" id="shorter" aria-label="Shorten ruler">−</button><strong id="length-label">30 cm</strong><button type="button" id="longer" aria-label="Lengthen ruler">+</button></div>
+				</div>
+				</div>
+			</section>
+
+			<section class="calibration-section" id="calibration" aria-labelledby="calibration-title">
+				<div class="section-heading">
+					<div><div class="eyebrow">SET UP YOUR SCREEN</div><h2 id="calibration-title">Calibrate for a true-to-life scale.</h2></div>
+					<p>Pick the method that works for your screen. You can adjust it any time.</p>
+				</div>
+				<div class="calibration-grid">
+					<article class="cal-card selected" data-method-card="auto">
+						<div class="card-top"><span class="step-number">01</span><span class="card-icon" aria-hidden="true">✳</span></div>
+						<h3>Auto-detect device</h3>
+						<p>Use your browser’s display information for a quick starting estimate.</p>
+						<div class="method-detail"><span class="device-glyph" aria-hidden="true">▰</span><span id="device-info">Detecting display…</span></div>
+						<label class="device-select-label" for="manual-device">Or choose your display</label>
+						<select class="device-select" id="manual-device" name="manual-device">
+							<optgroup label="Phones">
+							<option value="5.4|9/19.5">5.4″ phone · 19.5:9</option>
+							<option value="6.1|9/19.5">6.1″ phone · 19.5:9</option>
+							<option value="6.5|9/20">6.5″ phone · 20:9</option>
+							<option value="6.7|9/20">6.7″ phone · 20:9</option>
+							</optgroup>
+							<optgroup label="Tablets">
+								<option value="8.3|3/2">8.3″ tablet · 3:2</option>
+								<option value="10.9|4/3">10.9″ tablet · 4:3</option>
+								<option value="11|3/2">11″ tablet · 3:2</option>
+							</optgroup>
+							<optgroup label="Laptops">
+							<option value="13.3|16/9">13.3″ laptop · 16:9</option>
+							<option value="13.6|3/2">13.6″ laptop · 3:2</option>
+							<option value="14|16/10">14″ laptop · 16:10</option>
+							<option value="15.6|16/9" selected>15.6″ laptop · 16:9</option>
+							<option value="16|16/10">16″ laptop · 16:10</option>
+							<option value="17.3|16/9">17.3″ laptop · 16:9</option>
+							</optgroup>
+							<optgroup label="Monitors">
+							<option value="21.5|16/9">21.5″ monitor · 16:9</option>
+							<option value="24|16/9">24″ monitor · 16:9</option>
+							<option value="27|16/9">27″ monitor · 16:9</option>
+							<option value="32|16/9">32″ monitor · 16:9</option>
+							<option value="34|21/9">34″ ultrawide · 21:9</option>
+							</optgroup>
+							<optgroup label="Custom">
+							<option value="custom">Custom screen…</option>
+							</optgroup>
+						</select>
+						<div class="custom-device" id="custom-device" hidden>
+							<label for="manual-diagonal">Diagonal size</label>
+							<div class="custom-device-fields"><input id="manual-diagonal" type="number" min="4" max="100" step="0.1" value="15.6" name="manual-diagonal" inputmode="decimal" autocomplete="off" /><span>inches</span><select id="manual-aspect" name="manual-aspect" aria-label="Display aspect ratio"><option value="16/9">16:9</option><option value="16/10">16:10</option><option value="3/2">3:2</option><option value="4/3">4:3</option><option value="21/9">21:9</option><option value="9/19.5">19.5:9 phone</option><option value="9/20">20:9 phone</option></select></div>
+						</div>
+						<button class="card-button secondary manual-device-button" id="apply-device" type="button">Use selected display <span aria-hidden="true">→</span></button>
+						<button class="card-button primary" type="button" data-calibrate="auto">Use quick estimate <span aria-hidden="true">→</span></button>
+						<small class="fine-print">Best for a quick start. Fine-tune with a known-size object.</small>
+					</article>
+					<article class="cal-card" data-method-card="diagonal">
+						<div class="card-top"><span class="step-number">02</span><span class="card-icon" aria-hidden="true">⌁</span></div>
+						<h3>Screen diagonal</h3>
+						<p>Enter your display’s diagonal size and aspect ratio for a tailored estimate.</p>
+						<div class="inline-fields">
+							<label>Diagonal <span class="input-wrap"><input id="diagonal" type="number" min="5" max="100" step="0.1" value="13.3" name="diagonal" inputmode="decimal" autocomplete="off" /><span>in</span></span></label>
+							<label>Ratio <select id="aspect" name="aspect"><option value="16/9">16:9</option><option value="16/10">16:10</option><option value="3/2">3:2</option><option value="4/3">4:3</option><option value="21/9">21:9</option></select></label>
+						</div>
+						<button class="card-button secondary" type="button" data-calibrate="diagonal">Calibrate screen <span aria-hidden="true">→</span></button>
+						<small class="fine-print">For a closer estimate, confirm your browser zoom is 100%.</small>
+					</article>
+					<article class="cal-card" data-method-card="card">
+						<div class="card-top"><span class="step-number">03</span><span class="card-icon card-icon-card" aria-hidden="true">▭</span></div>
+						<h3>Credit card</h3>
+						<p>Match this reference to a standard bank card for the most reliable scale.</p>
+						<div class="card-reference"><div class="credit-card-visual"><span>A</span><i></i><i></i></div><div><strong>Standard card</strong><small>85.60 mm wide</small></div></div>
+						<button class="card-button secondary" type="button" data-calibrate="card">Align credit card <span aria-hidden="true">→</span></button>
+						<div class="card-align" id="card-align" hidden>
+							<div class="align-reference" id="align-reference"><span>85.60 mm</span></div>
+							<label for="card-width">Adjust the guide until it matches your card</label>
+							<input id="card-width" name="card-width" type="range" min="180" max="620" step="1" value="324" aria-label="Adjust reference card width" />
+							<div class="align-actions"><button id="cancel-card" class="cancel-align" type="button">Cancel</button><button id="apply-card" class="apply-align" type="button">Apply calibration</button></div>
+						</div>
+						<small class="fine-print">Place a physical card against the screen to match its width.</small>
+					</article>
+				</div>
+				<div class="calibration-note" id="calibration-note" role="status" aria-live="polite"><span class="note-icon">i</span><span>For the most accurate measurements, compare the ruler against a standard card or physical ruler. Browser display data can only provide an estimate.</span><button id="dismiss-note" type="button" aria-label="Dismiss calibration note">×</button></div>
+			</section>
+
+			<section class="how-section" id="how-it-works">
+				<div class="eyebrow">MEASURE WITH CONFIDENCE</div>
+				<div class="how-grid"><h2>Simple by design.<br />Accurate by calibration.</h2><div class="how-copy"><p>Every display is different. A quick calibration aligns the ruler on your screen with the real world, so you can measure small objects without reaching for a physical ruler.</p><a href="#calibration">Choose a calibration method <span aria-hidden="true">→</span></a></div></div>
+				<div class="feature-row"><div><span class="feature-index">A</span><div><strong>Choose your edge</strong><p>Keep the scale where it’s easiest to measure.</p></div></div><div><span class="feature-index">B</span><div><strong>Switch units instantly</strong><p>Toggle centimeters, inches, and pixels in one tap.</p></div></div><div><span class="feature-index">C</span><div><strong>Keep your setup</strong><p>Your calibration is saved on this device.</p></div></div></div>
+			</section>
+
+			<section class="seo-guide" id="online-ruler-guide" aria-labelledby="online-ruler-guide-title">
+				<div class="eyebrow">A PRACTICAL MEASURING GUIDE</div>
+				<h2 id="online-ruler-guide-title">A free online ruler for everyday measurements</h2>
+				<div class="seo-guide-copy">
+					<p>An online ruler turns your laptop, tablet, or phone screen into a handy measuring surface. Check a small object, compare a package, or plan a craft project. This free online ruler runs in your browser with no install or account. Choose a unit, calibrate the display, and place an object beside the scale.</p>
+					<h3>Measure in inches, centimeters, and millimeters</h3>
+					<p>Choose online ruler inches for imperial measurements, or switch to centimeters for metric work. The centimeter scale has ten small divisions, each representing one millimeter. This works as an online ruler in mm for short lengths, even when the main display is set to centimeters. Read the nearest mark and compare it with a physical reference when precision matters.</p>
+					<p>For an online ruler cm reading, use the numbered centimeter marks first, then count the short divisions between them. Three small marks after 2 cm indicate 2.3 cm, or 23 mm. This online ruler mm reference keeps millimeter graduations visible without crowding the scale with extra labels. An mm online ruler search often means someone needs these smaller metric increments.</p>
+					<p>Need a 12 inch online ruler? Select inches, extend the ruler to at least 12 inches, and use the numbered marks to read the length. The scale can be longer than a phone viewport, so swipe horizontally along the ruler to reach marks that are off-screen. On a large display, the same online ruler tool can show a longer section at once.</p>
+					<h3>Calibrate the display for actual size</h3>
+					<p>A screen has no universal physical size. Browser zoom, display density, and monitor dimensions affect how large a measurement looks. For an online ruler to scale, choose a device preset or enter your screen diagonal and aspect ratio. Then compare the guide with a standard card or physical ruler. Calibration is saved on this device for your next visit.</p>
+					<p>Calibration is essential for an accurate online ruler. Browsers do not report the exact physical pixel density of every screen, so automatic display information is only an estimate. Compare the guide with a real object to correct it. Online ruler inches actual size describes the goal: a screen scale that matches real dimensions after calibration. Verify close tolerances with a physical tool.</p>
+					<p>An actual size online ruler depends on matching the displayed scale to a known physical length. Keep browser zoom steady after calibration, since zooming changes the relationship between screen pixels and the ruler. For an online ruler to scale consistently, recalibrate whenever you move to another display or change its zoom settings.</p>
+					<h3>Use the ruler on your phone or computer</h3>
+					<p>This real online ruler adapts to phones and desktop monitors. Swipe across the scale to see its full length, change the ruler edge, or switch units. Phone and tablet presets offer a starting point, while custom screen fields describe other displays. A preset is an estimate; physical calibration is better when measurements must be dependable.</p>
+					<p>Some people search for an online ruler camera to measure through a phone. This page needs no camera: it displays a scale, and you place the object beside it. For an online ruler mm reading, align the object with zero and use the millimeter marks. Calibrate first, and avoid changing browser zoom afterward.</p>
+					<h3>What this online ruler can and cannot do</h3>
+					<p>Use the ruler for school activities, crafts, model making, or quick household checks. Choose centimeters, inches, or pixels; change the visible edge; and adjust the length. The free online ruler works on desktop and mobile browsers. Calibration stays in this browser and is not uploaded.</p>
+					<p>Measurements depend on calibration, zoom, and the display, so an uncalibrated screen cannot promise identical accuracy on every device. Confirm important cuts, fits, shipments, or purchases with a physical ruler or caliper. For everyday checks, this online ruler offers a quick real-size reference wherever you can open a browser.</p>
+				</div>
+			</section>
+
+			<section class="faq-section" id="ruler-faq" aria-labelledby="faq-title">
+				<div class="eyebrow">QUICK ANSWERS</div>
+				<h2 id="faq-title">Online ruler FAQs</h2>
+				{faqItems.map(({ question, answer }) => <details><summary>{question}</summary><p>{answer}</p></details>)}
+			</section>
+			<script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)}></script>
+
+			<section class="category-directory" id="all-categories" aria-labelledby="category-title">
+				<div class="eyebrow">BROWSE BY CATEGORY</div>
+				<div class="directory-heading"><h2 id="category-title">All tool categories</h2><p>Find the right helper for what you’re working on.</p></div>
+				<div class="category-grid">
+					<article class="category-card" id="cat-classroom"><h3>Classroom Management Tools</h3><p>Tools for planning and managing a classroom.</p><span>Coming soon</span></article>
+					<article class="category-card" id="cat-random"><h3>Random Tools</h3><p>Quick random picks and generators.</p><span>Coming soon</span></article>
+					<article class="category-card" id="cat-measurement"><h3>Measurement</h3><p>Measure objects and dimensions with simple screen tools.</p><a href="#ruler">A Online Ruler <span aria-hidden="true">↗</span></a></article>
+					<article class="category-card" id="cat-facebook"><h3>Facebook Editor Utilities</h3><p>Preview and prepare content for Facebook.</p><span>Coming soon</span></article>
+					<article class="category-card" id="cat-emoji"><h3>Emoji &amp; Symbols</h3><p>Find and copy emoji and useful symbols.</p><span>Coming soon</span></article>
+					<article class="category-card" id="cat-time"><h3>Time And Date</h3><p>Work with dates, time zones, and schedules.</p><span>Coming soon</span></article>
+					<article class="category-card" id="cat-utilities"><h3>Utilities</h3><p>Small helpers for everyday tasks.</p><span>Coming soon</span></article>
+					<article class="category-card" id="cat-travel"><h3>Travel</h3><p>Useful tools for planning a trip.</p><span>Coming soon</span></article>
+					<article class="category-card" id="cat-text"><h3>Text Tool</h3><p>Format, transform, and work with text.</p><span>Coming soon</span></article>
+					<article class="category-card" id="cat-programming"><h3>Programming</h3><p>Handy utilities for developers.</p><span>Coming soon</span></article>
+					<article class="category-card" id="cat-lifestyle"><h3>Lifestyle</h3><p>Helpful tools for day-to-day life.</p><span>Coming soon</span></article>
+					<article class="category-card" id="cat-blog"><h3>Blog</h3><p>Guides and practical how-to articles.</p><span>Coming soon</span></article>
+				</div>
+			</section>
+		</main>
+		<footer><a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>A Online Ruler</span></a><span>Measure anything, right on your screen.</span><a href="https://aonlineruler.com">aonlineruler.com</a></footer>
+	</div>
 </Layout>
+
+<script>
+	const frame = document.querySelector<HTMLElement>('#ruler-frame')!;
+	const scale = document.querySelector<HTMLElement>('#scale-ruler')!;
+	const status = document.querySelector<HTMLElement>('#calibration-status')!;
+	const lengthLabel = document.querySelector<HTMLElement>('#length-label')!;
+	const line = document.querySelector<HTMLElement>('#measurement-line')!;
+	const deviceInfo = document.querySelector<HTMLElement>('#device-info')!;
+	const cardAlign = document.querySelector<HTMLElement>('#card-align')!;
+	const cardWidth = document.querySelector<HTMLInputElement>('#card-width')!;
+	const alignReference = document.querySelector<HTMLElement>('#align-reference')!;
+	const screenRulers = document.querySelector<HTMLElement>('#screen-rulers')!;
+	const edgeToggle = document.querySelector<HTMLButtonElement>('#edge-toggle')!;
+	const edgeScales = document.querySelectorAll<HTMLElement>('[data-edge-scale]');
+	const manualDevice = document.querySelector<HTMLSelectElement>('#manual-device')!;
+	const customDevice = document.querySelector<HTMLElement>('#custom-device')!;
+	let stored: string | null = null;
+	try { stored = localStorage.getItem('aor-calibration'); } catch { /* Storage may be disabled in private browsing. */ }
+	let pixelsPerCm = stored ? Number(stored) : 37.8;
+	let unit: 'cm' | 'in' | 'px' = 'cm';
+	let lengthCm = 30;
+	let activeEdge = 'top';
+	deviceInfo.textContent = `${window.screen.width} CSS px · ${window.devicePixelRatio}× display scale`;
+
+	function updateScale() {
+		const ppu = unit === 'px' ? 1 : pixelsPerCm * (unit === 'cm' ? 1 : 2.54);
+		const unitWidth = unit === 'px' ? 100 : ppu;
+		const scaleWidth = unit === 'px' ? lengthCm * pixelsPerCm : ppu * lengthCm / (unit === 'cm' ? 1 : 2.54);
+		const markCount = unit === 'px' ? Math.ceil(scaleWidth / 100) : unit === 'cm' ? lengthCm : Math.ceil(lengthCm / 2.54);
+		screenRulers.style.setProperty('--unit-width', `${unitWidth}px`);
+		screenRulers.style.setProperty('--scale-width', `${scaleWidth}px`);
+		screenRulers.style.setProperty('--minor-step', `${unit === 'px' ? 10 : ppu / (unit === 'cm' ? 10 : 8)}px`);
+		scale.style.setProperty('--unit-width', `${unitWidth}px`);
+		scale.style.setProperty('--scale-width', `${scaleWidth}px`);
+		scale.style.setProperty('--minor-step', `${unit === 'px' ? 10 : ppu / (unit === 'cm' ? 10 : 8)}px`);
+		document.querySelectorAll<HTMLElement>('.mark-number').forEach((el, i) => {
+			el.textContent = unit === 'px' ? `${i * 100}` : `${i}`;
+		});
+		document.querySelectorAll<HTMLElement>('.major-mark').forEach((el, i) => {
+			el.hidden = i > markCount;
+		});
+		const shown = unit === 'cm' ? lengthCm : unit === 'in' ? lengthCm / 2.54 : Math.round(scaleWidth);
+		lengthLabel.textContent = `${shown.toFixed(unit === 'cm' ? 0 : unit === 'px' ? 0 : 1)} ${unit}`;
+		document.querySelector<HTMLElement>('#unit-start')!.textContent = unit;
+		document.querySelector<HTMLElement>('#ruler-length')!.textContent = unit === 'px' ? `${Math.round(scaleWidth)} px · ${lengthCm} cm` : `${lengthCm} cm · ${(lengthCm / 2.54).toFixed(2)} in`;
+		scale.setAttribute('aria-label', `Ruler scale from zero to ${shown.toFixed(1)} ${unit}`);
+		edgeScales.forEach((edgeScale) => {
+			edgeScale.querySelectorAll<HTMLElement>('.screen-number').forEach((label, i) => { label.textContent = unit === 'px' ? `${i * 100}` : `${i}`; });
+			edgeScale.querySelectorAll<HTMLElement>('.screen-mark').forEach((mark, i) => { mark.hidden = i > markCount; });
+		});
+	}
+	function saveCalibration() {
+		try { localStorage.setItem('aor-calibration', String(pixelsPerCm)); }
+		catch { status.textContent = 'Calibration active for this session'; }
+	}
+	function getDisplayWidthInches(diagonal: number, aspect: string) {
+		let [ratioWidth, ratioHeight] = aspect.split('/').map(Number);
+		const portrait = window.screen.width < window.screen.height;
+		if ((portrait && ratioWidth > ratioHeight) || (!portrait && ratioWidth < ratioHeight)) {
+			[ratioWidth, ratioHeight] = [ratioHeight, ratioWidth];
+		}
+		return diagonal * ratioWidth / Math.hypot(ratioWidth, ratioHeight);
+	}
+	updateScale();
+	edgeToggle.addEventListener('click', () => {
+		const visible = screenRulers.classList.toggle('is-visible');
+		edgeToggle.setAttribute('aria-pressed', String(visible));
+		screenRulers.setAttribute('aria-hidden', String(!visible));
+	});
+	if (stored) status.textContent = 'Saved calibration loaded';
+
+	document.querySelectorAll<HTMLButtonElement>('[data-unit]').forEach((button) => button.addEventListener('click', () => {
+		unit = button.dataset.unit as 'cm' | 'in' | 'px';
+		document.querySelectorAll('[data-unit]').forEach((item) => { item.classList.toggle('is-active', item === button); item.setAttribute('aria-pressed', String(item === button)); });
+		updateScale();
+	}));
+	document.querySelectorAll<HTMLButtonElement>('[data-edge]').forEach((button) => button.addEventListener('click', () => {
+		activeEdge = button.dataset.edge!;
+		frame.dataset.position = activeEdge;
+		screenRulers.dataset.activeEdge = activeEdge;
+		status.textContent = `${activeEdge[0].toUpperCase()}${activeEdge.slice(1)} edge selected`;
+		document.querySelectorAll('[data-edge]').forEach((item) => { item.classList.toggle('is-selected', item === button); item.setAttribute('aria-pressed', String(item === button)); });
+		document.querySelectorAll<HTMLElement>('[data-screen-edge]').forEach((item) => item.classList.toggle('is-active', item.dataset.screenEdge === activeEdge));
+	}));
+	document.querySelector<HTMLButtonElement>('#shorter')!.addEventListener('click', () => { lengthCm = Math.max(10, lengthCm - 5); updateScale(); });
+	document.querySelector<HTMLButtonElement>('#longer')!.addEventListener('click', () => { lengthCm = Math.min(50, lengthCm + 5); updateScale(); });
+	const fullscreenButton = document.querySelector<HTMLButtonElement>('#fullscreen')!;
+	const fullscreenPath = document.querySelector<SVGPathElement>('#fullscreen-icon-path')!;
+	function updateFullscreenButton() {
+		const isFullscreen = Boolean(document.fullscreenElement);
+		fullscreenButton.classList.toggle('is-fullscreen', isFullscreen);
+		fullscreenButton.setAttribute('aria-label', isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen');
+		fullscreenButton.title = isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen';
+		fullscreenPath.setAttribute('d', isFullscreen ? 'M8 3v5H3m9-5v5h5M8 17v-5H3m9 5v-5h5' : 'M7 3H3v4M13 3h4v4M17 13v4h-4M3 13v4h4');
+	}
+	fullscreenButton.addEventListener('click', async () => {
+		if (!document.fullscreenElement) await document.documentElement.requestFullscreen(); else await document.exitFullscreen();
+	});
+	document.addEventListener('fullscreenchange', updateFullscreenButton);
+	document.querySelectorAll<HTMLDetailsElement>('.category-menu').forEach((menu) => menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { menu.open = false; })));
+	scale.addEventListener('pointermove', (event) => {
+		const rect = scale.getBoundingClientRect();
+		const vertical = frame.dataset.position === 'left' || frame.dataset.position === 'right';
+		const offset = vertical ? event.clientY - rect.top + scale.scrollTop : event.clientX - rect.left + scale.scrollLeft;
+		line.style.setProperty('--line-position', `${Math.max(0, Math.min(offset, vertical ? rect.height : rect.width))}px`);
+		line.classList.add('visible');
+	});
+	scale.addEventListener('pointerleave', () => line.classList.remove('visible'));
+	const activate = (method: string) => {
+		if (method === 'auto') {
+			// CSS pixel density is only a convenient baseline; browser APIs cannot report true panel size.
+			pixelsPerCm = 96 / 2.54;
+			status.textContent = 'Quick estimate applied · compare with a physical object';
+		} else if (method === 'diagonal') {
+			const diagonalInput = document.querySelector<HTMLInputElement>('#diagonal')!;
+			const diagonal = diagonalInput.valueAsNumber;
+			if (!Number.isFinite(diagonal) || diagonal < 5 || diagonal > 100) { status.textContent = 'Enter a screen diagonal between 5 and 100 inches'; diagonalInput.focus(); return; }
+			const widthInches = getDisplayWidthInches(diagonal, document.querySelector<HTMLSelectElement>('#aspect')!.value);
+			pixelsPerCm = window.screen.width / (widthInches * 2.54);
+			status.textContent = 'Diagonal estimate applied · browser zoom can affect accuracy';
+		} else if (method === 'manual') {
+			let diagonal: number;
+			let aspect: string;
+			if (manualDevice.value === 'custom') {
+				const manualDiagonal = document.querySelector<HTMLInputElement>('#manual-diagonal')!;
+				diagonal = manualDiagonal.valueAsNumber;
+				aspect = document.querySelector<HTMLSelectElement>('#manual-aspect')!.value;
+				if (!Number.isFinite(diagonal) || diagonal < 4 || diagonal > 100) { status.textContent = 'Enter a display diagonal between 4 and 100 inches'; manualDiagonal.focus(); return; }
+			} else {
+				const [size, ratio = '16/9'] = manualDevice.value.split('|');
+				diagonal = Number(size);
+				aspect = ratio;
+			}
+			const widthInches = getDisplayWidthInches(diagonal, aspect);
+			pixelsPerCm = window.screen.width / (widthInches * 2.54);
+			status.textContent = `Manual display estimate applied · ${diagonal}″, ${aspect.replace('/', ':')}`;
+		} else {
+			cardAlign.hidden = false;
+			cardAlign.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+			return;
+		}
+		saveCalibration();
+		document.querySelectorAll<HTMLElement>('[data-method-card]').forEach((card) => card.classList.toggle('selected', card.dataset.methodCard === method));
+		updateScale();
+	};
+	document.querySelectorAll<HTMLButtonElement>('[data-calibrate]').forEach((button) => button.addEventListener('click', () => activate(button.dataset.calibrate!)));
+	document.querySelector<HTMLButtonElement>('#apply-device')!.addEventListener('click', () => activate('manual'));
+	manualDevice.addEventListener('change', () => { customDevice.hidden = manualDevice.value !== 'custom'; });
+	cardWidth.addEventListener('input', () => alignReference.style.setProperty('--reference-width', `${cardWidth.value}px`));
+	alignReference.style.setProperty('--reference-width', `${cardWidth.value}px`);
+	document.querySelector<HTMLButtonElement>('#cancel-card')!.addEventListener('click', () => { cardAlign.hidden = true; });
+	document.querySelector<HTMLButtonElement>('#apply-card')!.addEventListener('click', () => {
+		pixelsPerCm = Number(cardWidth.value) / 8.56;
+		saveCalibration();
+		status.textContent = 'Credit card calibration applied';
+		document.querySelectorAll<HTMLElement>('[data-method-card]').forEach((card) => card.classList.toggle('selected', card.dataset.methodCard === 'card'));
+		cardAlign.hidden = true;
+		updateScale();
+	});
+	document.querySelector<HTMLButtonElement>('#dismiss-note')!.addEventListener('click', () => document.querySelector('#calibration-note')!.remove());
+	const themeToggle = document.querySelector<HTMLButtonElement>('#theme-toggle')!;
+	const themeIcon = document.querySelector<HTMLElement>('#theme-icon')!;
+	let theme = 'light';
+	try { theme = localStorage.getItem('aor-theme') === 'dark' ? 'dark' : 'light'; } catch { /* Theme selection remains available for this session. */ }
+	function setTheme(nextTheme: string) {
+		theme = nextTheme;
+		document.documentElement.dataset.theme = theme;
+		const dark = theme === 'dark';
+		themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+		themeToggle.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+		themeIcon.textContent = dark ? '☀' : '☾';
+		document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0c0c0d' : '#fafafa');
+		try { localStorage.setItem('aor-theme', theme); } catch { /* Theme selection remains available for this session. */ }
+	}
+	setTheme(theme);
+	themeToggle.addEventListener('click', () => setTheme(theme === 'dark' ? 'light' : 'dark'));
+</script>
+
+<style>
+	:global(*){box-sizing:border-box} :global(html){scroll-behavior:smooth;scroll-padding-top:84px} :global(body){margin:0;background:#fafafa;color:#171717;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased} :global(button),:global(input),:global(select){font:inherit} :global(button){touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+	.app-shell{max-width:1440px;margin:0 auto;padding:0 58px}.topbar{height:76px;display:flex;align-items:center;border-bottom:1px solid #ebebeb;gap:48px}.brand{display:inline-flex;align-items:center;gap:10px;color:#171717;text-decoration:none;font-size:14px;font-weight:600;letter-spacing:-.25px;white-space:nowrap}.brand-mark{width:22px;height:22px;display:flex;gap:2px;align-items:flex-end;padding:4px;border:1px solid #dedede;border-radius:6px}.brand-mark span{width:3px;border-radius:2px;background:#171717}.brand-mark span:nth-child(1){height:7px}.brand-mark span:nth-child(2){height:12px}.brand-mark span:nth-child(3){height:9px}.topbar nav{display:flex;align-items:center;gap:28px;flex:1}.topbar nav a,.nav-button{font-size:13px;color:#555;text-decoration:none;transition:color .15s ease}.topbar nav a:hover,.nav-button:hover{color:#111}.nav-button{border:1px solid #e5e5e5;background:#fff;color:#171717;border-radius:6px;padding:10px 13px}.nav-button span{padding-left:10px}.intro{padding:74px 0 40px;max-width:780px}.eyebrow{font:500 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.09em;color:#777}.status-dot{display:inline-block;width:7px;height:7px;margin:0 8px 1px 0;border-radius:50%;background:#36a37c}.intro h1{margin:20px 0 15px;font-size:clamp(42px,5.2vw,66px);line-height:.99;letter-spacing:-.065em;font-weight:600;text-wrap:balance}.intro h1 span{color:#797979}.intro-copy{max-width:550px;margin:0;color:#555;font-size:16px;line-height:1.65;text-wrap:pretty}.trust-line{display:flex;gap:9px;align-items:center;margin-top:22px;color:#747474;font-size:12px}.checkmark{width:16px;height:16px;display:inline-grid;place-items:center;color:#287858;border-radius:50%;background:#e8f4ed;font-size:11px}.trust-divider{color:#c7c7c7}
+	.workspace{overflow:hidden;background:#fff;border:1px solid #e7e7e7;border-radius:12px;box-shadow:0 1px 2px #00000008}.workspace-bar{height:70px;display:flex;justify-content:space-between;align-items:center;padding:0 20px;border-bottom:1px solid #ededed}.workspace-title{display:flex;align-items:center;gap:11px}.live-indicator{width:9px;height:9px;border-radius:50%;background:#42a781;box-shadow:0 0 0 4px #e9f5ef}.workspace-title strong,.workspace-title small{display:block}.workspace-title strong{font-size:13px;font-weight:600}.workspace-title small{margin-top:3px;color:#838383;font-size:11px}.workspace-actions{display:flex;gap:9px;align-items:center}.segmented{display:flex;gap:2px;padding:3px;background:#f3f3f3;border-radius:7px}.segment{min-width:36px;padding:6px 9px;border:0;border-radius:5px;background:transparent;color:#696969;font-size:12px;cursor:pointer}.segment.is-active{background:#fff;color:#171717;box-shadow:0 1px 2px #00000013}.icon-button{width:34px;height:34px;display:grid;place-items:center;border:1px solid #e7e7e7;border-radius:6px;background:#fff;color:#333;cursor:pointer}.icon-button:hover,.edge-option:hover,.zoom-control button:hover{background:#f5f5f5}.icon-button svg{width:17px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}.ruler-frame{--strip-height:38px;position:relative;padding:50px 30px 17px;background:linear-gradient(#fff,#fdfdfd);transition:padding .15s ease}.edge-strip{position:absolute;top:0;left:0;right:0;height:38px;display:flex;align-items:center;justify-content:center;gap:4px;border-bottom:1px solid #f0f0f0}.edge-label{margin-right:8px;color:#a1a1a1;font:10px ui-monospace,monospace;letter-spacing:.08em}.edge-option{border:0;border-radius:4px;background:transparent;color:#777;padding:5px 8px;font-size:11px;cursor:pointer}.edge-option.is-selected{background:#f0f0f0;color:#222}.scale-wrap{overflow:hidden;position:relative;border:1px solid #e9e2cf;border-radius:4px;background:#fffdf5}.scale-ruler{position:relative;width:var(--scale-width,1134px);max-width:none;height:101px;background-color:#fffdf4;background-image:repeating-linear-gradient(to right,#9f9170 0,#9f9170 1px,transparent 1px,transparent var(--minor-step,3.78px));background-size:var(--unit-width,37.8px) 9px;background-repeat:repeat-x;background-position:left 0;transition:background-size .2s ease}.scale-ruler:before{position:absolute;inset:0 auto auto 0;width:100%;height:100%;content:"";background-image:repeating-linear-gradient(to right,transparent 0,transparent calc(var(--unit-width,37.8px) / 2 - .5px),#80785f calc(var(--unit-width,37.8px) / 2 - .5px),#80785f calc(var(--unit-width,37.8px) / 2 + .5px),transparent calc(var(--unit-width,37.8px) / 2 + .5px),transparent var(--unit-width,37.8px));pointer-events:none}.major-mark{position:absolute;left:calc(var(--mark) * var(--unit-width,37.8px));top:0;width:1px;height:100%;pointer-events:none}.major-mark[hidden]{display:none}.tick{position:absolute;left:0;top:0;height:29px;width:1px;background:#282721}.mark-number{position:absolute;top:35px;left:-7px;color:#38352e;font:10px/1 Arial,sans-serif;font-variant-numeric:tabular-nums}.major-mark:first-child .mark-number{left:5px}.measurement-line{display:none;position:absolute;top:0;bottom:0;left:var(--line-position,0);width:1px;background:#1479ed;z-index:2;pointer-events:none}.measurement-line.visible{display:block}.measurement-line:after{position:absolute;top:0;left:-3px;width:7px;height:7px;background:#1479ed;border-radius:50%;content:""}.ruler-footer{display:flex;justify-content:space-between;padding:8px 2px 0;color:#8c8b85;font:10px ui-monospace,monospace}.workspace-bottom{min-height:49px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-top:1px solid #f0f0f0}.workspace-bottom p{display:flex;align-items:center;gap:8px;margin:0;color:#777;font-size:11px}.keyboard-key{width:20px;height:18px;display:grid;place-items:center;border:1px solid #e5e5e5;border-radius:4px;color:#555}.zoom-control{display:flex;align-items:center;gap:8px;color:#777;font-size:11px}.zoom-control button{width:25px;height:25px;border:1px solid #e6e6e6;border-radius:5px;background:#fff;color:#333;cursor:pointer}.zoom-control strong{min-width:39px;text-align:center;color:#333;font-size:11px}.ruler-frame[data-position="bottom"]{padding-top:50px;padding-bottom:17px}.ruler-frame[data-position="bottom"] .edge-strip{top:auto;bottom:0;border-top:1px solid #f0f0f0;border-bottom:0}.ruler-frame[data-position="left"],.ruler-frame[data-position="right"]{min-height:230px;padding:20px 54px}.ruler-frame[data-position="left"] .edge-strip,.ruler-frame[data-position="right"] .edge-strip{top:0;bottom:0;right:auto;width:42px;height:auto;flex-direction:column;border:0;border-right:1px solid #f0f0f0}.ruler-frame[data-position="right"] .edge-strip{right:0;left:auto;border-right:0;border-left:1px solid #f0f0f0}.ruler-frame[data-position="left"] .scale-wrap,.ruler-frame[data-position="right"] .scale-wrap{overflow:auto}.ruler-frame[data-position="left"] .scale-ruler,.ruler-frame[data-position="right"] .scale-ruler{height:100px}.ruler-frame[data-position="left"] .ruler-footer,.ruler-frame[data-position="right"] .ruler-footer{max-width:100%}
+	.calibration-section{padding-top:76px}.section-heading{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px}.section-heading h2,.how-grid h2{margin:10px 0 0;font-size:28px;line-height:1.16;letter-spacing:-.045em;font-weight:600;text-wrap:balance}.section-heading>p{max-width:325px;margin:0 0 2px;color:#777;font-size:13px;line-height:1.55}.calibration-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.cal-card{min-height:274px;display:flex;flex-direction:column;align-items:flex-start;padding:19px;background:#fff;border:1px solid #e8e8e8;border-radius:9px;transition:border-color .15s ease,box-shadow .15s ease}.cal-card.selected{border-color:#b9b9b9;box-shadow:0 0 0 1px #ededed}.card-top{width:100%;display:flex;justify-content:space-between;align-items:center}.step-number{color:#999;font:10px ui-monospace,monospace}.card-icon{width:27px;height:27px;display:grid;place-items:center;border:1px solid #e9e9e9;border-radius:6px;color:#555;font-size:16px}.card-icon-card{font-size:15px}.cal-card h3{margin:17px 0 6px;font-size:15px;letter-spacing:-.02em}.cal-card>p{min-height:39px;margin:0;color:#777;font-size:12px;line-height:1.55}.method-detail,.card-reference{width:100%;min-height:45px;display:flex;align-items:center;gap:10px;margin:10px 0 10px;padding:8px 10px;border:1px solid #efefef;border-radius:6px;background:#fdfdfd;color:#555;font-size:11px}.device-glyph{display:grid;place-items:center;width:21px;height:21px;border-radius:4px;background:#f1f1f1;color:#444}.inline-fields{width:100%;display:flex;gap:9px;margin:10px 0;min-height:45px;align-items:center}.inline-fields label{display:flex;flex:1;justify-content:space-between;align-items:center;gap:6px;color:#737373;font-size:11px}.input-wrap{display:flex;align-items:center;gap:4px;padding:0 7px;border:1px solid #e7e7e7;border-radius:5px;background:#fff}.input-wrap input{width:45px;padding:6px 0;border:0;outline:0;color:#222;font-size:11px}.input-wrap span{color:#8a8a8a}.inline-fields select{min-width:75px;padding:6px 5px;border:1px solid #e7e7e7;border-radius:5px;background:#fff;color:#333;font-size:11px}.card-button{width:100%;min-height:35px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border:1px solid #e4e4e4;border-radius:5px;background:#fff;color:#222;font-size:11px;font-weight:500;cursor:pointer;transition:background .15s ease,border-color .15s ease}.card-button:hover{background:#f5f5f5;border-color:#d6d6d6}.card-button.primary{border-color:#171717;background:#171717;color:#fff}.card-button.primary:hover{background:#333}.fine-print{margin-top:9px;color:#929292;font-size:10px;line-height:1.4}.card-reference{margin:10px 0;gap:12px}.credit-card-visual{width:46px;height:30px;position:relative;flex:none;padding:4px;border:1px solid #cfcfcf;border-radius:4px;background:linear-gradient(135deg,#f7f7f7,#e8e8e8)}.credit-card-visual span{color:#444;font-size:9px;font-weight:600}.credit-card-visual i{position:absolute;right:4px;bottom:5px;width:9px;height:6px;border:1px solid #bbb;border-radius:2px}.credit-card-visual i+i{right:14px}.card-reference strong,.card-reference small{display:block}.card-reference strong{font-size:10px;font-weight:500}.card-reference small{margin-top:3px;color:#878787;font-size:10px}.calibration-note{display:flex;align-items:center;gap:10px;margin-top:14px;padding:12px 14px;border:1px solid #ececec;border-radius:7px;background:#fff;color:#777;font-size:11px;line-height:1.5}.note-icon{width:17px;height:17px;display:grid;place-items:center;flex:none;border:1px solid #d9d9d9;border-radius:50%;color:#777;font:11px Georgia,serif}.calibration-note button{margin-left:auto;padding:3px 6px;border:0;background:none;color:#888;font-size:17px;cursor:pointer}.how-section{padding:79px 0 65px}.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-top:11px}.how-grid h2{font-size:34px}.how-copy p{max-width:440px;margin:0 0 13px;color:#686868;font-size:13px;line-height:1.7}.how-copy a{color:#171717;font-size:12px;text-decoration:none}.how-copy a span{margin-left:7px}.feature-row{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:36px;padding-top:20px;border-top:1px solid #e9e9e9}.feature-row>div{display:flex;gap:11px}.feature-index{width:23px;height:23px;display:grid;place-items:center;border:1px solid #e6e6e6;border-radius:5px;color:#777;font:10px ui-monospace,monospace}.feature-row strong{font-size:12px;font-weight:600}.feature-row p{margin:5px 0 0;color:#888;font-size:11px;line-height:1.45}footer{min-height:65px;display:flex;align-items:center;gap:16px;border-top:1px solid #e9e9e9;color:#888;font-size:11px}.footer-brand{font-size:12px}footer>span{flex:1}footer>a:last-child{color:#777;text-decoration:none}
+	.ruler-frame:not([data-position="left"]):not([data-position="right"]) .scale-wrap{overflow-x:auto;overflow-y:hidden}.ruler-frame[data-position="left"] .scale-wrap,.ruler-frame[data-position="right"] .scale-wrap{position:relative;overflow:auto;width:102px;height:min(60vh,var(--scale-width,1134px));margin:0 auto}.ruler-frame[data-position="left"] .scale-ruler,.ruler-frame[data-position="right"] .scale-ruler{position:absolute;top:0;left:101px;height:101px;transform:rotate(90deg);transform-origin:top left}.ruler-frame[data-position="left"] .ruler-footer,.ruler-frame[data-position="right"] .ruler-footer{width:102px;margin:0 auto}
+	.app-shell{padding-top:42px;padding-bottom:40px}.theme-toggle{min-height:36px;display:inline-flex;align-items:center;gap:7px;padding:0 10px;border:1px solid #e5e5e5;border-radius:6px;background:#fff;color:#333;font-size:11px;cursor:pointer}.theme-toggle:hover{background:#f5f5f5}.theme-toggle span:first-child{font-size:14px}
+	.screen-rulers{--unit-width:37.8px;--scale-width:1134px;--minor-step:3.78px;position:fixed;inset:0;z-index:1000;pointer-events:none}.screen-edge{position:fixed;overflow:hidden;background:#fafafa;border:1px solid #dedede;color:#171717;pointer-events:none}.screen-edge.is-active{box-shadow:inset 0 0 0 2px #0070f3}.screen-edge-top,.screen-edge-bottom{left:0;width:100vw;height:36px}.screen-edge-top{top:0}.screen-edge-bottom{bottom:0}.screen-edge-left,.screen-edge-right{top:36px;bottom:36px;width:36px}.screen-edge-left{left:0}.screen-edge-right{right:0}.screen-edge-scale{position:relative;background-color:#fffdf4;background-image:repeating-linear-gradient(to right,#9f9170 0,#9f9170 1px,transparent 1px,transparent var(--minor-step));background-size:var(--unit-width) 9px;background-repeat:repeat-x;width:var(--scale-width);height:36px}.screen-edge-scale:before{position:absolute;inset:0;content:"";background-image:repeating-linear-gradient(to right,transparent 0,transparent calc(var(--unit-width) / 2 - .5px),#80785f calc(var(--unit-width) / 2 - .5px),#80785f calc(var(--unit-width) / 2 + .5px),transparent calc(var(--unit-width) / 2 + .5px),transparent var(--unit-width))}.screen-mark{position:absolute;top:0;left:calc(var(--mark) * var(--unit-width));height:100%;width:1px}.screen-tick{position:absolute;top:0;left:0;width:1px;height:15px;background:#282721}.screen-number{position:absolute;top:20px;left:4px;color:#38352e;font:9px/1 ui-monospace,monospace;font-variant-numeric:tabular-nums}.screen-edge-bottom .screen-edge-scale{position:absolute;bottom:0}.screen-edge-bottom .screen-tick{top:auto;bottom:0}.screen-edge-bottom .screen-number{top:4px}.screen-edge-left .screen-edge-scale,.screen-edge-right .screen-edge-scale{width:36px;height:var(--scale-width);background-image:repeating-linear-gradient(to bottom,#9f9170 0,#9f9170 1px,transparent 1px,transparent var(--minor-step));background-size:9px var(--unit-width);background-repeat:repeat-y}.screen-edge-left .screen-edge-scale:before,.screen-edge-right .screen-edge-scale:before{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(var(--unit-width) / 2 - .5px),#80785f calc(var(--unit-width) / 2 - .5px),#80785f calc(var(--unit-width) / 2 + .5px),transparent calc(var(--unit-width) / 2 + .5px),transparent var(--unit-width))}.screen-edge-left .screen-mark,.screen-edge-right .screen-mark{top:calc(var(--mark) * var(--unit-width));left:0;width:100%;height:1px}.screen-edge-left .screen-tick,.screen-edge-right .screen-tick{top:0;left:0;width:15px;height:1px}.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:-4px;left:19px}.screen-edge-right .screen-tick{left:auto;right:0}.screen-edge-right .screen-number{left:auto;right:19px}
+	:global(html[data-theme="dark"]) :global(body){background:#0c0c0d;color:#ededed}:global(html[data-theme="dark"]) .topbar,:global(html[data-theme="dark"]) footer{border-color:#292929}:global(html[data-theme="dark"]) .brand,:global(html[data-theme="dark"]) .how-copy a{color:#ededed}:global(html[data-theme="dark"]) .brand-mark{border-color:#444}:global(html[data-theme="dark"]) .brand-mark span{background:#ededed}:global(html[data-theme="dark"]) .topbar nav a,:global(html[data-theme="dark"]) .intro-copy,:global(html[data-theme="dark"]) .section-heading>p,:global(html[data-theme="dark"]) .how-copy p,:global(html[data-theme="dark"]) footer{color:#aaa}:global(html[data-theme="dark"]) .intro h1 span{color:#aaa}:global(html[data-theme="dark"]) .workspace,:global(html[data-theme="dark"]) .cal-card,:global(html[data-theme="dark"]) .calibration-note{background:#121212;border-color:#2b2b2b;color:#eee}:global(html[data-theme="dark"]) .workspace-bar,:global(html[data-theme="dark"]) .workspace-bottom,:global(html[data-theme="dark"]) .feature-row{border-color:#2b2b2b}:global(html[data-theme="dark"]) .workspace-title small,:global(html[data-theme="dark"]) .workspace-bottom p,:global(html[data-theme="dark"]) .cal-card>p,:global(html[data-theme="dark"]) .fine-print,:global(html[data-theme="dark"]) .feature-row p{color:#aaa}:global(html[data-theme="dark"]) .ruler-frame{background:#171717}:global(html[data-theme="dark"]) .edge-strip{border-color:#2b2b2b}:global(html[data-theme="dark"]) .edge-option{color:#aaa}:global(html[data-theme="dark"]) .edge-option.is-selected{background:#292929;color:#fff}:global(html[data-theme="dark"]) .workspace-actions .icon-button,:global(html[data-theme="dark"]) .workspace-actions .segment,:global(html[data-theme="dark"]) .zoom-control button,:global(html[data-theme="dark"]) .theme-toggle,:global(html[data-theme="dark"]) .card-button.secondary{background:#171717;border-color:#383838;color:#eee}:global(html[data-theme="dark"]) .segment.is-active{background:#333}:global(html[data-theme="dark"]) .segmented{background:#202020}:global(html[data-theme="dark"]) .method-detail,:global(html[data-theme="dark"]) .card-reference,:global(html[data-theme="dark"]) .card-align{background:#171717;border-color:#303030;color:#ddd}:global(html[data-theme="dark"]) .inline-fields select,:global(html[data-theme="dark"]) .input-wrap,:global(html[data-theme="dark"]) .input-wrap input{background:#151515;border-color:#383838;color:#eee}:global(html[data-theme="dark"]) .screen-edge{background:#111;border-color:#303030;color:#eee}:global(html[data-theme="dark"]) .screen-edge-scale{background-color:#222}:global(html[data-theme="dark"]) .screen-tick{background:#e1dfd7}:global(html[data-theme="dark"]) .screen-number{color:#e1dfd7}:global(html[data-theme="dark"]) .topbar .nav-button{background:#141414;border-color:#333;color:#eee}:global(html[data-theme="dark"]) .nav-button:hover,:global(html[data-theme="dark"]) .theme-toggle:hover{background:#252525}
+	.card-align{width:100%;margin-top:10px;padding:11px;border:1px solid #e8e8e8;border-radius:6px;background:#fcfcfc}.card-align[hidden]{display:none}.align-reference{width:var(--reference-width,324px);max-width:100%;height:45px;display:flex;align-items:center;justify-content:center;border:1px solid #bcbcbc;border-radius:5px;background:linear-gradient(130deg,#f7f7f7,#ededed);color:#777;font:10px ui-monospace,monospace}.card-align label{display:block;margin:10px 0 7px;color:#777;font-size:10px}.card-align input{width:100%;accent-color:#171717}.align-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:8px}.align-actions button{min-height:30px;padding:0 10px;border:1px solid #e2e2e2;border-radius:5px;background:#fff;color:#555;font-size:10px;cursor:pointer}.align-actions .apply-align{border-color:#171717;background:#171717;color:#fff}
+	:global(:focus-visible){outline:2px solid #1677e8;outline-offset:3px;border-radius:4px}
+	@media(max-width:800px){.app-shell{padding:0 28px}.topbar{gap:25px}.calibration-grid{grid-template-columns:1fr 1fr}.cal-card:last-child{grid-column:1/-1;min-height:245px}.section-heading{gap:24px}.section-heading h2{font-size:25px}}
+	@media(max-width:580px){.app-shell{padding:0 17px}.topbar{height:64px;gap:0;justify-content:space-between}.topbar nav{display:none}.brand{font-size:13px}.intro{padding:54px 0 29px}.intro h1{font-size:46px}.intro-copy{font-size:14px}.trust-line{flex-wrap:wrap;font-size:10px;gap:7px}.workspace-bar{height:61px;padding:0 12px}.ruler-frame{padding-right:14px;padding-left:14px}.scale-ruler{height:86px}.workspace-bottom{align-items:flex-start;gap:10px;flex-direction:column;padding:10px 12px}.calibration-section{padding-top:56px}.section-heading{display:block}.section-heading h2{max-width:390px}.section-heading>p{margin-top:10px}.calibration-grid{grid-template-columns:1fr}.cal-card,.cal-card:last-child{grid-column:auto;min-height:255px}.cal-card>p{min-height:0}.how-section{padding:57px 0 42px}.how-grid{grid-template-columns:1fr;gap:16px}.how-grid h2{font-size:30px}.feature-row{grid-template-columns:1fr;gap:16px;margin-top:25px}footer{flex-wrap:wrap;padding:13px 0;gap:8px}footer>span{flex-basis:100%;order:1}footer>a:last-child{margin-left:auto}.ruler-frame[data-position="left"],.ruler-frame[data-position="right"]{padding-right:45px;padding-left:45px}.edge-option{padding:5px 6px}.edge-label{margin-right:2px}}
+	.category-menu{position:relative}.category-menu summary{list-style:none;cursor:pointer;border-radius:5px;padding:8px 10px;color:#4d4d4d;font-size:13px}.category-menu summary::-webkit-details-marker{display:none}.category-menu summary:hover,.category-menu[open] summary{background:#f3f3f3;color:#171717}.category-menu summary span{padding-left:4px;color:#888}.category-dropdown{position:absolute;top:calc(100% + 8px);left:0;z-index:1100;width:400px;max-height:min(70vh,520px);display:grid;grid-template-columns:1fr 1fr;gap:2px;overflow:auto;padding:9px;border:1px solid #e8e8e8;border-radius:9px;background:#fff;box-shadow:0 12px 35px #00000018}.category-dropdown a{padding:9px 10px;border-radius:5px;color:#4d4d4d;font-size:12px;text-decoration:none}.category-dropdown a:hover,.category-dropdown a:focus-visible{background:#f4f4f4;color:#171717}.category-directory{padding:15px 0 70px;scroll-margin-top:48px}.directory-heading{display:flex;justify-content:space-between;align-items:flex-end;margin:10px 0 19px}.directory-heading h2{margin:0;font-size:26px;letter-spacing:-.04em}.directory-heading p{margin:0;color:#777;font-size:12px}.category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.category-card{min-height:118px;padding:15px;border:1px solid #e8e8e8;border-radius:8px;background:#fff;scroll-margin-top:60px}.category-card h3{margin:0 0 6px;font-size:13px;letter-spacing:-.02em}.category-card p{min-height:32px;margin:0 0 9px;color:#777;font-size:11px;line-height:1.5}.category-card>span{color:#999;font:9px ui-monospace,monospace;text-transform:uppercase;letter-spacing:.04em}.category-card a{color:#171717;font-size:11px;text-decoration:none}.category-card a:hover{text-decoration:underline}.category-card a span{margin-left:5px}
+	.device-select-label{display:block;margin:0 0 5px;color:#777;font-size:10px}.device-select{width:100%;min-height:33px;margin-bottom:8px;padding:0 8px;border:1px solid #e7e7e7;border-radius:5px;background:#fff;color:#333;font-size:11px}.custom-device{width:100%;margin:0 0 8px}.custom-device[hidden]{display:none}.custom-device>label{display:block;margin-bottom:4px;color:#777;font-size:10px}.custom-device-fields{display:flex;align-items:center;gap:6px}.custom-device-fields input,.custom-device-fields select{min-width:0;height:31px;padding:0 6px;border:1px solid #e7e7e7;border-radius:5px;background:#fff;color:#333;font-size:11px}.custom-device-fields input{width:73px}.custom-device-fields span{color:#777;font-size:10px}.custom-device-fields select{margin-left:auto}.manual-device-button{margin-bottom:7px}
+	:global(html[data-theme="dark"]) .device-select,:global(html[data-theme="dark"]) .custom-device-fields input,:global(html[data-theme="dark"]) .custom-device-fields select{background:#151515;border-color:#383838;color:#eee}:global(html[data-theme="dark"]) .device-select-label,:global(html[data-theme="dark"]) .custom-device>label{color:#aaa}:global(html[data-theme="dark"]) .category-menu summary{color:#ccc}:global(html[data-theme="dark"]) .category-menu summary:hover,:global(html[data-theme="dark"]) .category-menu[open] summary{background:#222;color:#fff}:global(html[data-theme="dark"]) .category-dropdown,:global(html[data-theme="dark"]) .category-card{background:#121212;border-color:#2b2b2b}:global(html[data-theme="dark"]) .category-dropdown a,:global(html[data-theme="dark"]) .category-card a{color:#ddd}:global(html[data-theme="dark"]) .category-dropdown a:hover,:global(html[data-theme="dark"]) .category-dropdown a:focus-visible{background:#222;color:#fff}:global(html[data-theme="dark"]) .category-card p,:global(html[data-theme="dark"]) .directory-heading p{color:#aaa}:global(html[data-theme="dark"]) .category-card>span{color:#999}
+	@media(max-width:800px){.app-shell{padding:38px 28px 36px}}
+	@media(max-width:580px){.app-shell{padding:38px 17px 36px}.theme-toggle{width:36px;min-width:36px;justify-content:center;padding:0}.theme-toggle #theme-label{display:none}.topbar{gap:7px}.nav-button{padding:9px 8px;font-size:11px}.brand{gap:7px;font-size:12px}}
+	.edge-option.is-selected{background:#0070f3;color:#fff}.screen-edge.is-active{background:#eaf3ff;border-color:#0070f3;box-shadow:inset 0 0 0 2px #0070f3}.screen-edge.is-active .screen-tick{background:#0059c9}.screen-edge.is-active .screen-number{background:transparent;color:#0059c9}:global(html[data-theme="dark"]) .edge-option.is-selected{background:#1677e8;color:#fff}:global(html[data-theme="dark"]) .screen-edge.is-active{background:#13233a;border-color:#4b9aff;box-shadow:inset 0 0 0 2px #4b9aff}:global(html[data-theme="dark"]) .screen-edge.is-active .screen-tick{background:#9fcaff}:global(html[data-theme="dark"]) .screen-edge.is-active .screen-number{color:#b5d5ff}
+	.category-menu summary{display:flex;min-height:34px;align-items:center;justify-content:center;gap:6px}.menu-arrow{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.5;transition:transform .15s ease}.category-menu[open] .menu-arrow{transform:rotate(180deg)}.icon-button.is-fullscreen{background:#171717;border-color:#171717;color:#fff}.icon-button.is-fullscreen:hover{background:#333}:global(html[data-theme="dark"]) .icon-button.is-fullscreen{background:#ededed;border-color:#ededed;color:#171717}:global(html[data-theme="dark"]) .icon-button.is-fullscreen:hover{background:#d5d5d5}
+	@media(max-width:800px){.category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.app-shell{padding:38px 28px 36px}}
+	@media(max-width:580px){.app-shell{padding:38px 17px 36px}.topbar{height:auto;min-height:64px;flex-wrap:wrap;justify-content:space-between;gap:6px;padding-top:8px}.topbar nav{display:flex;order:4;flex-basis:100%;gap:7px;padding:5px 0 7px;border-top:1px solid #ebebeb}.topbar nav>a,.category-menu summary{padding:7px 8px;font-size:11px}.category-dropdown{width:min(400px,calc(100vw - 34px));grid-template-columns:1fr;max-height:65vh}.nav-button{margin-left:auto}.theme-toggle{width:34px;min-width:34px}.theme-toggle #theme-label{display:none}.category-grid{grid-template-columns:1fr}.directory-heading{display:block}.directory-heading p{margin-top:7px}.screen-edge-top,.screen-edge-bottom{height:32px}.screen-edge-left,.screen-edge-right{top:32px;bottom:32px;width:32px}.screen-edge-left .screen-edge-scale,.screen-edge-right .screen-edge-scale{width:32px}.screen-edge-left .screen-number{left:16px}.screen-edge-right .screen-number{right:16px}}
+	@media(prefers-reduced-motion:reduce){:global(html){scroll-behavior:auto}.ruler-frame,.scale-ruler,.cal-card,.card-button,.icon-button,.topbar nav a,.nav-button{transition:none}}
+	.screen-rulers{visibility:hidden}.screen-rulers.is-visible{visibility:visible}.edge-strip{box-sizing:border-box;justify-content:flex-start;gap:4px;padding:0 10px;overflow-x:auto;overflow-y:hidden}.edge-label{flex:none;min-height:27px;margin-right:4px;padding:5px 8px;border:0;border-radius:4px;background:transparent;color:#777;font:11px ui-monospace,monospace;letter-spacing:.08em;cursor:pointer}.edge-label:hover{background:#f0f0f0;color:#222}.edge-label[aria-pressed="true"]{background:#0070f3;color:#fff}:global(html[data-theme="dark"]) .edge-label{color:#aaa}:global(html[data-theme="dark"]) .edge-label:hover{background:#292929;color:#fff}:global(html[data-theme="dark"]) .edge-label[aria-pressed="true"]{background:#1677e8;color:#fff}
+	/* Keep the long physical scale usable on narrow touch screens. */
+	.scale-wrap{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#c9c2ae transparent;touch-action:pan-x}
+	.scale-ruler{flex:none}
+	.ruler-frame[data-position="left"] .scale-wrap,.ruler-frame[data-position="right"] .scale-wrap{overflow:auto;touch-action:pan-x pan-y}
+	.device-select,.custom-device-fields input,.custom-device-fields select{max-width:100%;min-height:40px;font-size:16px}
+	.device-select{width:100%}
+	.custom-device-fields{flex-wrap:wrap}
+	.custom-device-fields input{width:84px}
+	.custom-device-fields select{flex:1}
+	.card-button,.edge-option,.theme-toggle,.segment,.icon-button,.zoom-control button{min-height:40px}
+	@media(max-width:580px){
+		.app-shell{width:100%;padding-right:16px;padding-left:16px}
+		.intro{padding-top:40px}
+		.intro h1{font-size:clamp(36px,11vw,46px)}
+		.topbar{column-gap:8px}
+		.topbar nav{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+		.topbar nav>a,.category-menu summary{white-space:nowrap}
+		.workspace-bar{min-height:64px;height:auto;gap:10px;padding:10px 12px}
+		.workspace-title{min-width:0;gap:8px}
+		.workspace-title small{max-width:150px;line-height:1.35}
+		.workspace-actions{flex:none;gap:5px}
+		.segment{min-width:34px;padding:6px 7px}
+		.ruler-frame{padding-right:12px;padding-left:12px}
+		.scale-wrap{margin-right:-1px;margin-left:-1px}
+		.ruler-footer{gap:12px;font-size:9px}
+		.workspace-bottom{padding:10px 12px}
+		.workspace-bottom p{line-height:1.4}
+		.zoom-control{width:100%;justify-content:flex-end}
+		.cal-card{padding:16px}
+		.device-select{min-height:44px}
+		.card-button{min-height:44px}
+		.category-dropdown{left:0;max-width:calc(100vw - 32px)}
+	}
+	@media(max-width:380px){
+		.app-shell{padding-right:12px;padding-left:12px}
+		.topbar{gap:6px}
+		.brand{font-size:11px}
+		.nav-button{padding:8px 7px;font-size:10px}
+		.workspace-bar{align-items:flex-start;flex-direction:column}
+		.workspace-actions{align-self:flex-end}
+		.workspace-title small{max-width:none}
+		.cal-card{padding:14px}
+		.seo-guide{padding-bottom:50px}
+		.seo-guide h2{font-size:25px}
+	}
+	.seo-guide{max-width:920px;margin:0 auto;padding:20px 0 72px;scroll-margin-top:70px}
+	.seo-guide h2{max-width:680px;margin:12px 0 23px;font-size:30px;line-height:1.15;letter-spacing:-.045em}
+	.seo-guide-copy{max-width:760px;color:#555;font-size:14px;line-height:1.8}
+	.seo-guide-copy p{margin:0 0 18px}
+	.seo-guide-copy h3{margin:29px 0 10px;color:#171717;font-size:18px;line-height:1.35;letter-spacing:-.02em}
+	.faq-section{max-width:920px;margin:0 auto;padding:4px 0 76px;scroll-margin-top:70px}
+	.faq-section h2{margin:10px 0 18px;font-size:28px;letter-spacing:-.04em}
+	.faq-section details{padding:15px 0;border-bottom:1px solid #e8e8e8}
+	.faq-section summary{cursor:pointer;font-size:14px;font-weight:600;line-height:1.5}
+	.faq-section details p{max-width:760px;margin:9px 0 0;color:#666;font-size:13px;line-height:1.7}
+	:global(html[data-theme="dark"]) .seo-guide-copy{color:#bbb}
+	:global(html[data-theme="dark"]) .seo-guide-copy h3,:global(html[data-theme="dark"]) .faq-section summary{color:#eee}
+	:global(html[data-theme="dark"]) .faq-section details{border-color:#303030}
+	:global(html[data-theme="dark"]) .faq-section details p{color:#aaa}
+	.workspace-actions .segment{transition:background-color .15s ease,color .15s ease,box-shadow .15s ease}
+	.workspace-actions .segment.is-active{background:#0875e1;color:#fff;font-weight:700;box-shadow:inset 0 0 0 2px #4b9aff,0 1px 4px #003d8a40}
+	.workspace-actions .segment:hover:not(.is-active){background:#e5f0ff;color:#124d98}
+	.workspace-actions .segment:focus-visible{outline:2px solid #0059c9;outline-offset:2px}
+	:global(html[data-theme="dark"]) .workspace-actions .segment.is-active{background:#1677e8;color:#fff;box-shadow:inset 0 0 0 2px #8dc0ff,0 1px 5px #0008}
+	:global(html[data-theme="dark"]) .workspace-actions .segment:hover:not(.is-active){background:#263b54;color:#e4f1ff}
+	.theme-toggle{width:40px;height:40px;min-height:40px;display:inline-grid;place-items:center;padding:0}
+	.theme-toggle #theme-icon{font-size:18px}
+</style>
