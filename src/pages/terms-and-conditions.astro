@@ -1,0 +1,13 @@
+---
+import InfoPage from '../components/InfoPage.astro';
+
+const sections = [
+  { heading: 'Using the service', paragraphs: ['You may use A Online Ruler for lawful personal, educational, and business purposes. Please use the website responsibly and do not interfere with its operation, attempt unauthorized access, or misuse automated requests.'] },
+  { heading: 'Measurement accuracy', paragraphs: ['The ruler is a browser-based visual aid. Display dimensions, browser zoom, device settings, and calibration affect the result. Measurements are estimates unless you verify the scale against a known reference. Use a physical ruler, caliper, or other suitable instrument for safety-critical, regulated, or close-tolerance work.'] },
+  { heading: 'Intellectual property', paragraphs: ['The website design, text, code, and branding belong to A Online Ruler or its licensors. You may access and use the service as intended, but you may not copy, republish, or redistribute substantial parts of it without permission.'] },
+  { heading: 'Availability and liability', paragraphs: ['We work to keep the service available and accurate, but it is provided as-is and may change or be unavailable from time to time. To the extent permitted by law, A Online Ruler is not responsible for losses resulting from reliance on an unverified screen measurement or interruption of the service.'] },
+  { heading: 'Updates to these terms', paragraphs: ['We may revise these terms as the service evolves. Continuing to use the website after an update means you accept the revised terms.'] },
+];
+---
+<InfoPage title="Terms and conditions" description="Review the terms for using A Online Ruler, including measurement accuracy, permitted use, and service availability." eyebrow="TERMS OF USE" intro="These terms explain how you can use A Online Ruler and what to expect from an on-screen measuring tool." sections={sections} />
+

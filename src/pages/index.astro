@@ -28,7 +28,8 @@ const faqStructuredData = {
 ---
 
 <Layout>
-	<div class="screen-rulers" id="screen-rulers" aria-hidden="true">
+	<a class="skip-link" href="#top">Skip to main content</a>
+	<div class="screen-rulers is-visible" id="screen-rulers" aria-hidden="true">
 		{(['top', 'bottom', 'left', 'right'] as const).map((edge) => (
 			<div class:list={['screen-edge', `screen-edge-${edge}`]} data-screen-edge={edge}>
 				<div class="screen-edge-scale" data-edge-scale={edge}>
@@ -90,20 +91,20 @@ const faqStructuredData = {
 					</div>
 				</div>
 				<div class="ruler-frame" id="ruler-frame" data-position="top">
-					<div class="edge-strip" aria-label="Place ruler on an edge">
-						<button type="button" class="edge-label" id="edge-toggle" aria-pressed="false">EDGE</button>
+					<div class="edge-strip" role="group" aria-label="Choose ruler edge">
+						<button type="button" class="edge-label" id="edge-toggle" aria-label="Hide edge rulers" aria-pressed="true">EDGE</button>
 						<button type="button" class="edge-option is-selected" data-edge="top" aria-pressed="true">Top</button>
 						<button type="button" class="edge-option" data-edge="bottom" aria-pressed="false">Bottom</button>
 						<button type="button" class="edge-option" data-edge="left" aria-pressed="false">Left</button>
 						<button type="button" class="edge-option" data-edge="right" aria-pressed="false">Right</button>
 					</div>
 					<div class="scale-wrap">
-						<div class="scale-ruler select-none" id="scale-ruler" aria-label="Ruler scale from zero to thirty centimeters">
+						<div class="scale-ruler select-none" id="scale-ruler" role="region" tabindex="0" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown Home End" aria-label="Ruler scale from zero to thirty centimeters">
 							{marks.map((mark) => <div class="major-mark" style={`--mark:${mark}`}><span class="tick"></span><span class="mark-number">{mark}</span></div>)}
 							<div class="measurement-line" id="measurement-line" aria-hidden="true"></div>
 						</div>
 					</div>
-					<div class="ruler-footer"><span>0 <span id="unit-start">cm</span></span><span id="ruler-length">30 cm · 11.81 in</span></div>
+					<div class="ruler-footer"><span>0 <span id="unit-start">cm</span></span><span id="ruler-length">30 cm · 11.81 in</span><span class="sr-only" id="measurement-readout" aria-live="polite"></span></div>
 				</div>
 				<div class="workspace-bottom">
 					<p><span class="keyboard-key">↔</span> Move your cursor along the scale to measure</p>
@@ -246,7 +247,16 @@ const faqStructuredData = {
 				</div>
 			</section>
 		</main>
-		<footer><a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>A Online Ruler</span></a><span>Measure anything, right on your screen.</span><a href="https://aonlineruler.com">aonlineruler.com</a></footer>
+		<footer>
+			<a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>A Online Ruler</span></a>
+			<span>Measure anything, right on your screen.</span>
+			<nav class="footer-links" aria-label="About and legal links">
+				<a href="/about-us">About us</a>
+				<a href="/contact-us">Contact us</a>
+				<a href="/privacy-policy">Privacy policy</a>
+				<a href="/terms-and-conditions">Terms &amp; conditions</a>
+			</nav>
+		</footer>
 	</div>
 </Layout>
 
@@ -265,6 +275,7 @@ const faqStructuredData = {
 	const edgeScales = document.querySelectorAll<HTMLElement>('[data-edge-scale]');
 	const manualDevice = document.querySelector<HTMLSelectElement>('#manual-device')!;
 	const customDevice = document.querySelector<HTMLElement>('#custom-device')!;
+	const measurementReadout = document.querySelector<HTMLElement>('#measurement-readout')!;
 	let stored: string | null = null;
 	try { stored = localStorage.getItem('aor-calibration'); } catch { /* Storage may be disabled in private browsing. */ }
 	let pixelsPerCm = stored ? Number(stored) : 37.8;
@@ -273,17 +284,19 @@ const faqStructuredData = {
 	let activeEdge = 'top';
 	deviceInfo.textContent = `${window.screen.width} CSS px · ${window.devicePixelRatio}× display scale`;
 
+	function applyScaleMetrics(target: HTMLElement, unitWidth: number, scaleWidth: number, minorStep: number) {
+		target.style.setProperty('--unit-width', `${unitWidth}px`);
+		target.style.setProperty('--scale-width', `${scaleWidth}px`);
+		target.style.setProperty('--minor-step', `${minorStep}px`);
+	}
 	function updateScale() {
 		const ppu = unit === 'px' ? 1 : pixelsPerCm * (unit === 'cm' ? 1 : 2.54);
 		const unitWidth = unit === 'px' ? 100 : ppu;
 		const scaleWidth = unit === 'px' ? lengthCm * pixelsPerCm : ppu * lengthCm / (unit === 'cm' ? 1 : 2.54);
 		const markCount = unit === 'px' ? Math.ceil(scaleWidth / 100) : unit === 'cm' ? lengthCm : Math.ceil(lengthCm / 2.54);
-		screenRulers.style.setProperty('--unit-width', `${unitWidth}px`);
-		screenRulers.style.setProperty('--scale-width', `${scaleWidth}px`);
-		screenRulers.style.setProperty('--minor-step', `${unit === 'px' ? 10 : ppu / (unit === 'cm' ? 10 : 8)}px`);
-		scale.style.setProperty('--unit-width', `${unitWidth}px`);
-		scale.style.setProperty('--scale-width', `${scaleWidth}px`);
-		scale.style.setProperty('--minor-step', `${unit === 'px' ? 10 : ppu / (unit === 'cm' ? 10 : 8)}px`);
+		const minorStep = unit === 'px' ? 10 : ppu / (unit === 'cm' ? 10 : 8);
+		applyScaleMetrics(screenRulers, unitWidth, scaleWidth, minorStep);
+		applyScaleMetrics(scale, unitWidth, scaleWidth, minorStep);
 		document.querySelectorAll<HTMLElement>('.mark-number').forEach((el, i) => {
 			el.textContent = unit === 'px' ? `${i * 100}` : `${i}`;
 		});
@@ -296,6 +309,7 @@ const faqStructuredData = {
 		document.querySelector<HTMLElement>('#ruler-length')!.textContent = unit === 'px' ? `${Math.round(scaleWidth)} px · ${lengthCm} cm` : `${lengthCm} cm · ${(lengthCm / 2.54).toFixed(2)} in`;
 		scale.setAttribute('aria-label', `Ruler scale from zero to ${shown.toFixed(1)} ${unit}`);
 		edgeScales.forEach((edgeScale) => {
+			applyScaleMetrics(edgeScale, unitWidth, scaleWidth, minorStep);
 			edgeScale.querySelectorAll<HTMLElement>('.screen-number').forEach((label, i) => { label.textContent = unit === 'px' ? `${i * 100}` : `${i}`; });
 			edgeScale.querySelectorAll<HTMLElement>('.screen-mark').forEach((mark, i) => { mark.hidden = i > markCount; });
 		});
@@ -316,7 +330,7 @@ const faqStructuredData = {
 	edgeToggle.addEventListener('click', () => {
 		const visible = screenRulers.classList.toggle('is-visible');
 		edgeToggle.setAttribute('aria-pressed', String(visible));
-		screenRulers.setAttribute('aria-hidden', String(!visible));
+		edgeToggle.setAttribute('aria-label', visible ? 'Hide edge rulers' : 'Show edge rulers');
 	});
 	if (stored) status.textContent = 'Saved calibration loaded';
 
@@ -349,14 +363,38 @@ const faqStructuredData = {
 	});
 	document.addEventListener('fullscreenchange', updateFullscreenButton);
 	document.querySelectorAll<HTMLDetailsElement>('.category-menu').forEach((menu) => menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { menu.open = false; })));
+	function updateMeasurement(position: number, announce = false) {
+		const vertical = frame.dataset.position === 'left' || frame.dataset.position === 'right';
+		const size = vertical ? scale.clientHeight : scale.clientWidth;
+		const clamped = Math.max(0, Math.min(position, size));
+		line.style.setProperty('--line-position', `${clamped}px`);
+		line.classList.add('visible');
+		if (announce && size > 0) {
+			const distance = unit === 'px' ? clamped : clamped / (unit === 'cm' ? pixelsPerCm : pixelsPerCm * 2.54);
+			measurementReadout.textContent = `Measurement at ${distance.toFixed(unit === 'px' ? 0 : 1)} ${unit}`;
+		}
+	}
 	scale.addEventListener('pointermove', (event) => {
 		const rect = scale.getBoundingClientRect();
 		const vertical = frame.dataset.position === 'left' || frame.dataset.position === 'right';
 		const offset = vertical ? event.clientY - rect.top + scale.scrollTop : event.clientX - rect.left + scale.scrollLeft;
-		line.style.setProperty('--line-position', `${Math.max(0, Math.min(offset, vertical ? rect.height : rect.width))}px`);
-		line.classList.add('visible');
+		updateMeasurement(offset);
 	});
 	scale.addEventListener('pointerleave', () => line.classList.remove('visible'));
+	scale.addEventListener('keydown', (event) => {
+		const vertical = frame.dataset.position === 'left' || frame.dataset.position === 'right';
+		const step = unit === 'px' ? 10 : unit === 'cm' ? pixelsPerCm / 10 : pixelsPerCm * 2.54 / 8;
+		const current = Number.parseFloat(line.style.getPropertyValue('--line-position')) || 0;
+		const max = vertical ? scale.clientHeight : scale.clientWidth;
+		let next = current;
+		if (event.key === 'Home') next = 0;
+		else if (event.key === 'End') next = max;
+		else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next -= step;
+		else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next += step;
+		else return;
+		event.preventDefault();
+		updateMeasurement(next, true);
+	});
 	const activate = (method: string) => {
 		if (method === 'auto') {
 			// CSS pixel density is only a convenient baseline; browser APIs cannot report true panel size.

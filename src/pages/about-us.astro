@@ -1,0 +1,12 @@
+---
+import InfoPage from '../components/InfoPage.astro';
+
+const sections = [
+  { heading: 'A simple tool for everyday measuring', paragraphs: ['A Online Ruler turns the screen you already have into a practical measuring aid. We built it for quick checks at home, in the classroom, at a workbench, or wherever a physical ruler is out of reach.'] },
+  { heading: 'Designed for clarity', paragraphs: ['The ruler supports centimeters, millimeters, inches, and pixels, with calibration options for common devices. There is no account to create and no software to install. Your calibration is kept in your browser so the tool stays ready when you return.'] },
+  { heading: 'Accuracy with context', paragraphs: ['Screens vary, so an on-screen ruler should be calibrated against a known object before you rely on a measurement. A Online Ruler explains that limitation clearly and recommends a physical ruler or caliper when a close tolerance matters.'] },
+  { heading: 'Our mission', paragraphs: ['We want useful browser tools to feel fast, accessible, and honest. We will continue improving the ruler and creating focused utilities that solve small problems without adding unnecessary friction.'] },
+];
+---
+<InfoPage title="About us" description="Learn about A Online Ruler, a simple browser-based measuring tool for inches, centimeters, millimeters, and pixels." eyebrow="ABOUT A ONLINE RULER" intro="A practical, private, and easy-to-use screen ruler for quick measurements wherever you are." sections={sections} />
+

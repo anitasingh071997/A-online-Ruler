@@ -1,0 +1,12 @@
+---
+import InfoPage from '../components/InfoPage.astro';
+
+const sections = [
+  { heading: 'Questions and feedback', paragraphs: ['Have a question about calibration, a device, or how the ruler works? We welcome feedback that helps us make the tool clearer and more useful.'] },
+  { heading: 'Email us', paragraphs: ['For support, accessibility feedback, or website questions, email hello@aonlineruler.com. Include the page you were using, your device and browser, and a short description of the issue so we can investigate it efficiently.'] },
+  { heading: 'Before you write', paragraphs: ['If a measurement looks wrong, tell us which unit you selected, how you calibrated the screen, and whether browser zoom is set to 100%. For sensitive information, please do not include passwords, payment details, or other private data in your message.'] },
+  { heading: 'Response time', paragraphs: ['We read every message and aim to respond as soon as practical. A reply may take longer during busy periods.'] },
+];
+---
+<InfoPage title="Contact us" description="Contact A Online Ruler with questions, calibration feedback, accessibility suggestions, or website support requests." eyebrow="GET IN TOUCH" intro="Tell us how we can make A Online Ruler more helpful." sections={sections} />
+

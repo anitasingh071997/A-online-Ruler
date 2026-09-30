@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+interface Section {
+	 heading: string;
+	 paragraphs: string[];
+}
+
+interface Props {
+	 title: string;
+	 description: string;
+	 eyebrow: string;
+	 intro: string;
+	 sections: Section[];
+}
+
+const { title, description, eyebrow, intro, sections } = Astro.props;
+---
+
+<Layout title={`${title} | A Online Ruler`} description={description} canonical={`https://aonlineruler.com${Astro.url.pathname}`}>
+	<div class="info-shell">
+		<header class="info-topbar">
+			<a class="brand" href="/" aria-label="A Online Ruler home">
+				<span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+				<span>A Online Ruler</span>
+			</a>
+			<nav aria-label="Site navigation">
+				<a href="/">Home</a>
+				<a href="/about-us">About</a>
+				<a href="/contact-us">Contact</a>
+			</nav>
+			<button class="theme-toggle" id="info-theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="info-theme-icon" aria-hidden="true">☾</span></button>
+		</header>
+		<main class="info-main">
+			<div class="eyebrow">{eyebrow}</div>
+			<h1>{title}</h1>
+			<p class="info-intro">{intro}</p>
+			<div class="info-content">
+				{sections.map((section) => (
+					<section aria-labelledby={section.heading.toLowerCase().replaceAll(' ', '-')}>
+						<h2 id={section.heading.toLowerCase().replaceAll(' ', '-')}>{section.heading}</h2>
+						{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+					</section>
+				))}
+			</div>
+		</main>
+		<footer class="info-footer">
+			<span>© {new Date().getFullYear()} A Online Ruler</span>
+			<nav aria-label="Legal and support links">
+				<a href="/about-us">About us</a>
+				<a href="/contact-us">Contact us</a>
+				<a href="/privacy-policy">Privacy policy</a>
+				<a href="/terms-and-conditions">Terms &amp; conditions</a>
+			</nav>
+		</footer>
+	</div>
+</Layout>
+
+<script>
+	const themeToggle = document.querySelector<HTMLButtonElement>('#info-theme-toggle');
+	const themeIcon = document.querySelector<HTMLElement>('#info-theme-icon');
+	if (themeToggle && themeIcon) {
+		let theme = 'light';
+		try { theme = localStorage.getItem('aor-theme') === 'dark' ? 'dark' : 'light'; } catch { /* Keep the default for restricted storage. */ }
+		const setTheme = (nextTheme: string) => {
+			theme = nextTheme;
+			document.documentElement.dataset.theme = theme;
+			const dark = theme === 'dark';
+			themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+			themeToggle.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+			themeIcon.textContent = dark ? '☀' : '☾';
+			document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0c0c0d' : '#fafafa');
+			try { localStorage.setItem('aor-theme', theme); } catch { /* Keep the preference for this session. */ }
+		};
+		setTheme(theme);
+		themeToggle.addEventListener('click', () => setTheme(theme === 'dark' ? 'light' : 'dark'));
+	}
+</script>
