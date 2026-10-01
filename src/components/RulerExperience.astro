@@ -12,7 +12,7 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	<a class="skip-link" href="#top">Skip to main content</a>
 	<div class:list={['screen-rulers is-visible', mode === 'calibration' && 'calibration-hidden']} id="screen-rulers" aria-hidden="true">
 		{(['top', 'bottom', 'left', 'right'] as const).map((edge) => (
-			<div class:list={['screen-edge', `screen-edge-${edge}`, edge === 'top' && 'is-edge-visible']} data-screen-edge={edge}>
+			<div class:list={['screen-edge', `screen-edge-${edge}`, edge === 'top' && 'is-edge-visible', edge === 'top' && 'is-highlighted']} data-screen-edge={edge}>
 				<div class="screen-edge-scale" data-edge-scale={edge}>
 					{marks.map((mark) => <div class="screen-mark" style={`--mark:${mark}`}><span class="screen-tick"></span><span class="screen-number">{mark}</span></div>)}
 				</div>
@@ -24,8 +24,8 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 		<div class="coordinate-line coordinate-line-y" id="coordinate-line-y"></div>
 		<div class="coordinate-label" id="coordinate-label"></div>
 	</div>
-	<div class:list={['ruler-notch', mode === 'calibration' && 'calibration-hidden']} role="toolbar" aria-label="Ruler controls">
-		<div class="notch-start">
+	<header class:list={['ruler-notch', mode === 'calibration' && 'calibration-hidden']}>
+		<nav class="notch-start" aria-label="Ruler navigation">
 			<a class="notch-brand" href="/" aria-label="A Online Ruler home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>A Online Ruler</span></a>
 			<div class="notch-edges" role="group" aria-label="Ruler edge">
 				<button class="edge-option is-selected" type="button" data-edge="top" aria-pressed="true">Top</button>
@@ -33,18 +33,18 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 				<button class="edge-option" type="button" data-edge="left" aria-pressed="false">Left</button>
 				<button class="edge-option" type="button" data-edge="right" aria-pressed="false">Right</button>
 			</div>
-		</div>
-		<div class="notch-actions">
+		</nav>
+		<div class="notch-actions" role="toolbar" aria-label="Ruler display controls">
 			<div class="segmented" role="group" aria-label="Ruler units">
 				<button class="segment is-active" type="button" data-unit="cm" aria-pressed="true">cm</button>
 				<button class="segment" type="button" data-unit="in" aria-pressed="false">in</button>
 				<button class="segment" type="button" data-unit="px" aria-pressed="false">px</button>
 			</div>
-			<button class="notch-button" id="open-calibration" type="button">Calibrate</button>
-			<button class="notch-button notch-fullscreen" id="ruler-fullscreen" type="button" aria-label="Enter fullscreen" title="Enter fullscreen (F)"><svg viewBox="0 0 20 20" aria-hidden="true"><path id="ruler-fullscreen-icon-path" d="M7 3H3v4M13 3h4v4M17 13v4h-4M3 13v4h4" /></svg></button>
-			<button class="theme-toggle notch-theme-toggle" id="ruler-theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="ruler-theme-icon" aria-hidden="true">☾</span></button>
+			<a class="notch-button" href="/calibration">Calibrate</a>
+		<button class="theme-toggle notch-theme-toggle" id="ruler-theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="ruler-theme-icon" aria-hidden="true">☾</span></button>
+			<button class="notch-button notch-fullscreen" id="ruler-fullscreen" type="button" aria-label="Enter fullscreen" title="Enter fullscreen (F)"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="ruler-fullscreen-icon-path" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" /></svg></button>
 		</div>
-	</div>
+	</header>
 	<dialog class="calibration-modal" id="calibration-modal" aria-labelledby="calibration-modal-title">
 		<div class="calibration-modal-header"><h2 id="calibration-modal-title">Calibrate your display</h2><button class="modal-close" id="close-calibration" type="button" aria-label="Close calibration">×</button></div>
 		<div id="calibration-modal-body"></div>
@@ -56,9 +56,8 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 				<span>A Online Ruler</span>
 			</a>
 			<nav aria-label="Main navigation">
-				<a href="/ruler#popular-tools">Popular Tools</a>
-				<a href={mode === 'calibration' ? '/calibration#ruler-faq' : '/ruler#ruler-faq'}>FAQs</a>
-				<details class="category-menu">
+				{mode !== 'calibration' && <a href="/ruler#popular-tools">Popular Tools</a>}
+				{mode !== 'calibration' && <details class="category-menu">
 					<summary><span>All Items</span><svg class="menu-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="m3 4.5 3 3 3-3" /></svg></summary>
 					<div class="category-dropdown">
 						<a href="/ruler#cat-classroom">Classroom Management Tools</a>
@@ -74,7 +73,8 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 						<a href="/ruler#cat-lifestyle">Lifestyle</a>
 						<a href="/ruler#cat-blog">Blog</a>
 					</div>
-				</details>
+				</details>}
+				{mode !== 'calibration' && <a href="/ruler#ruler-faq">FAQs</a>}
 			</nav>
 			<a class="nav-button" href="/ruler">Open ruler <span aria-hidden="true">↗</span></a>
 			<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="theme-icon" aria-hidden="true">☾</span></button>
@@ -98,7 +98,7 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 							<button class="segment" type="button" data-unit="in" aria-pressed="false">in</button>
 							<button class="segment" type="button" data-unit="px" aria-pressed="false">px</button>
 						</div>
-						<button class="icon-button" id="fullscreen" type="button" aria-label="Enter fullscreen" title="Enter fullscreen"><svg viewBox="0 0 20 20" aria-hidden="true"><path id="fullscreen-icon-path" d="M7 3H3v4M13 3h4v4M17 13v4h-4M3 13v4h4" /></svg></button>
+						<button class="icon-button" id="fullscreen" type="button" aria-label="Enter fullscreen" title="Enter fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="fullscreen-icon-path" d="M3 3h6v6H7V5H3V3zm12 0h6v6h-4V5h-2V3zm0 12h6v6h-6v-4h2v2h2v-4h-4zm-12 0h6v6H3v-6zm2 2v2h2v-2H5z" /></svg></button>
 					</div>
 				</div>
 				<div class="ruler-frame" id="ruler-frame" data-position="top">
@@ -416,8 +416,8 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 		document.querySelectorAll('[data-edge]').forEach((item) => { item.classList.toggle('is-selected', item === button); item.setAttribute('aria-pressed', String(item === button)); });
 		document.querySelectorAll<HTMLElement>('[data-screen-edge]').forEach((item) => {
 			const selected = item.dataset.screenEdge === activeEdge;
-			if (selected) item.classList.add('is-edge-visible');
-			item.classList.remove('is-active');
+			item.classList.toggle('is-edge-visible', selected);
+			item.classList.toggle('is-highlighted', selected);
 		});
 	}));
 	document.querySelector<HTMLButtonElement>('#shorter')!.addEventListener('click', () => { lengthCm = Math.max(10, lengthCm - 5); updateScale(); });
@@ -433,8 +433,10 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 		fullscreenButton.title = isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen';
 		rulerFullscreenButton.setAttribute('aria-label', isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen');
 		rulerFullscreenButton.title = isFullscreen ? 'Exit fullscreen (Esc)' : 'Enter fullscreen (F)';
-		fullscreenPath.setAttribute('d', isFullscreen ? 'M8 3v5H3m9-5v5h5M8 17v-5H3m9 5v-5h5' : 'M7 3H3v4M13 3h4v4M17 13v4h-4M3 13v4h4');
-		rulerFullscreenPath.setAttribute('d', isFullscreen ? 'M8 3v5H3m9-5v5h5M8 17v-5H3m9 5v-5h5' : 'M7 3H3v4M13 3h4v4M17 13v4h-4M3 13v4h4');
+		const enterFullscreenIcon = 'M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z';
+		const exitFullscreenIcon = 'M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z';
+		fullscreenPath.setAttribute('d', isFullscreen ? exitFullscreenIcon : enterFullscreenIcon);
+		rulerFullscreenPath.setAttribute('d', isFullscreen ? exitFullscreenIcon : enterFullscreenIcon);
 	}
 	async function toggleFullscreen() {
 		if (!document.fullscreenElement) await document.documentElement.requestFullscreen(); else await document.exitFullscreen();
@@ -656,18 +658,73 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	:global(html[data-theme="dark"]) .workspace-actions .segment:hover:not(.is-active){background:#263b54;color:#e4f1ff}
 	.theme-toggle{width:40px;height:40px;min-height:40px;display:inline-grid;place-items:center;padding:0}
 	.theme-toggle #theme-icon{font-size:18px}
-	.ruler-notch{top:0;left:0;right:0;width:100%;max-width:none;min-height:52px;padding:6px 14px;border-width:0 0 1px;border-radius:0;transform:none;justify-content:space-between;box-shadow:0 3px 14px #00000018}
-	.ruler-notch .notch-start,.ruler-notch .notch-edges,.ruler-notch .notch-actions{display:flex;align-items:center;gap:4px}.ruler-notch .notch-actions{gap:8px}.ruler-notch .notch-brand{display:inline-flex;align-items:center;gap:8px;padding:4px 0;border:0;border-radius:0;background:transparent;color:#333;font-size:12px;font-weight:600;letter-spacing:-.02em;text-decoration:none;white-space:nowrap}.ruler-notch .notch-brand:hover{background:transparent;color:#111}.ruler-notch .edge-option,.ruler-notch .segment{min-height:38px}.ruler-notch .notch-button{min-height:40px;padding:0 12px;border:1px solid #d7d7d7;border-radius:6px;background:#fff;color:#333;font-size:12px;cursor:pointer}.ruler-notch .notch-button:hover{background:#f5f5f5;border-color:#999}.ruler-notch .notch-theme-toggle{height:40px;min-height:40px}.ruler-notch .notch-theme-toggle span{font-size:18px}
+	.ruler-notch{top:0;left:0;right:0;width:100%;max-width:none;min-height:46px;padding:4px 14px;border-width:0;border-radius:0;transform:none;justify-content:space-between;box-shadow:0 3px 14px #00000018}
+	.ruler-notch .notch-start,.ruler-notch .notch-edges,.ruler-notch .notch-actions{display:flex;align-items:center;gap:4px}.ruler-notch .notch-actions{gap:8px}.ruler-notch .notch-brand{display:inline-flex;align-items:center;gap:8px;padding:4px 0;border:0;border-radius:0;background:transparent;color:#333;font-size:12px;font-weight:600;letter-spacing:-.02em;text-decoration:none;white-space:nowrap}.ruler-notch .notch-brand:hover{background:transparent;color:#111}.ruler-notch .edge-option,.ruler-notch .segment{min-height:36px}.ruler-notch .segmented{padding:1px}.ruler-notch .notch-button{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:0 12px;border:1px solid #d7d7d7;border-radius:6px;background:#fff;color:#333;font-size:12px;text-decoration:none;cursor:pointer}.ruler-notch .notch-button:hover{background:#f5f5f5;border-color:#999}.ruler-notch .notch-theme-toggle{height:36px;min-height:36px}.ruler-notch .notch-theme-toggle span{font-size:18px}
 	.ruler-notch .notch-start{gap:16px}
-	.ruler-notch .notch-fullscreen svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-	.screen-edge-top{top:52px}.screen-edge-left,.screen-edge-right{top:52px}
+	.ruler-notch .notch-fullscreen svg{width:18px;height:18px;fill:currentColor;stroke:none}
+	.ruler-notch{position:fixed;z-index:1200;border-bottom:0}
+	.ruler-notch .notch-actions{position:absolute;top:50%;right:14px;margin-left:0;justify-content:flex-end;transform:translateY(-50%)}
+	.app-shell.ruler-experience{display:none}
+	.app-shell.calibration-experience .intro,
+	.app-shell.calibration-experience .workspace,
+	.app-shell.calibration-experience .how-section,
+	.app-shell.calibration-experience .seo-guide,
+	.app-shell.calibration-experience .faq-section,
+	.app-shell.calibration-experience .category-directory,
+	.app-shell.calibration-experience footer{display:none}
+	.app-shell.calibration-experience .calibration-section{margin-top:24px}
+	.app-shell.calibration-experience{max-width:1100px;padding:0 36px}
+	.app-shell.calibration-experience .topbar{gap:32px;border-color:#e3eaf2}
+	.app-shell.calibration-experience .calibration-section{margin:46px 0 72px;padding:36px;border:1px solid #dce7f5;border-radius:18px;background:linear-gradient(145deg,#fff 48%,#f0f6ff);box-shadow:0 12px 38px #172b4d0d}
+	.app-shell.calibration-experience .section-heading{align-items:flex-start;margin-bottom:26px}
+	.app-shell.calibration-experience .section-heading h2{font-size:clamp(30px,4vw,42px);letter-spacing:-.055em}
+	.app-shell.calibration-experience .section-heading .eyebrow{display:inline-block;padding:8px 12px;border:1px solid #dceaff;border-radius:999px;background:#f2f7ff;color:#34669f}
+	.app-shell.calibration-experience .section-heading>p{padding-top:30px;font-size:14px}
+	.app-shell.calibration-experience .cal-card{min-height:290px;border-color:#e1e9f3;border-radius:12px;box-shadow:0 5px 16px #172b4d08}
+	.app-shell.calibration-experience .cal-card.selected{border-color:#9fc3f2;box-shadow:0 0 0 2px #e1efff,0 8px 22px #0875e112}
+	.app-shell.calibration-experience .step-number{color:#3975b7}
+	.app-shell.calibration-experience .card-icon{border-color:#dceaff;background:#f2f7ff;color:#2865a8}
+	.app-shell.calibration-experience .card-button.primary{border-color:#176cc2;background:#176cc2}
+	.app-shell.calibration-experience .card-button.primary:hover{background:#0e59a4}
+	.app-shell.calibration-experience .calibration-note{border-color:#dce7f5;border-radius:9px;background:#f8fbff}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .topbar{border-color:#303a49}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .calibration-section{border-color:#303a49;background:linear-gradient(145deg,#141414 48%,#111b28);box-shadow:0 12px 38px #0003}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .section-heading .eyebrow{border-color:#263b54;background:#17283a;color:#a9d0ff}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .cal-card{border-color:#303a49;background:#17191d;box-shadow:0 5px 16px #0003}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .cal-card.selected{border-color:#315b91;box-shadow:0 0 0 2px #1c3550,0 8px 22px #0004}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .card-icon{border-color:#263b54;background:#17283a;color:#a9d0ff}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .calibration-note{border-color:#303a49;background:#17191d}
+	.calibration-hidden{display:none!important}
+	.ruler-notch .notch-fullscreen{width:40px;min-width:40px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+	.screen-edge-top{top:46px}.screen-edge-left,.screen-edge-right{top:46px}.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:0}
 	.screen-edge-bottom .screen-number{top:auto;bottom:16px}
 	.screen-edge-bottom .screen-edge-scale{background-position:left bottom}
 	.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:-4px}
+	.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:0}
 	.screen-edge-right .screen-edge-scale{background-position:right top}
+	.screen-edge-top{border-right:0;border-bottom:0;border-left:0}
+	.screen-edge-top .screen-edge-scale,.screen-edge-bottom .screen-edge-scale{width:100vw}
+	.screen-rulers .screen-edge.is-highlighted{background:#eaf3ff}
+	.screen-rulers .screen-edge.is-highlighted .screen-edge-scale{background-color:#eaf3ff}
+	.screen-rulers .screen-edge.is-highlighted .screen-tick{background:#0875e1}
+	.screen-rulers .screen-edge.is-highlighted .screen-number{color:#0759b4;font-weight:700}
+	:global(html[data-theme="dark"]) .screen-rulers .screen-edge.is-highlighted{background:#13233a}
+	:global(html[data-theme="dark"]) .screen-rulers .screen-edge.is-highlighted .screen-edge-scale{background-color:#17283a}
+	:global(html[data-theme="dark"]) .screen-rulers .screen-edge.is-highlighted .screen-tick{background:#9fcaff}
+	:global(html[data-theme="dark"]) .screen-rulers .screen-edge.is-highlighted .screen-number{color:#b5d5ff}
+	.coordinate-layer{position:fixed;inset:0;z-index:1100;display:none;pointer-events:none}
+	.coordinate-layer.is-visible{display:block}
+	.coordinate-line{position:absolute;pointer-events:none}
+	.coordinate-line-x{left:36px;right:36px;height:0;border-top:1px dashed #0875e1}
+	.coordinate-line-y{top:46px;bottom:36px;width:0;border-left:1px dashed #0875e1}
+	.coordinate-label{position:absolute;max-width:calc(100vw - 24px);padding:6px 8px;border:1px solid #0875e1;border-radius:5px;background:#0875e1;color:#fff;font:11px ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap;box-shadow:0 2px 8px #003d8a33}
+	:global(html[data-theme="dark"]) .coordinate-line-x{border-color:#78b6ff}:global(html[data-theme="dark"]) .coordinate-line-y{border-color:#78b6ff}:global(html[data-theme="dark"]) .coordinate-label{background:#126ac4;border-color:#7db8ff}
 	.screen-edge-top .screen-number,.screen-edge-bottom .screen-number{left:50%;transform:translateX(-50%)}
 	.screen-edge-top .screen-mark:first-child .screen-number,.screen-edge-bottom .screen-mark:first-child .screen-number{left:5px;transform:none}
 	.calibration-modal{width:min(720px,calc(100vw - 32px));max-height:calc(100vh - 32px);margin:auto;padding:0;border:1px solid #ddd;border-radius:16px;background:#fafafa;color:#171717;box-shadow:0 20px 70px #00000033}.calibration-modal::backdrop{background:#0008;backdrop-filter:blur(2px)}.calibration-modal-header{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #e7e7e7;background:#fafafa}.calibration-modal-header h2{margin:0;font-size:18px;letter-spacing:-.03em}.modal-close{width:34px;height:34px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#444;font-size:21px;line-height:1;cursor:pointer}.modal-close:hover{background:#f3f3f3}.calibration-modal #calibration{padding:22px 18px 28px}.calibration-modal .section-heading{margin-bottom:18px}.calibration-modal .calibration-grid{grid-template-columns:1fr;gap:10px}.calibration-modal .cal-card{min-height:0;padding:16px}
 	:global(html[data-theme="dark"]) .ruler-notch .notch-brand{background:transparent;color:#eee}:global(html[data-theme="dark"]) .ruler-notch .notch-button,:global(html[data-theme="dark"]) .modal-close{background:#171717;border-color:#444;color:#eee}:global(html[data-theme="dark"]) .ruler-notch .notch-brand:hover{background:transparent;color:#fff}:global(html[data-theme="dark"]) .ruler-notch .notch-button:hover,:global(html[data-theme="dark"]) .modal-close:hover{background:#252525;border-color:#777}:global(html[data-theme="dark"]) .calibration-modal{border-color:#383838;background:#0f0f10;color:#eee}:global(html[data-theme="dark"]) .calibration-modal-header{border-color:#383838;background:#0f0f10}
-	@media(max-width:580px){.ruler-notch{padding:5px 7px;gap:4px;overflow-x:auto}.ruler-notch .notch-edges,.ruler-notch .notch-actions{flex:none}.ruler-notch .edge-option,.ruler-notch .segment{min-width:34px;padding:5px 7px}.ruler-notch .notch-button{padding:0 9px}.screen-edge-top{top:52px}.screen-edge-left,.screen-edge-right{top:52px}}
+	@media(max-width:700px){.ruler-notch{display:flex;min-height:84px;align-items:stretch;flex-direction:column;justify-content:center;gap:2px;padding:4px 10px;overflow:visible}.ruler-notch .notch-start,.ruler-notch .notch-actions{width:100%;justify-content:space-between;gap:5px}.ruler-notch .notch-start{gap:8px}.ruler-notch .notch-brand{font-size:11px}.ruler-notch .notch-edges,.ruler-notch .notch-actions{flex:none}.ruler-notch .notch-actions{position:static;top:auto;right:auto;margin-left:auto;transform:none;justify-content:flex-end}.ruler-notch .edge-option,.ruler-notch .segment{min-width:32px;padding:5px 7px}.ruler-notch .notch-button{min-height:36px;padding:0 8px}.ruler-notch .notch-fullscreen{width:36px;min-width:36px;padding:0}.ruler-notch .notch-theme-toggle{width:36px;min-width:36px;height:36px;min-height:36px}.screen-edge-top{top:84px}.screen-edge-left,.screen-edge-right{top:84px}.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:0}.coordinate-line-y{top:84px}}
+	@media(max-width:700px){.app-shell.calibration-experience{padding:0 18px}.app-shell.calibration-experience .calibration-section{margin:28px 0 48px;padding:24px 20px;border-radius:15px}.app-shell.calibration-experience .section-heading{display:block}.app-shell.calibration-experience .section-heading>p{padding:0;margin-top:12px}.app-shell.calibration-experience .calibration-grid{grid-template-columns:1fr}.app-shell.calibration-experience .cal-card{min-height:0}}
+	@media(max-width:580px){.coordinate-line-x{left:32px;right:32px}.coordinate-line-y{bottom:32px}.screen-edge-left,.screen-edge-right{width:32px}}
+	@media(max-width:380px){.ruler-notch{padding-right:6px;padding-left:6px}.ruler-notch .notch-start,.ruler-notch .notch-actions{gap:3px}.ruler-notch .notch-brand{gap:5px;font-size:10px}.ruler-notch .notch-edges{gap:1px}.ruler-notch .edge-option,.ruler-notch .segment{min-width:28px;padding:5px}.ruler-notch .notch-actions{gap:4px}.ruler-notch .notch-button{padding:0 6px}.ruler-notch .notch-fullscreen{width:32px;min-width:32px;padding:0}}
 </style>
