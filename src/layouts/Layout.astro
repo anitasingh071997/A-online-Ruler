@@ -5,12 +5,14 @@ interface Props {
 	 title?: string;
 	 description?: string;
 	 canonical?: string;
+	robots?: string;
 }
 
 const {
 	 title = 'Online Ruler — Free Inches, CM & MM Screen Ruler | A Online Ruler',
 	 description = 'Use a free online ruler in inches, centimeters and millimeters. Calibrate your screen for actual-size measurements on your phone, tablet or computer.',
 	 canonical = 'https://aonlineruler.com/',
+	robots = 'index,follow,max-image-preview:large',
 } = Astro.props;
 ---
 <!doctype html>
@@ -20,7 +22,7 @@ const {
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="theme-color" content="#fafafa" />
 		<meta name="description" content={description} />
-		<meta name="robots" content="index,follow,max-image-preview:large" />
+		<meta name="robots" content={robots} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
@@ -40,6 +42,13 @@ const {
 		<link rel="canonical" href={canonical} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-EM32LYCCYJ"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){window.dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-EM32LYCCYJ');
+		</script>
 		<title>{title}</title>
 	</head>
 	<body>

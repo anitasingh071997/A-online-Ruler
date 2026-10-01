@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import TopRuler from './TopRuler.astro';
 
 interface Section {
 	 heading: string;
@@ -12,13 +13,15 @@ interface Props {
 	 eyebrow: string;
 	 intro: string;
 	 sections: Section[];
+	showTopRuler?: boolean;
 }
 
-const { title, description, eyebrow, intro, sections } = Astro.props;
+const { title, description, eyebrow, intro, sections, showTopRuler = false } = Astro.props;
 ---
 
 <Layout title={`${title} | A Online Ruler`} description={description} canonical={`https://aonlineruler.com${Astro.url.pathname}`}>
 	<div class="info-shell">
+		{showTopRuler && <TopRuler />}
 		<header class="info-topbar">
 			<a class="brand" href="/" aria-label="A Online Ruler home">
 				<span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -43,9 +46,14 @@ const { title, description, eyebrow, intro, sections } = Astro.props;
 					</section>
 				))}
 			</div>
+			<slot name="after" />
 		</main>
 		<footer class="info-footer">
-			<span>© {new Date().getFullYear()} A Online Ruler</span>
+			<a class="footer-brand" href="/" aria-label="A Online Ruler home">
+				<span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+				<span>A Online Ruler</span>
+			</a>
+			<span class="footer-copyright">© {new Date().getFullYear()}</span>
 			<nav aria-label="Legal and support links">
 				<a href="/about-us">About us</a>
 				<a href="/contact-us">Contact us</a>

@@ -1,0 +1,9 @@
+---
+const marks = Array.from({ length: 31 }, (_, index) => index);
+---
+
+<div class="top-ruler" aria-hidden="true">
+	<div class="top-ruler-scale">
+		{marks.map((mark) => <span class="top-ruler-mark" style={`--mark:${mark}`}><i></i><b>{mark}</b></span>)}
+	</div>
+</div>
