@@ -11,14 +11,26 @@ const sections = [
 <InfoPage title="Contact us" description="Contact A Online Ruler with questions, calibration feedback, accessibility suggestions, or website support requests." eyebrow="GET IN TOUCH" intro="Tell us how we can make A Online Ruler more helpful." sections={sections}>
 	<form class="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/contact-us?success=true" slot="after">
 		<input type="hidden" name="form-name" value="contact" />
-		<p class="form-honeypot"><label>Don’t fill this out if you’re human: <input name="bot-field" /></label></p>
-		<div class="form-heading"><h2>Send a message</h2><p>We’ll use your email only to reply to your request.</p></div>
+		<p class="form-honeypot"><label>Don&#8217;t fill this out if you&#8217;re human: <input name="bot-field" /></label></p>
+		<div class="form-heading"><h2>Send a message</h2><p>We&#8217;ll use your email only to reply to your request.</p></div>
 		<div class="form-grid">
 			<label for="contact-name">Name<input id="contact-name" name="name" type="text" autocomplete="name" required /></label>
 			<label for="contact-email">Email<input id="contact-email" name="email" type="email" autocomplete="email" required /></label>
 		</div>
 		<label for="contact-subject">Subject<input id="contact-subject" name="subject" type="text" autocomplete="off" required /></label>
 		<label for="contact-message">Message<textarea id="contact-message" name="message" rows="6" required></textarea></label>
-		<button type="submit">Send message <span aria-hidden="true">→</span></button>
+		<button type="submit">Send message <span aria-hidden="true">&#8594;</span></button>
 	</form>
 </InfoPage>
+
+<style>
+	.contact-form{display:grid;gap:18px;margin-top:50px;padding:30px;border:1px solid #e3eaf2;border-radius:14px;background:linear-gradient(145deg,#fff 55%,#f5f8fc);box-shadow:0 12px 38px #172b4d0d}
+	.form-honeypot{display:none}
+	.form-heading{margin-bottom:3px}.form-heading h2{margin:0 0 8px;font-size:25px;letter-spacing:-.04em}.form-heading p{margin:0;color:#686868;font-size:14px;line-height:1.6}
+	.contact-form label{display:grid;gap:8px;color:#4d4d4d;font-size:13px;font-weight:600}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+	.contact-form input,.contact-form textarea{width:100%;box-sizing:border-box;padding:12px 13px;border:1px solid #dfe4eb;border-radius:7px;background:#fff;color:#171717;font:400 14px/1.5 Arial,Helvetica,sans-serif;transition:border-color .15s ease,box-shadow .15s ease}
+	.contact-form textarea{min-height:150px;resize:vertical}.contact-form input:focus,.contact-form textarea:focus{outline:0;border-color:#6d9bd0;box-shadow:0 0 0 3px #4b9aff24}
+	.contact-form button{justify-self:start;display:inline-flex;align-items:center;gap:10px;padding:13px 18px;border:1px solid #171717;border-radius:8px;background:#171717;color:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s ease,transform .15s ease}.contact-form button:hover{background:#333;transform:translateY(-1px)}.contact-form button:focus-visible{outline:3px solid #4b9aff;outline-offset:3px}
+	:global(html[data-theme="dark"]) .contact-form{border-color:#303030;background:linear-gradient(145deg,#141414 55%,#111b28);box-shadow:0 12px 38px #0003}:global(html[data-theme="dark"]) .form-heading p,:global(html[data-theme="dark"]) .contact-form label{color:#aaa}:global(html[data-theme="dark"]) .contact-form input,:global(html[data-theme="dark"]) .contact-form textarea{border-color:#383838;background:#151515;color:#eee}:global(html[data-theme="dark"]) .contact-form button{border-color:#eee;background:#eee;color:#171717}:global(html[data-theme="dark"]) .contact-form button:hover{background:#d9d9d9}
+	@media(max-width:600px){.contact-form{gap:15px;margin-top:38px;padding:22px 18px}.form-grid{grid-template-columns:1fr;gap:15px}.form-heading h2{font-size:22px}}
+</style>

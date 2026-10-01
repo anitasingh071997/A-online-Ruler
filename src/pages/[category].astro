@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { toolCategories } from '../data/toolCategories';
+
+export function getStaticPaths() {
+	return toolCategories.map((category) => ({ params: { category: category.slug }, props: { category } }));
+}
+
+const { category } = Astro.props;
+const isMeasurement = category.slug === 'measurement';
+---
+
+<Layout title={`${category.name} | A Online Ruler`} description={category.description} canonical={`https://aonlineruler.com/${category.slug}`}>
+	<div class="category-page">
+		<header class="category-page-header">
+			<a class="brand" href="/" aria-label="A Online Ruler home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>A Online Ruler</span></a>
+			<div class="category-header-actions"><nav aria-label="Site navigation"><a href="/">Home</a><a href="/ruler">Open ruler</a></nav><button class="category-theme-toggle" id="category-theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="category-theme-icon" aria-hidden="true">&#9790;</span></button></div>
+		</header>
+		<main class="category-page-main">
+			<a class="category-back" href="/">← All categories</a>
+			<div class="eyebrow">TOOL CATEGORY</div>
+			<h1>{category.name}</h1>
+			<p class="category-page-intro">{category.intro}</p>
+			<section class="category-tools" aria-labelledby="category-tools-title">
+				<h2 id="category-tools-title">Tools and resources</h2>
+				{isMeasurement ? (
+					<a class="category-tool-card" href="/ruler"><span class="category-tool-icon" aria-hidden="true">↔</span><span><strong>Online Ruler</strong><small>Measure on screen in inches, centimeters, and pixels.</small></span><span aria-hidden="true">→</span></a>
+				) : (
+					<div class="category-empty"><strong>Tools are coming soon</strong><p>We’re preparing helpful tools for this category. Check back as new resources are added.</p></div>
+				)}
+			</section>
+			<a class="category-browse-all" href="/">Browse all categories</a>
+		</main>
+		<footer class="category-page-footer"><div class="category-footer-branding"><a class="brand" href="/" aria-label="A Online Ruler home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>A Online Ruler</span></a><span>&copy; 2026</span></div><nav aria-label="Legal links"><a href="/privacy-policy">Privacy policy</a><a href="/terms-and-conditions">Terms &amp; conditions</a></nav></footer>
+	</div>
+</Layout>
+
+<script>
+	const themeToggle = document.querySelector<HTMLButtonElement>('#category-theme-toggle');
+	const themeIcon = document.querySelector<HTMLElement>('#category-theme-icon');
+	if (themeToggle && themeIcon) {
+		let theme = 'light';
+		try { theme = localStorage.getItem('aor-theme') === 'dark' ? 'dark' : 'light'; } catch { /* Keep light mode when storage is unavailable. */ }
+		const setTheme = (nextTheme: string) => {
+			theme = nextTheme;
+			document.documentElement.dataset.theme = theme;
+			const dark = theme === 'dark';
+			themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+			themeToggle.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+			themeIcon.textContent = dark ? '\u2600' : '\u263e';
+			document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0c0c0d' : '#fafafa');
+			try { localStorage.setItem('aor-theme', theme); } catch { /* Keep the preference for this session. */ }
+		};
+		setTheme(theme);
+		themeToggle.addEventListener('click', () => setTheme(theme === 'dark' ? 'light' : 'dark'));
+	}
+</script>
+
+<style>
+	.category-page{min-height:100vh;display:flex;flex-direction:column;padding:0 max(24px,calc((100vw - 1120px)/2));color:var(--color-ink);background:var(--color-canvas)}
+	.category-page-header,.category-page-footer{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;border-bottom:1px solid var(--color-hairline)}
+	.category-footer-branding{display:flex;align-items:center;gap:12px}.category-footer-branding .brand{display:inline-flex;align-items:center;gap:9px;color:var(--color-ink);font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap}.category-footer-branding>span{color:var(--color-mute);font-size:12px}
+	.category-header-actions,.category-page-header nav,.category-page-footer nav{display:flex;align-items:center;gap:20px}.category-page-header nav a,.category-page-footer a{color:var(--color-body);font-size:13px;text-decoration:none}.category-page-header nav a:hover,.category-page-footer a:hover{color:var(--color-ink)}.category-theme-toggle{width:38px;min-width:38px;height:38px;display:grid;place-items:center;padding:0;border:1px solid var(--color-hairline);border-radius:8px;background:#fff;color:var(--color-ink);font-size:18px;cursor:pointer}.category-theme-toggle:hover{background:#f2f2f2}
+	.category-page-main{width:min(100%,780px);flex:1;margin:0 auto;padding:90px 0}.category-back{display:inline-block;margin-bottom:42px;color:var(--color-body);font-size:13px;text-decoration:none}.category-back:hover{color:var(--color-ink)}
+	.category-page-main>.eyebrow{color:var(--color-mute);font:500 11px/1.4 var(--font-mono);letter-spacing:.1em}.category-page-main h1{margin:12px 0;font-size:clamp(38px,7vw,60px);letter-spacing:-.05em;line-height:1.04}.category-page-intro{max-width:620px;color:var(--color-body);font-size:17px;line-height:1.7}
+	.category-tools{margin-top:58px}.category-tools h2{margin:0 0 16px;font-size:20px;letter-spacing:-.025em}.category-tool-card,.category-empty{display:flex;align-items:center;gap:18px;padding:20px;border:1px solid var(--color-hairline);border-radius:14px;background:#fff}.category-tool-card{color:var(--color-ink);text-decoration:none}.category-tool-card:hover{border-color:#b8c9de}.category-tool-card>span:nth-child(2){display:grid;gap:5px;flex:1}.category-tool-card small,.category-empty p{margin:0;color:var(--color-body);font-size:14px;line-height:1.5}.category-tool-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:#eef5ff;color:#34669f;font-size:22px}.category-empty{display:block}.category-empty strong{display:block;margin-bottom:6px}.category-browse-all{display:inline-block;margin-top:28px;color:var(--color-body);font-size:14px}.category-page-footer{border-top:1px solid var(--color-hairline);border-bottom:0;color:var(--color-body);font-size:12px}
+	@media(max-width:600px){.category-page{padding:0 18px}.category-page-header nav{gap:12px}.category-header-actions{gap:12px}.category-page-main{padding:56px 0}.category-back{margin-bottom:32px}.category-page-footer{align-items:flex-start;flex-direction:column}}
+	:global(html[data-theme="dark"]) .category-page{--color-ink:#ededed;--color-body:#aaa;--color-mute:#888;--color-canvas:#0c0c0d;--color-hairline:#292929}:global(html[data-theme="dark"]) .category-tool-card,:global(html[data-theme="dark"]) .category-empty,:global(html[data-theme="dark"]) .category-theme-toggle{background:#141414;color:#ededed}:global(html[data-theme="dark"]) .category-tool-icon{background:#1c2a3b;color:#9ac6ff}:global(html[data-theme="dark"]) .category-theme-toggle:hover{background:#252525}
+</style>

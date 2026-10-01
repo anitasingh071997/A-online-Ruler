@@ -18,6 +18,7 @@ const { status, title, description } = Astro.props;
 				<span>A Online Ruler</span>
 			</a>
 			<a href="/ruler">Open ruler <span aria-hidden="true">↗</span></a>
+			<button class="error-theme-toggle" id="error-theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="error-theme-icon" aria-hidden="true">&#9790;</span></button>
 		</header>
 		<main class="error-main" aria-labelledby="error-title">
 			<div class="error-status">{status}</div>
@@ -29,9 +30,36 @@ const { status, title, description } = Astro.props;
 			</div>
 		</main>
 		<footer class="error-footer">
+			<div class="error-footer-branding"><a class="brand" href="/" aria-label="A Online Ruler home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>A Online Ruler</span></a><span>&copy; 2026</span></div>
 			<a href="/about-us">About us</a>
 			<a href="/contact-us">Contact us</a>
 			<a href="/privacy-policy">Privacy policy</a>
 		</footer>
 	</div>
 </Layout>
+
+<script>
+	const themeToggle = document.querySelector<HTMLButtonElement>('#error-theme-toggle');
+	const themeIcon = document.querySelector<HTMLElement>('#error-theme-icon');
+	if (themeToggle && themeIcon) {
+		let theme = 'light';
+		try { theme = localStorage.getItem('aor-theme') === 'dark' ? 'dark' : 'light'; } catch { /* Keep light mode when storage is unavailable. */ }
+		const setTheme = (nextTheme: string) => {
+			theme = nextTheme;
+			document.documentElement.dataset.theme = theme;
+			const dark = theme === 'dark';
+			themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+			themeToggle.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+		themeIcon.textContent = dark ? '\u2600' : '\u263e';
+			document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0c0c0d' : '#fafafa');
+			try { localStorage.setItem('aor-theme', theme); } catch { /* Keep the preference for this session. */ }
+		};
+		setTheme(theme);
+		themeToggle.addEventListener('click', () => setTheme(theme === 'dark' ? 'light' : 'dark'));
+	}
+</script>
+
+<style>
+	.error-topbar{display:flex;align-items:center;gap:16px}.error-topbar>.brand{margin-right:auto}.error-theme-toggle{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--color-hairline);border-radius:6px;background:#fff;color:var(--color-ink);font-size:18px;cursor:pointer}.error-theme-toggle:hover{background:#f2f2f2}.error-footer-branding{display:flex;align-items:center;gap:12px;margin-right:auto}.error-footer-branding .brand{display:inline-flex;align-items:center;gap:9px;color:var(--color-ink);font-size:13px;font-weight:600;text-decoration:none}.error-footer-branding>span{color:var(--color-mute);font-size:12px}
+	:global(html[data-theme="dark"]) .error-topbar a,:global(html[data-theme="dark"]) .error-footer a{color:#ddd}:global(html[data-theme="dark"]) .error-theme-toggle{background:#171717;border-color:#383838;color:#eee}:global(html[data-theme="dark"]) .error-theme-toggle:hover{background:#252525}
+</style>

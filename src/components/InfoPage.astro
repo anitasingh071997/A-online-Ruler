@@ -49,11 +49,13 @@ const { title, description, eyebrow, intro, sections, showTopRuler = false } = A
 			<slot name="after" />
 		</main>
 		<footer class="info-footer">
-			<a class="footer-brand" href="/" aria-label="A Online Ruler home">
-				<span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
-				<span>A Online Ruler</span>
-			</a>
-			<span class="footer-copyright">© {new Date().getFullYear()}</span>
+			<div class="info-footer-branding">
+				<a class="footer-brand" href="/" aria-label="A Online Ruler home">
+					<span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+					<span>A Online Ruler</span>
+				</a>
+				<span class="footer-copyright">&copy; 2026</span>
+			</div>
 			<nav aria-label="Legal and support links">
 				<a href="/about-us">About us</a>
 				<a href="/contact-us">Contact us</a>
