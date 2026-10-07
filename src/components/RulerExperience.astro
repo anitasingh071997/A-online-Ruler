@@ -1,14 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { faqItems, faqStructuredData } from '../data/faq';
+import LanguageSelector from './LanguageSelector.astro';
 
-interface Props { mode?: 'ruler' | 'calibration'; }
-const { mode = 'ruler' } = Astro.props;
+interface Props { mode?: 'ruler' | 'calibration'; locale?: string; }
+const { mode = 'ruler', locale = 'en' } = Astro.props;
 
 const marks = Array.from({ length: 301 }, (_, i) => i);
 ---
 
-<Layout title={mode === 'calibration' ? 'Calibrate Your Display | A Online Ruler' : 'Online Ruler Workspace | A Online Ruler'} description={mode === 'calibration' ? 'Calibrate your display for a more accurate online ruler.' : 'Measure in inches, centimeters, and pixels with a calibrated online ruler workspace.'} canonical={`https://aonlineruler.com/${mode === 'calibration' ? 'calibration' : 'ruler'}`}>
+<Layout title={mode === 'calibration' ? 'Calibrate Your Display | A Online Ruler' : 'Online Ruler Workspace | A Online Ruler'} description={mode === 'calibration' ? 'Calibrate your display for a more accurate online ruler.' : 'Measure in inches, centimeters, and pixels with a calibrated online ruler workspace.'} canonical={`https://aonlineruler.com/${locale === 'en' ? '' : `${locale}/`}${mode === 'calibration' ? 'calibration' : 'ruler'}`} locale={locale}>
 	<a class="skip-link" href="#top">Skip to main content</a>
 	<div class:list={['screen-rulers is-visible', mode === 'calibration' && 'calibration-hidden']} id="screen-rulers" aria-hidden="true">
 		{(['top', 'bottom', 'left', 'right'] as const).map((edge) => (
@@ -26,7 +27,7 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	</div>
 	<header class:list={['ruler-notch', mode === 'calibration' && 'calibration-hidden']}>
 		<nav class="notch-start" aria-label="Ruler navigation">
-			<a class="notch-brand" href="/" aria-label="A Online Ruler home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>A Online Ruler</span></a>
+			<a class="notch-brand" href="/" aria-label="A Online Ruler home"><img class="brand-logo" src="/favicon.svg" alt="" aria-hidden="true" /><span>A Online Ruler</span></a>
 			<div class="notch-edges" role="group" aria-label="Ruler edge">
 				<button class="edge-option is-selected" type="button" data-edge="top" aria-pressed="true">Top</button>
 				<button class="edge-option" type="button" data-edge="bottom" aria-pressed="false">Bottom</button>
@@ -40,25 +41,41 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 				<button class="segment" type="button" data-unit="in" aria-pressed="false">in</button>
 				<button class="segment" type="button" data-unit="px" aria-pressed="false">px</button>
 			</div>
-			<a class="notch-button" href="/calibration">Calibrate</a>
-		<button class="theme-toggle notch-theme-toggle" id="ruler-theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="ruler-theme-icon" aria-hidden="true">☾</span></button>
+			<div class="notch-control">
+				<button class="notch-button notch-tool-button" id="toggle-guidelines" type="button" aria-label="Toggle guidelines" aria-describedby="guidelines-tooltip" aria-pressed="false" title="Toggle guidelines (G)">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6M4 4v6m16-6h-6m6 0v6M4 20h6m-6 0v-6m16 6h-6m6 0v-6M8 12h8M12 8v8" /></svg>
+				</button>
+				<span class="notch-tooltip" id="guidelines-tooltip" role="tooltip">Toggle guidelines <kbd>G</kbd></span>
+			</div>
+			<div class="notch-control">
+				<button class="notch-button notch-tool-button" id="toggle-crosshair" type="button" aria-label="Toggle crosshair" aria-describedby="crosshair-tooltip" aria-pressed="false" title="Toggle crosshair (C)">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6" /><path d="M12 2v4m0 12v4M2 12h4m12 0h4" /></svg>
+				</button>
+				<span class="notch-tooltip" id="crosshair-tooltip" role="tooltip">Toggle crosshair <kbd>C</kbd></span>
+			</div>
+			<div class="notch-control">
+				<button class="notch-button notch-tool-button notch-calibration-button" id="open-calibration" type="button" aria-label="Calibrate screen" aria-keyshortcuts="K" title="Calibrate screen (K)">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5 7.5 4h12.8v12.8l-3.5 3.5H4zM7.5 4v16.3M11 4v3m3.5-3v3M11 7.5v3m3.5-3v3M11 11v3m3.5-3v3M11 14.5v3m3.5-3v3" /></svg>
+				</button>
+				<span class="notch-tooltip" role="tooltip">Calibrate screen <kbd>K</kbd></span>
+			</div>
+		<button class="theme-toggle site-theme-switch notch-theme-toggle" id="ruler-theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="site-theme-track" aria-hidden="true"><span class="site-theme-mark site-theme-sun">☀</span><span class="site-theme-mark site-theme-moon">☾</span><span class="site-theme-thumb"><span id="ruler-theme-icon">☾</span></span></span></button>
 			<button class="notch-button notch-fullscreen" id="ruler-fullscreen" type="button" aria-label="Enter fullscreen" title="Enter fullscreen (F)"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="ruler-fullscreen-icon-path" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" /></svg></button>
 		</div>
 	</header>
-	<dialog class="calibration-modal" id="calibration-modal" aria-labelledby="calibration-modal-title">
-		<div class="calibration-modal-header"><h2 id="calibration-modal-title">Calibrate your display</h2><button class="modal-close" id="close-calibration" type="button" aria-label="Close calibration">×</button></div>
+	<dialog class="calibration-modal" id="calibration-modal" aria-labelledby="calibration-title">
 		<div id="calibration-modal-body"></div>
 	</dialog>
-	<div class:list={['app-shell', mode === 'calibration' ? 'calibration-experience' : 'ruler-experience']}>
+	<div class:list={['app-shell', mode === 'calibration' ? 'calibration-experience' : 'ruler-experience']} data-calibration-method={mode === 'calibration' ? 'auto' : undefined}>
 		<header class="topbar">
 			<a class="brand" href="/" aria-label="A Online Ruler home">
-				<span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+				<img class="brand-logo" src="/favicon.svg" alt="" aria-hidden="true" />
 				<span>A Online Ruler</span>
 			</a>
 			<nav aria-label="Main navigation">
 				{mode !== 'calibration' && <a href="/ruler#popular-tools">Popular Tools</a>}
 				{mode !== 'calibration' && <details class="category-menu">
-					<summary><span>All Items</span><svg class="menu-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="m3 4.5 3 3 3-3" /></svg></summary>
+					<summary><span>Tools</span><svg class="menu-arrow" viewBox="0 0 12 12" aria-hidden="true"><path d="m3 4.5 3 3 3-3" /></svg></summary>
 					<div class="category-dropdown">
 						<a href="/classroom-management-tools">Classroom Management Tools</a>
 						<a href="/random-tools">Random Tools</a>
@@ -77,7 +94,7 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 				{mode !== 'calibration' && <a href="/ruler#ruler-faq">FAQs</a>}
 			</nav>
 			<a class="nav-button" href="/ruler">Open ruler <span aria-hidden="true">↗</span></a>
-			<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="theme-icon" aria-hidden="true">☾</span></button>
+			<button class="theme-toggle site-theme-switch" id="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="site-theme-track" aria-hidden="true"><span class="site-theme-mark site-theme-sun">☀</span><span class="site-theme-mark site-theme-moon">☾</span><span class="site-theme-thumb"><span id="theme-icon">☾</span></span></span></button>
 		</header>
 
 		<main id="top">
@@ -125,17 +142,25 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 
 			<div id="calibration-slot"></div>
 			<section class="calibration-section" id="calibration" aria-labelledby="calibration-title">
-				<div class="section-heading">
-					<div><div class="eyebrow">SET UP YOUR SCREEN</div><h2 id="calibration-title">Calibrate for a true-to-life scale.</h2></div>
-					<p>Pick the method that works for your screen. You can adjust it any time.</p>
+				<div class="calibration-dialog-heading">
+					<h1 id="calibration-title">Calibration</h1>
+					{mode === 'calibration' ? <a class="calibration-close" href="/ruler" aria-label="Close calibration">×</a> : <button class="calibration-close" id="close-calibration" type="button" aria-label="Close calibration">×</button>}
 				</div>
+				<div class="ppi-readout"><span>CURRENT PPI</span><output id="calibration-ppi">92.00</output></div>
+				<div class="calibration-tabs" role="tablist" aria-label="Calibration method">
+					<button type="button" role="tab" aria-selected="true" data-calibration-tab="auto">Auto</button>
+					<button type="button" role="tab" aria-selected="false" data-calibration-tab="device">Device</button>
+					<button type="button" role="tab" aria-selected="false" data-calibration-tab="diagonal">Diagonal</button>
+					<button type="button" role="tab" aria-selected="false" data-calibration-tab="card">Credit Card</button>
+				</div>
+				<p class="calibration-instructions" id="calibration-instructions">Use your browser’s display information for a quick starting estimate.</p>
 				<div class="calibration-grid">
 					<article class="cal-card selected" data-method-card="auto">
 						<div class="card-top"><span class="step-number">01</span><span class="card-icon" aria-hidden="true">✳</span></div>
 						<h3>Auto-detect device</h3>
 						<p>Use your browser’s display information for a quick starting estimate.</p>
-						<div class="method-detail"><span class="device-glyph" aria-hidden="true">▰</span><span id="device-info">Detecting display…</span></div>
-						<label class="device-select-label" for="manual-device">Or choose your display</label>
+						<div class="method-detail"><span class="device-glyph" aria-hidden="true">▰</span><div class="device-reading"><strong id="device-info">Detecting your display…</strong><small id="device-help">This is your browser’s estimate. Choose your screen below to improve it.</small></div></div>
+						<label class="device-select-label" for="manual-device">Choose your screen</label>
 						<select class="device-select" id="manual-device" name="manual-device">
 							<optgroup label="Phones">
 							<option value="5.4|9/19.5">5.4″ phone · 19.5:9</option>
@@ -168,14 +193,14 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 							</optgroup>
 						</select>
 						<div class="custom-device" id="custom-device" hidden>
-							<label for="manual-diagonal">Diagonal size</label>
+							<label for="manual-diagonal">Screen size, measured corner to corner</label>
 							<div class="custom-device-fields"><input id="manual-diagonal" type="number" min="4" max="100" step="0.1" value="15.6" name="manual-diagonal" inputmode="decimal" autocomplete="off" /><span>inches</span><select id="manual-aspect" name="manual-aspect" aria-label="Display aspect ratio"><option value="16/9">16:9</option><option value="16/10">16:10</option><option value="3/2">3:2</option><option value="4/3">4:3</option><option value="21/9">21:9</option><option value="9/19.5">19.5:9 phone</option><option value="9/20">20:9 phone</option></select></div>
 						</div>
-						<button class="card-button secondary manual-device-button" id="apply-device" type="button">Use selected display <span aria-hidden="true">→</span></button>
+						<button class="card-button secondary manual-device-button" id="apply-device" type="button">Use this screen <span aria-hidden="true">→</span></button>
 						<button class="card-button primary" type="button" data-calibrate="auto">Use quick estimate <span aria-hidden="true">→</span></button>
 						<small class="fine-print">Best for a quick start. Fine-tune with a known-size object.</small>
 					</article>
-					<article class="cal-card" data-method-card="diagonal">
+					<article class="cal-card" data-method-card="diagonal" hidden={mode === 'calibration'}>
 						<div class="card-top"><span class="step-number">02</span><span class="card-icon" aria-hidden="true">⌁</span></div>
 						<h3>Screen diagonal</h3>
 						<p>Enter your display’s diagonal size and aspect ratio for a tailored estimate.</p>
@@ -186,21 +211,31 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 						<button class="card-button secondary" type="button" data-calibrate="diagonal">Calibrate screen <span aria-hidden="true">→</span></button>
 						<small class="fine-print">The ratio is estimated from your display shape and updates when you edit the diagonal. Confirm browser zoom is 100%.</small>
 					</article>
-					<article class="cal-card" data-method-card="card">
+					<article class="cal-card" data-method-card="card" hidden={mode === 'calibration'}>
 						<div class="card-top"><span class="step-number">03</span><span class="card-icon card-icon-card" aria-hidden="true">▭</span></div>
 						<h3>Credit card</h3>
 						<p>Match this reference to a standard bank card for the most reliable scale.</p>
 						<div class="card-reference"><div class="credit-card-visual"><span>A</span><i></i><i></i></div><div><strong>Standard card</strong><small>85.60 mm wide</small></div></div>
 						<button class="card-button secondary" type="button" data-calibrate="card">Align credit card <span aria-hidden="true">→</span></button>
 						<div class="card-align" id="card-align" hidden>
-							<div class="align-reference" id="align-reference"><span>85.60 mm</span></div>
-							<label for="card-width">Adjust the guide until it matches your card</label>
+							{mode === 'calibration' && <div class="orientation-control" role="group" aria-label="Credit card orientation">
+								<span>Card orientation</span>
+								<div class="orientation-options">
+									<button type="button" data-card-orientation="horizontal" aria-pressed="true">↔ <span>Horizontal</span></button>
+									<button type="button" data-card-orientation="vertical" aria-pressed="false">↕ <span>Vertical</span></button>
+								</div>
+							</div>}
+							<div class="align-preview-stage"><div class="align-reference" id="align-reference"><span class="align-card-name">CREDIT CARD</span><span class="align-card-size">85.60 × 53.98 mm</span></div></div>
+							<label for="card-width">ADJUST SIZE</label>
 							<input id="card-width" name="card-width" type="range" min="180" max="620" step="1" value="324" aria-label="Adjust reference card width" />
+							<output class="card-width-value" id="card-width-value">96.0</output>
+							<small class="slider-help">Use ← → arrow keys for fine adjustment.</small>
 							<div class="align-actions"><button id="cancel-card" class="cancel-align" type="button">Cancel</button><button id="apply-card" class="apply-align" type="button">Apply calibration</button></div>
 						</div>
 						<small class="fine-print">Place a physical card against the screen to match its width.</small>
 					</article>
 				</div>
+				<div class="saved-profiles"><div class="saved-profiles-heading"><h2>Saved Profiles</h2><button type="button" id="save-profile">+ Save</button></div><div id="saved-profile-list" class="saved-profile-list"><em>No saved profiles yet.</em></div></div>
 				<div class="calibration-note" id="calibration-note" role="status" aria-live="polite"><span class="note-icon">i</span><span>For the most accurate measurements, compare the ruler against a standard card or physical ruler. Browser display data can only provide an estimate.</span><button id="dismiss-note" type="button" aria-label="Dismiss calibration note">×</button></div>
 			</section>
 
@@ -258,8 +293,9 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 				</div>
 			</section>
 		</main>
+		<LanguageSelector show={false} />
 		<footer>
-			<a class="brand footer-brand" href="/" aria-label="A Online Ruler home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>A Online Ruler</span></a>
+			<a class="brand footer-brand" href="/" aria-label="A Online Ruler home"><img class="brand-logo" src="/favicon.svg" alt="" aria-hidden="true" /><span>A Online Ruler</span></a>
 			<span class="footer-year">&copy; 2026</span>
 			<span>Measure anything, right on your screen.</span>
 			<nav class="footer-links" aria-label="About and legal links">
@@ -273,6 +309,9 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 </Layout>
 
 <script>
+	import { translateText } from '../data/siteTranslations';
+	const pageLocale = document.documentElement.lang;
+	const tx = (source: string) => translateText(pageLocale, source);
 	const frame = document.querySelector<HTMLElement>('#ruler-frame')!;
 	const scale = document.querySelector<HTMLElement>('#scale-ruler')!;
 	const status = document.querySelector<HTMLElement>('#calibration-status')!;
@@ -291,18 +330,34 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	const coordinateLineX = document.querySelector<HTMLElement>('#coordinate-line-x')!;
 	const coordinateLineY = document.querySelector<HTMLElement>('#coordinate-line-y')!;
 	const coordinateLabel = document.querySelector<HTMLElement>('#coordinate-label')!;
+	const topScreenRuler = document.querySelector<HTMLElement>('[data-screen-edge="top"]')!;
+	const bottomScreenRuler = document.querySelector<HTMLElement>('[data-screen-edge="bottom"]')!;
+	const leftScreenRuler = document.querySelector<HTMLElement>('[data-screen-edge="left"]')!;
+	const rightScreenRuler = document.querySelector<HTMLElement>('[data-screen-edge="right"]')!;
 	const calibrationSection = document.querySelector<HTMLElement>('#calibration')!;
 	const calibrationSlot = document.querySelector<HTMLElement>('#calibration-slot')!;
 	const calibrationModal = document.querySelector<HTMLDialogElement>('#calibration-modal')!;
 	const calibrationModalBody = document.querySelector<HTMLElement>('#calibration-modal-body')!;
 	let stored: string | null = null;
 	try { stored = localStorage.getItem('aor-calibration'); } catch { /* Storage may be disabled in private browsing. */ }
-	let pixelsPerCm = stored ? Number(stored) : 37.8;
+	const storedPixelsPerCm = stored === null ? Number.NaN : Number(stored);
+	// Ignore stale or malformed local storage so the scale always starts with usable dimensions.
+	let pixelsPerCm = Number.isFinite(storedPixelsPerCm) && storedPixelsPerCm >= 1 && storedPixelsPerCm <= 1000
+		? storedPixelsPerCm
+		: 37.8;
 	let unit: 'cm' | 'in' | 'px' = 'cm';
 	let lengthCm = 30;
 	let activeEdge = 'top';
 	let lastCoordinate: { x: number; y: number } | null = null;
-	deviceInfo.textContent = `${window.screen.width} CSS px · ${window.devicePixelRatio}× display scale`;
+	let lastPointer: { x: number; y: number } = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+	let guidelinesEnabled = false;
+	let crosshairEnabled = false;
+	let coordinatePinned = false;
+	const guidelinesButton = document.querySelector<HTMLButtonElement>('#toggle-guidelines')!;
+	const crosshairButton = document.querySelector<HTMLButtonElement>('#toggle-crosshair')!;
+	deviceInfo.textContent = `Browser sees ${window.screen.width} screen pixels wide`;
+	const deviceHelp = document.querySelector<HTMLElement>('#device-help')!;
+	deviceHelp.textContent = `Your display scaling is ${window.devicePixelRatio}×. This means each browser pixel uses about ${window.devicePixelRatio} physical screen pixels. Choose your screen size below for a better estimate.`;
 	function formatCoordinate(pixels: number) {
 		if (unit === 'px') return `${Math.round(pixels)} px`;
 		const physical = pixels / (pixelsPerCm * (unit === 'cm' ? 1 : 2.54));
@@ -310,11 +365,17 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	}
 	function showCoordinate(x: number, y: number) {
 		lastCoordinate = { x, y };
+		const topRect = topScreenRuler.getBoundingClientRect();
+		const bottomRect = bottomScreenRuler.getBoundingClientRect();
+		const leftRect = leftScreenRuler.getBoundingClientRect();
+		const rightRect = rightScreenRuler.getBoundingClientRect();
+		coordinateLineX.style.display = y < topRect.bottom || y >= bottomRect.top ? 'none' : '';
 		coordinateLineX.style.top = `${y}px`;
+		coordinateLineY.style.display = x < leftRect.right || x >= rightRect.left ? 'none' : '';
 		coordinateLineY.style.left = `${x}px`;
 		coordinateLabel.textContent = `X ${formatCoordinate(x)} · Y ${formatCoordinate(y)}`;
-		coordinateLabel.style.left = `${Math.min(x + 12, window.innerWidth - coordinateLabel.offsetWidth - 12)}px`;
-		coordinateLabel.style.top = `${Math.min(y + 12, window.innerHeight - coordinateLabel.offsetHeight - 12)}px`;
+		coordinateLabel.style.left = `${Math.max(leftRect.right + 8, Math.min(x + 12, rightRect.left - coordinateLabel.offsetWidth - 8))}px`;
+		coordinateLabel.style.top = `${Math.max(topRect.bottom + 8, Math.min(y + 12, bottomRect.top - coordinateLabel.offsetHeight - 8))}px`;
 		coordinateLayer.classList.add('is-visible');
 	}
 	function hideCoordinate() {
@@ -328,6 +389,8 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 		target.style.setProperty('--minor-step', `${minorStep}px`);
 	}
 	function updateScale() {
+		const ppiReadout = document.querySelector<HTMLOutputElement>('#calibration-ppi');
+		if (ppiReadout) ppiReadout.value = (pixelsPerCm * 2.54).toFixed(2);
 		const ppu = unit === 'px' ? 1 : pixelsPerCm * (unit === 'cm' ? 1 : 2.54);
 		const unitWidth = unit === 'px' ? 100 : ppu;
 		const scaleWidth = unit === 'px' ? lengthCm * pixelsPerCm : ppu * lengthCm / (unit === 'cm' ? 1 : 2.54);
@@ -388,25 +451,64 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	syncAspectToDisplay();
 	updateScale();
 	window.addEventListener('resize', updateScale);
-	if (stored) status.textContent = 'Saved calibration loaded';
+	if (Number.isFinite(storedPixelsPerCm) && storedPixelsPerCm >= 1 && storedPixelsPerCm <= 1000) status.textContent = 'Saved calibration loaded';
 
 	document.querySelectorAll<HTMLButtonElement>('[data-unit]').forEach((button) => button.addEventListener('click', () => {
 		unit = button.dataset.unit as 'cm' | 'in' | 'px';
 		document.querySelectorAll('[data-unit]').forEach((item) => { item.classList.toggle('is-active', item === button); item.setAttribute('aria-pressed', String(item === button)); });
 		updateScale();
 	}));
+	function syncGuideControls() {
+		guidelinesButton.setAttribute('aria-pressed', String(guidelinesEnabled));
+		crosshairButton.setAttribute('aria-pressed', String(crosshairEnabled));
+		guidelinesButton.classList.toggle('is-on', guidelinesEnabled);
+		crosshairButton.classList.toggle('is-on', crosshairEnabled);
+		if (guidelinesEnabled || crosshairEnabled) showCoordinate(lastPointer.x, lastPointer.y);
+		else hideCoordinate();
+	}
+	guidelinesButton.addEventListener('click', () => {
+		guidelinesEnabled = !guidelinesEnabled;
+		coordinatePinned = false;
+		syncGuideControls();
+	});
+	crosshairButton.addEventListener('click', () => {
+		crosshairEnabled = !crosshairEnabled;
+		coordinatePinned = false;
+		if (crosshairEnabled) lastPointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+		syncGuideControls();
+	});
+	document.addEventListener('pointermove', (event) => {
+		lastPointer = { x: event.clientX, y: event.clientY };
+		if ((guidelinesEnabled || crosshairEnabled) && !coordinatePinned) showCoordinate(event.clientX, event.clientY);
+	});
 	document.addEventListener('click', (event) => {
 		const target = event.target as HTMLElement;
 		if (target.closest('a, button, input, select, textarea, summary, details, [contenteditable="true"]')) return;
-		showCoordinate(event.clientX, event.clientY);
-	});
+		lastPointer = { x: event.clientX, y: event.clientY };
+		if (crosshairEnabled || guidelinesEnabled) {
+			// Every ruler-area click moves the pin; pointer movement stays free to update lastPointer only.
+			showCoordinate(event.clientX, event.clientY);
+			coordinatePinned = true;
+		}
+		else hideCoordinate();
+	}, true);
 	document.addEventListener('keydown', (event) => {
-		if (event.key === 'Escape') { hideCoordinate(); if (document.fullscreenElement) document.exitFullscreen(); }
+		if (event.key === 'Escape') {
+			guidelinesEnabled = false;
+			crosshairEnabled = false;
+			coordinatePinned = false;
+			syncGuideControls();
+			if (document.fullscreenElement) document.exitFullscreen();
+		}
 		if (!event.metaKey && !event.ctrlKey && !event.altKey && !['INPUT', 'SELECT', 'TEXTAREA'].includes((event.target as HTMLElement).tagName)) {
 			const shortcut = event.key.toLowerCase();
 			if (shortcut === 'f') { event.preventDefault(); toggleFullscreen(); }
 			if (shortcut === 'd') { event.preventDefault(); setTheme('dark'); }
 			if (shortcut === 'l') { event.preventDefault(); setTheme('light'); }
+			if (shortcut === 'g') { event.preventDefault(); guidelinesButton.click(); }
+			if (shortcut === 'c' || shortcut === 'x') { event.preventDefault(); crosshairButton.click(); }
+			const calibrationPath = pageLocale === 'en' ? '/calibration' : `/${pageLocale}/calibration`;
+			if (shortcut === 'k' && window.location.pathname !== calibrationPath) { event.preventDefault(); window.location.assign(calibrationPath); }
 		}
 	});
 	document.querySelectorAll<HTMLButtonElement>('[data-edge]').forEach((button) => button.addEventListener('click', () => {
@@ -506,6 +608,8 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 			const widthInches = getDisplayWidthInches(diagonal, aspect);
 			pixelsPerCm = window.screen.width / (widthInches * 2.54);
 			status.textContent = `Manual display estimate applied · ${diagonal}″, ${aspect.replace('/', ':')}`;
+			const instructions = document.querySelector<HTMLElement>('#calibration-instructions');
+			if (instructions) instructions.textContent = `Display estimate applied · ${diagonal}″, ${aspect.replace('/', ':')}. You can refine it with another method.`;
 		} else {
 			cardAlign.hidden = false;
 			cardAlign.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -518,11 +622,79 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	document.querySelectorAll<HTMLButtonElement>('[data-calibrate]').forEach((button) => button.addEventListener('click', () => activate(button.dataset.calibrate!)));
 	document.querySelector<HTMLButtonElement>('#apply-device')!.addEventListener('click', () => activate('manual'));
 	manualDevice.addEventListener('change', () => { customDevice.hidden = manualDevice.value !== 'custom'; });
-	cardWidth.addEventListener('input', () => alignReference.style.setProperty('--reference-width', `${cardWidth.value}px`));
-	alignReference.style.setProperty('--reference-width', `${cardWidth.value}px`);
+	let cardOrientation: 'horizontal' | 'vertical' = 'horizontal';
+	const cardSizeLabel = document.querySelector<HTMLElement>('.align-card-size')!;
+	const cardWidthValue = document.querySelector<HTMLOutputElement>('#card-width-value')!;
+	let cardPpiEstimate = Number(cardWidth.value) * 25.4 / 85.6;
+	function updateCardPreview(refreshEstimate = true) {
+		const widthPx = Number(cardWidth.value);
+		const horizontal = cardOrientation === 'horizontal';
+		const heightPx = horizontal ? widthPx / 1.586 : widthPx * 1.586;
+		alignReference.style.setProperty('--reference-width', `${widthPx}px`);
+		alignReference.style.setProperty('--reference-height', `${heightPx}px`);
+		alignReference.dataset.orientation = cardOrientation;
+		document.querySelector<HTMLElement>('.align-preview-stage')!.style.setProperty('--preview-height', `${Math.max(276, heightPx + 48)}px`);
+		cardSizeLabel.textContent = horizontal ? '85.60 × 53.98 mm' : '53.98 × 85.60 mm';
+		const measuredWidthMm = horizontal ? 85.6 : 53.98;
+		if (refreshEstimate) cardPpiEstimate = widthPx * 25.4 / measuredWidthMm;
+		cardWidthValue.value = cardPpiEstimate.toFixed(1);
+	}
+	cardWidth.addEventListener('input', updateCardPreview);
+	document.querySelectorAll<HTMLButtonElement>('[data-card-orientation]').forEach((button) => button.addEventListener('click', () => {
+		const nextOrientation = button.dataset.cardOrientation as 'horizontal' | 'vertical';
+		if (nextOrientation === cardOrientation) return;
+		const nextWidthMm = nextOrientation === 'horizontal' ? 85.6 : 53.98;
+		cardOrientation = nextOrientation;
+		const nextWidth = Math.round(cardPpiEstimate * nextWidthMm / 25.4);
+		cardWidth.value = String(Math.max(Number(cardWidth.min), Math.min(Number(cardWidth.max), nextWidth)));
+		document.querySelectorAll('[data-card-orientation]').forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+		updateCardPreview(false);
+	}));
+	updateCardPreview();
+	const calibrationInstructions = document.querySelector<HTMLElement>('#calibration-instructions')!;
+	const tabCopy: Record<string, string> = {
+		auto: 'Use your browser’s display information for a quick starting estimate.',
+		device: 'Choose your display size to estimate its pixel density.',
+		diagonal: 'Enter your screen diagonal and aspect ratio for a tailored estimate.',
+		card: 'Hold a credit/debit card against the screen and adjust the slider until the outline matches exactly. This is the most accurate method.'
+	};
+	document.querySelectorAll<HTMLButtonElement>('[data-calibration-tab]').forEach((tab) => tab.addEventListener('click', () => {
+		const method = tab.dataset.calibrationTab!;
+		document.querySelectorAll('[data-calibration-tab]').forEach((item) => item.setAttribute('aria-selected', String(item === tab)));
+		document.querySelectorAll<HTMLElement>('[data-method-card]').forEach((card) => {
+			const key = card.dataset.methodCard;
+			card.hidden = method === 'device' ? key !== 'auto' : key !== method;
+		});
+		document.querySelector<HTMLElement>('.app-shell')?.setAttribute('data-calibration-method', method);
+		calibrationModal.dataset.calibrationMethod = method;
+		calibrationInstructions.textContent = tabCopy[method];
+		if (method === 'card') activate('card');
+	}));
+	const profileList = document.querySelector<HTMLElement>('#saved-profile-list')!;
+	function renderProfiles() {
+		let profiles: Array<{ name: string; ppi: number }> = [];
+		try { profiles = JSON.parse(localStorage.getItem('aor-calibration-profiles') || '[]'); } catch { profiles = []; }
+		profileList.replaceChildren();
+		if (!profiles.length) { const empty = document.createElement('em'); empty.textContent = 'No saved profiles yet.'; profileList.append(empty); return; }
+		profiles.forEach((profile) => {
+			const button = document.createElement('button'); button.type = 'button'; button.className = 'saved-profile'; button.textContent = `${profile.name} · ${profile.ppi.toFixed(2)} PPI`;
+			button.addEventListener('click', () => { pixelsPerCm = profile.ppi / 2.54; saveCalibration(); updateScale(); status.textContent = `${profile.name} profile applied`; });
+			profileList.append(button);
+		});
+	}
+	document.querySelector<HTMLButtonElement>('#save-profile')!.addEventListener('click', () => {
+		const name = window.prompt(tx('Name this calibration profile'));
+		if (!name?.trim()) return;
+		let profiles: Array<{ name: string; ppi: number }> = [];
+		try { profiles = JSON.parse(localStorage.getItem('aor-calibration-profiles') || '[]'); } catch { profiles = []; }
+		profiles.push({ name: name.trim(), ppi: pixelsPerCm * 2.54 });
+		try { localStorage.setItem('aor-calibration-profiles', JSON.stringify(profiles)); } catch { status.textContent = 'Could not save profile in this browser'; }
+		renderProfiles();
+	});
+	renderProfiles();
 	document.querySelector<HTMLButtonElement>('#cancel-card')!.addEventListener('click', () => { cardAlign.hidden = true; });
 	document.querySelector<HTMLButtonElement>('#apply-card')!.addEventListener('click', () => {
-		pixelsPerCm = Number(cardWidth.value) / 8.56;
+		pixelsPerCm = Number(cardWidth.value) / (cardOrientation === 'horizontal' ? 8.56 : 5.398);
 		saveCalibration();
 		status.textContent = 'Credit card calibration applied';
 		document.querySelectorAll<HTMLElement>('[data-method-card]').forEach((card) => card.classList.toggle('selected', card.dataset.methodCard === 'card'));
@@ -538,8 +710,8 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 		theme = nextTheme;
 		document.documentElement.dataset.theme = theme;
 		const dark = theme === 'dark';
-		themeToggles.forEach((toggle) => { toggle.setAttribute('aria-label', dark ? 'Switch to light mode (L)' : 'Switch to dark mode (D)'); toggle.title = dark ? 'Switch to light mode (L)' : 'Switch to dark mode (D)'; });
-		themeIcons.forEach((icon) => { icon.textContent = dark ? '☀' : '☾'; });
+		themeToggles.forEach((toggle) => { toggle.setAttribute('aria-checked', String(dark)); toggle.setAttribute('aria-label', dark ? 'Switch to light mode (L)' : 'Switch to dark mode (D)'); toggle.title = dark ? 'Switch to light mode (L)' : 'Switch to dark mode (D)'; });
+		themeIcons.forEach((icon) => { icon.textContent = dark ? '☾' : '☀'; });
 		document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0c0c0d' : '#fafafa');
 		try { localStorage.setItem('aor-theme', theme); } catch { /* Theme selection remains available for this session. */ }
 	}
@@ -550,8 +722,12 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	function closeCalibrationModal() {
 		if (calibrationSection.parentElement === calibrationModalBody) calibrationSlot.append(calibrationSection);
 		if (calibrationModal.open) calibrationModal.close();
+		delete calibrationModal.dataset.calibrationMethod;
+		calibrationModal.classList.remove('app-shell', 'calibration-experience');
 	}
 	openCalibration?.addEventListener('click', () => {
+		calibrationModal.classList.add('app-shell', 'calibration-experience');
+		calibrationModal.dataset.calibrationMethod = 'auto';
 		calibrationModalBody.append(calibrationSection);
 		calibrationModal.showModal();
 	});
@@ -566,7 +742,7 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	.workspace{overflow:hidden;background:#fff;border:1px solid #e7e7e7;border-radius:12px;box-shadow:0 1px 2px #00000008}.workspace-bar{height:70px;display:flex;justify-content:space-between;align-items:center;padding:0 20px;border-bottom:1px solid #ededed}.workspace-title{display:flex;align-items:center;gap:11px}.live-indicator{width:9px;height:9px;border-radius:50%;background:#42a781;box-shadow:0 0 0 4px #e9f5ef}.workspace-title strong,.workspace-title small{display:block}.workspace-title strong{font-size:13px;font-weight:600}.workspace-title small{margin-top:3px;color:#838383;font-size:11px}.workspace-actions{display:flex;gap:9px;align-items:center}.segmented{display:flex;gap:2px;padding:3px;background:#f3f3f3;border-radius:7px}.segment{min-width:36px;padding:6px 9px;border:0;border-radius:5px;background:transparent;color:#696969;font-size:12px;cursor:pointer}.segment.is-active{background:#fff;color:#171717;box-shadow:0 1px 2px #00000013}.icon-button{width:34px;height:34px;display:grid;place-items:center;border:1px solid #e7e7e7;border-radius:6px;background:#fff;color:#333;cursor:pointer}.icon-button:hover,.edge-option:hover,.zoom-control button:hover{background:#f5f5f5}.icon-button svg{width:17px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}.ruler-frame{--strip-height:38px;position:relative;padding:50px 30px 17px;background:linear-gradient(#fff,#fdfdfd);transition:padding .15s ease}.edge-strip{position:absolute;top:0;left:0;right:0;height:38px;display:flex;align-items:center;justify-content:center;gap:4px;border-bottom:1px solid #f0f0f0}.edge-label{margin-right:8px;color:#a1a1a1;font:10px ui-monospace,monospace;letter-spacing:.08em}.edge-option{border:0;border-radius:4px;background:transparent;color:#777;padding:5px 8px;font-size:11px;cursor:pointer}.edge-option.is-selected{background:#f0f0f0;color:#222}.scale-wrap{overflow:hidden;position:relative;border:1px solid #e9e2cf;border-radius:4px;background:#fffdf5}.scale-ruler{position:relative;width:var(--scale-width,1134px);max-width:none;height:101px;background-color:#fffdf4;background-image:repeating-linear-gradient(to right,#9f9170 0,#9f9170 1px,transparent 1px,transparent var(--minor-step,3.78px));background-size:var(--unit-width,37.8px) 9px;background-repeat:repeat-x;background-position:left 0;transition:background-size .2s ease}.scale-ruler:before{position:absolute;inset:0 auto auto 0;width:100%;height:100%;content:"";background-image:repeating-linear-gradient(to right,transparent 0,transparent calc(var(--unit-width,37.8px) / 2 - .5px),#80785f calc(var(--unit-width,37.8px) / 2 - .5px),#80785f calc(var(--unit-width,37.8px) / 2 + .5px),transparent calc(var(--unit-width,37.8px) / 2 + .5px),transparent var(--unit-width,37.8px));pointer-events:none}.major-mark{position:absolute;left:calc(var(--mark) * var(--unit-width,37.8px));top:0;width:1px;height:100%;pointer-events:none}.major-mark[hidden]{display:none}.tick{position:absolute;left:0;top:0;height:29px;width:1px;background:#282721}.mark-number{position:absolute;top:35px;left:-7px;color:#38352e;font:10px/1 Arial,sans-serif;font-variant-numeric:tabular-nums}.major-mark:first-child .mark-number{left:5px}.measurement-line{display:none;position:absolute;top:0;bottom:0;left:var(--line-position,0);width:1px;background:#1479ed;z-index:2;pointer-events:none}.measurement-line.visible{display:block}.measurement-line:after{position:absolute;top:0;left:-3px;width:7px;height:7px;background:#1479ed;border-radius:50%;content:""}.ruler-footer{display:flex;justify-content:space-between;padding:8px 2px 0;color:#8c8b85;font:10px ui-monospace,monospace}.workspace-bottom{min-height:49px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-top:1px solid #f0f0f0}.workspace-bottom p{display:flex;align-items:center;gap:8px;margin:0;color:#777;font-size:11px}.keyboard-key{width:20px;height:18px;display:grid;place-items:center;border:1px solid #e5e5e5;border-radius:4px;color:#555}.zoom-control{display:flex;align-items:center;gap:8px;color:#777;font-size:11px}.zoom-control button{width:25px;height:25px;border:1px solid #e6e6e6;border-radius:5px;background:#fff;color:#333;cursor:pointer}.zoom-control strong{min-width:39px;text-align:center;color:#333;font-size:11px}.ruler-frame[data-position="bottom"]{padding-top:50px;padding-bottom:17px}.ruler-frame[data-position="bottom"] .edge-strip{top:auto;bottom:0;border-top:1px solid #f0f0f0;border-bottom:0}.ruler-frame[data-position="left"],.ruler-frame[data-position="right"]{min-height:230px;padding:20px 54px}.ruler-frame[data-position="left"] .edge-strip,.ruler-frame[data-position="right"] .edge-strip{top:0;bottom:0;right:auto;width:42px;height:auto;flex-direction:column;border:0;border-right:1px solid #f0f0f0}.ruler-frame[data-position="right"] .edge-strip{right:0;left:auto;border-right:0;border-left:1px solid #f0f0f0}.ruler-frame[data-position="left"] .scale-wrap,.ruler-frame[data-position="right"] .scale-wrap{overflow:auto}.ruler-frame[data-position="left"] .scale-ruler,.ruler-frame[data-position="right"] .scale-ruler{height:100px}.ruler-frame[data-position="left"] .ruler-footer,.ruler-frame[data-position="right"] .ruler-footer{max-width:100%}
 	.calibration-section{padding-top:76px}.section-heading{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px}.section-heading h2,.how-grid h2{margin:10px 0 0;font-size:28px;line-height:1.16;letter-spacing:-.045em;font-weight:600;text-wrap:balance}.section-heading>p{max-width:325px;margin:0 0 2px;color:#777;font-size:13px;line-height:1.55}.calibration-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.cal-card{min-height:274px;display:flex;flex-direction:column;align-items:flex-start;padding:19px;background:#fff;border:1px solid #e8e8e8;border-radius:9px;transition:border-color .15s ease,box-shadow .15s ease}.cal-card.selected{border-color:#b9b9b9;box-shadow:0 0 0 1px #ededed}.card-top{width:100%;display:flex;justify-content:space-between;align-items:center}.step-number{color:#999;font:10px ui-monospace,monospace}.card-icon{width:27px;height:27px;display:grid;place-items:center;border:1px solid #e9e9e9;border-radius:6px;color:#555;font-size:16px}.card-icon-card{font-size:15px}.cal-card h3{margin:17px 0 6px;font-size:15px;letter-spacing:-.02em}.cal-card>p{min-height:39px;margin:0;color:#777;font-size:12px;line-height:1.55}.method-detail,.card-reference{width:100%;min-height:45px;display:flex;align-items:center;gap:10px;margin:10px 0 10px;padding:8px 10px;border:1px solid #efefef;border-radius:6px;background:#fdfdfd;color:#555;font-size:11px}.device-glyph{display:grid;place-items:center;width:21px;height:21px;border-radius:4px;background:#f1f1f1;color:#444}.inline-fields{width:100%;display:flex;gap:9px;margin:10px 0;min-height:45px;align-items:center}.inline-fields label{display:flex;flex:1;justify-content:space-between;align-items:center;gap:6px;color:#737373;font-size:11px}.input-wrap{display:flex;align-items:center;gap:4px;padding:0 7px;border:1px solid #e7e7e7;border-radius:5px;background:#fff}.input-wrap input{width:45px;padding:6px 0;border:0;outline:0;color:#222;font-size:11px}.input-wrap span{color:#8a8a8a}.inline-fields select{min-width:75px;padding:6px 5px;border:1px solid #e7e7e7;border-radius:5px;background:#fff;color:#333;font-size:11px}.card-button{width:100%;min-height:35px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border:1px solid #e4e4e4;border-radius:5px;background:#fff;color:#222;font-size:11px;font-weight:500;cursor:pointer;transition:background .15s ease,border-color .15s ease}.card-button:hover{background:#f5f5f5;border-color:#d6d6d6}.card-button.primary{border-color:#171717;background:#171717;color:#fff}.card-button.primary:hover{background:#333}.fine-print{margin-top:9px;color:#929292;font-size:10px;line-height:1.4}.card-reference{margin:10px 0;gap:12px}.credit-card-visual{width:46px;height:30px;position:relative;flex:none;padding:4px;border:1px solid #cfcfcf;border-radius:4px;background:linear-gradient(135deg,#f7f7f7,#e8e8e8)}.credit-card-visual span{color:#444;font-size:9px;font-weight:600}.credit-card-visual i{position:absolute;right:4px;bottom:5px;width:9px;height:6px;border:1px solid #bbb;border-radius:2px}.credit-card-visual i+i{right:14px}.card-reference strong,.card-reference small{display:block}.card-reference strong{font-size:10px;font-weight:500}.card-reference small{margin-top:3px;color:#878787;font-size:10px}.calibration-note{display:flex;align-items:center;gap:10px;margin-top:14px;padding:12px 14px;border:1px solid #ececec;border-radius:7px;background:#fff;color:#777;font-size:11px;line-height:1.5}.note-icon{width:17px;height:17px;display:grid;place-items:center;flex:none;border:1px solid #d9d9d9;border-radius:50%;color:#777;font:11px Georgia,serif}.calibration-note button{margin-left:auto;padding:3px 6px;border:0;background:none;color:#888;font-size:17px;cursor:pointer}.how-section{padding:79px 0 65px}.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-top:11px}.how-grid h2{font-size:34px}.how-copy p{max-width:440px;margin:0 0 13px;color:#686868;font-size:13px;line-height:1.7}.how-copy a{color:#171717;font-size:12px;text-decoration:none}.how-copy a span{margin-left:7px}.feature-row{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:36px;padding-top:20px;border-top:1px solid #e9e9e9}.feature-row>div{display:flex;gap:11px}.feature-index{width:23px;height:23px;display:grid;place-items:center;border:1px solid #e6e6e6;border-radius:5px;color:#777;font:10px ui-monospace,monospace}.feature-row strong{font-size:12px;font-weight:600}.feature-row p{margin:5px 0 0;color:#888;font-size:11px;line-height:1.45}footer{min-height:65px;display:flex;align-items:center;gap:16px;border-top:1px solid #e9e9e9;color:#888;font-size:11px}.footer-brand{font-size:12px}footer>span{flex:1}.footer-year{flex:none;color:#888;font-size:11px}footer>a:last-child{color:#777;text-decoration:none}
 	.ruler-frame:not([data-position="left"]):not([data-position="right"]) .scale-wrap{overflow-x:auto;overflow-y:hidden}.ruler-frame[data-position="left"] .scale-wrap,.ruler-frame[data-position="right"] .scale-wrap{position:relative;overflow:auto;width:102px;height:min(60vh,var(--scale-width,1134px));margin:0 auto}.ruler-frame[data-position="left"] .scale-ruler,.ruler-frame[data-position="right"] .scale-ruler{position:absolute;top:0;left:101px;height:101px;transform:rotate(90deg);transform-origin:top left}.ruler-frame[data-position="left"] .ruler-footer,.ruler-frame[data-position="right"] .ruler-footer{width:102px;margin:0 auto}
-	.app-shell{padding-top:42px;padding-bottom:40px}.theme-toggle{min-height:36px;display:inline-flex;align-items:center;gap:7px;padding:0 10px;border:1px solid #e5e5e5;border-radius:6px;background:#fff;color:#333;font-size:11px;cursor:pointer}.theme-toggle:hover{background:#f5f5f5}.theme-toggle span:first-child{font-size:14px}
+	.app-shell{padding-top:42px;padding-bottom:40px}.theme-toggle{min-height:36px;display:inline-flex;align-items:center;gap:7px;padding:0 10px;border:1px solid #e5e5e5;border-radius:6px;background:#fff;color:#333;font-size:11px;cursor:pointer}.theme-toggle:hover{background:#f5f5f5}.theme-toggle>span:first-child{font-size:14px}
 	.screen-rulers{--unit-width:37.8px;--scale-width:1134px;--minor-step:3.78px;position:fixed;inset:0;z-index:1000;pointer-events:none}.screen-edge{position:fixed;overflow:hidden;background:#fafafa;border:1px solid #dedede;color:#171717;pointer-events:none}.screen-edge.is-active{box-shadow:inset 0 0 0 2px #0070f3}.screen-edge-top,.screen-edge-bottom{left:0;width:100vw;height:36px}.screen-edge-top{top:0}.screen-edge-bottom{bottom:0}.screen-edge-left,.screen-edge-right{top:36px;bottom:36px;width:36px}.screen-edge-left{left:0}.screen-edge-right{right:0}.screen-edge-scale{position:relative;background-color:#fffdf4;background-image:repeating-linear-gradient(to right,#9f9170 0,#9f9170 1px,transparent 1px,transparent var(--minor-step));background-size:var(--unit-width) 9px;background-repeat:repeat-x;width:var(--scale-width);height:36px}.screen-edge-scale:before{position:absolute;inset:0;content:"";background-image:repeating-linear-gradient(to right,transparent 0,transparent calc(var(--unit-width) / 2 - .5px),#80785f calc(var(--unit-width) / 2 - .5px),#80785f calc(var(--unit-width) / 2 + .5px),transparent calc(var(--unit-width) / 2 + .5px),transparent var(--unit-width))}.screen-mark{position:absolute;top:0;left:calc(var(--mark) * var(--unit-width));height:100%;width:1px}.screen-tick{position:absolute;top:0;left:0;width:1px;height:15px;background:#282721}.screen-number{position:absolute;top:20px;left:4px;color:#38352e;font:9px/1 ui-monospace,monospace;font-variant-numeric:tabular-nums}.screen-edge-bottom .screen-edge-scale{position:absolute;bottom:0}.screen-edge-bottom .screen-tick{top:auto;bottom:0}.screen-edge-bottom .screen-number{top:4px}.screen-edge-left .screen-edge-scale,.screen-edge-right .screen-edge-scale{width:36px;height:var(--scale-width);background-image:repeating-linear-gradient(to bottom,#9f9170 0,#9f9170 1px,transparent 1px,transparent var(--minor-step));background-size:9px var(--unit-width);background-repeat:repeat-y}.screen-edge-left .screen-edge-scale:before,.screen-edge-right .screen-edge-scale:before{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(var(--unit-width) / 2 - .5px),#80785f calc(var(--unit-width) / 2 - .5px),#80785f calc(var(--unit-width) / 2 + .5px),transparent calc(var(--unit-width) / 2 + .5px),transparent var(--unit-width))}.screen-edge-left .screen-mark,.screen-edge-right .screen-mark{top:calc(var(--mark) * var(--unit-width));left:0;width:100%;height:1px}.screen-edge-left .screen-tick,.screen-edge-right .screen-tick{top:0;left:0;width:15px;height:1px}.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:-4px;left:19px}.screen-edge-right .screen-tick{left:auto;right:0}.screen-edge-right .screen-number{left:auto;right:19px}
 	:global(html[data-theme="dark"]) :global(body){background:#0c0c0d;color:#ededed}:global(html[data-theme="dark"]) .topbar,:global(html[data-theme="dark"]) footer{border-color:#292929}:global(html[data-theme="dark"]) .brand,:global(html[data-theme="dark"]) .how-copy a{color:#ededed}:global(html[data-theme="dark"]) .brand-mark{border-color:#444}:global(html[data-theme="dark"]) .brand-mark span{background:#ededed}:global(html[data-theme="dark"]) .topbar nav a,:global(html[data-theme="dark"]) .intro-copy,:global(html[data-theme="dark"]) .section-heading>p,:global(html[data-theme="dark"]) .how-copy p,:global(html[data-theme="dark"]) footer{color:#aaa}:global(html[data-theme="dark"]) .intro h1 span{color:#aaa}:global(html[data-theme="dark"]) .workspace,:global(html[data-theme="dark"]) .cal-card,:global(html[data-theme="dark"]) .calibration-note{background:#121212;border-color:#2b2b2b;color:#eee}:global(html[data-theme="dark"]) .workspace-bar,:global(html[data-theme="dark"]) .workspace-bottom,:global(html[data-theme="dark"]) .feature-row{border-color:#2b2b2b}:global(html[data-theme="dark"]) .workspace-title small,:global(html[data-theme="dark"]) .workspace-bottom p,:global(html[data-theme="dark"]) .cal-card>p,:global(html[data-theme="dark"]) .fine-print,:global(html[data-theme="dark"]) .feature-row p{color:#aaa}:global(html[data-theme="dark"]) .ruler-frame{background:#171717}:global(html[data-theme="dark"]) .edge-strip{border-color:#2b2b2b}:global(html[data-theme="dark"]) .edge-option{color:#aaa}:global(html[data-theme="dark"]) .edge-option.is-selected{background:#292929;color:#fff}:global(html[data-theme="dark"]) .workspace-actions .icon-button,:global(html[data-theme="dark"]) .workspace-actions .segment,:global(html[data-theme="dark"]) .zoom-control button,:global(html[data-theme="dark"]) .theme-toggle,:global(html[data-theme="dark"]) .card-button.secondary{background:#171717;border-color:#383838;color:#eee}:global(html[data-theme="dark"]) .segment.is-active{background:#333}:global(html[data-theme="dark"]) .segmented{background:#202020}:global(html[data-theme="dark"]) .method-detail,:global(html[data-theme="dark"]) .card-reference,:global(html[data-theme="dark"]) .card-align{background:#171717;border-color:#303030;color:#ddd}:global(html[data-theme="dark"]) .inline-fields select,:global(html[data-theme="dark"]) .input-wrap,:global(html[data-theme="dark"]) .input-wrap input{background:#151515;border-color:#383838;color:#eee}:global(html[data-theme="dark"]) .screen-edge{background:#111;border-color:#303030;color:#eee}:global(html[data-theme="dark"]) .screen-edge-scale{background-color:#222}:global(html[data-theme="dark"]) .screen-tick{background:#e1dfd7}:global(html[data-theme="dark"]) .screen-number{color:#e1dfd7}:global(html[data-theme="dark"]) .topbar .nav-button{background:#141414;border-color:#333;color:#eee}:global(html[data-theme="dark"]) .nav-button:hover,:global(html[data-theme="dark"]) .theme-toggle:hover{background:#252525}
 	.card-align{width:100%;margin-top:10px;padding:11px;border:1px solid #e8e8e8;border-radius:6px;background:#fcfcfc}.card-align[hidden]{display:none}.align-reference{width:var(--reference-width,324px);max-width:100%;height:45px;display:flex;align-items:center;justify-content:center;border:1px solid #bcbcbc;border-radius:5px;background:linear-gradient(130deg,#f7f7f7,#ededed);color:#777;font:10px ui-monospace,monospace}.card-align label{display:block;margin:10px 0 7px;color:#777;font-size:10px}.card-align input{width:100%;accent-color:#171717}.align-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:8px}.align-actions button{min-height:30px;padding:0 10px;border:1px solid #e2e2e2;border-radius:5px;background:#fff;color:#555;font-size:10px;cursor:pointer}.align-actions .apply-align{border-color:#171717;background:#171717;color:#fff}
@@ -655,12 +831,26 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	.workspace-actions .segment.is-active{background:#0875e1;color:#fff;font-weight:700;box-shadow:inset 0 0 0 2px #4b9aff,0 1px 4px #003d8a40}
 	.workspace-actions .segment:hover:not(.is-active){background:#e5f0ff;color:#124d98}
 	.workspace-actions .segment:focus-visible{outline:2px solid #0059c9;outline-offset:2px}
+	.segment[data-unit]{transition:background-color .15s ease,color .15s ease,box-shadow .15s ease,filter .15s ease}
+	.segment[data-unit]:hover{background:#d8eaff;color:#064fa8;box-shadow:inset 0 0 0 1px #8cbcff}
+	.segment[data-unit].is-active:hover{background:#0069d9;color:#fff;filter:brightness(1.12);box-shadow:inset 0 0 0 2px #8fc2ff,0 2px 8px #0055b833}
+	.segment[data-unit]:focus-visible{outline:2px solid #1680ff;outline-offset:2px}
 	:global(html[data-theme="dark"]) .workspace-actions .segment.is-active{background:#1677e8;color:#fff;box-shadow:inset 0 0 0 2px #8dc0ff,0 1px 5px #0008}
 	:global(html[data-theme="dark"]) .workspace-actions .segment:hover:not(.is-active){background:#263b54;color:#e4f1ff}
+	:global(html[data-theme="dark"]) .segment[data-unit]:hover{background:#294b73;color:#f1f7ff;box-shadow:inset 0 0 0 1px #609ce5}
+	:global(html[data-theme="dark"]) .segment[data-unit].is-active:hover{background:#2687ff;color:#fff;filter:brightness(1.08)}
+	button.segment[data-unit]{background:#344054;color:#fff}
+	button.segment[data-unit].is-active{background:#0875e1;color:#fff}
+	button.segment[data-unit]:hover:not(.is-active){background:#175fb5;color:#fff}
+	button.segment[data-unit].is-active:hover{background:#0069d9;color:#fff}
+	:global(html[data-theme="dark"]) button.segment[data-unit]{background:#343b46;color:#fff}
+	:global(html[data-theme="dark"]) button.segment[data-unit].is-active{background:#1677e8;color:#fff}
+	:global(html[data-theme="dark"]) button.segment[data-unit]:hover:not(.is-active){background:#315b8c;color:#fff}
 	.theme-toggle{width:40px;height:40px;min-height:40px;display:inline-grid;place-items:center;padding:0}
 	.theme-toggle #theme-icon{font-size:18px}
 	.ruler-notch{top:0;left:0;right:0;width:100%;max-width:none;min-height:46px;padding:4px 14px;border-width:0;border-radius:0;transform:none;justify-content:space-between;box-shadow:0 3px 14px #00000018}
 	.ruler-notch .notch-start,.ruler-notch .notch-edges,.ruler-notch .notch-actions{display:flex;align-items:center;gap:4px}.ruler-notch .notch-actions{gap:8px}.ruler-notch .notch-brand{display:inline-flex;align-items:center;gap:8px;padding:4px 0;border:0;border-radius:0;background:transparent;color:#333;font-size:12px;font-weight:600;letter-spacing:-.02em;text-decoration:none;white-space:nowrap}.ruler-notch .notch-brand:hover{background:transparent;color:#111}.ruler-notch .edge-option,.ruler-notch .segment{min-height:36px}.ruler-notch .segmented{padding:1px}.ruler-notch .notch-button{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:0 12px;border:1px solid #d7d7d7;border-radius:6px;background:#fff;color:#333;font-size:12px;text-decoration:none;cursor:pointer}.ruler-notch .notch-button:hover{background:#f5f5f5;border-color:#999}.ruler-notch .notch-theme-toggle{height:36px;min-height:36px}.ruler-notch .notch-theme-toggle span{font-size:18px}
+	.ruler-notch .notch-start,.ruler-notch .notch-edges,.ruler-notch .notch-actions{display:flex;align-items:center;gap:4px}.ruler-notch .notch-actions{gap:8px}.ruler-notch .notch-brand{display:inline-flex;align-items:center;gap:8px;padding:4px 0;border:0;border-radius:0;background:transparent;color:#333;font-size:12px;font-weight:600;letter-spacing:-.02em;text-decoration:none;white-space:nowrap}.ruler-notch .notch-brand:hover{background:transparent;color:#111}.ruler-notch .edge-option,.ruler-notch .segment{min-height:36px}.ruler-notch .segmented{padding:1px}.ruler-notch .notch-button{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:0 12px;border:1px solid #d7d7d7;border-radius:6px;background:#fff;color:#333;font-size:12px;text-decoration:none;cursor:pointer}.ruler-notch .notch-button:hover{background:#f5f5f5;border-color:#999}.ruler-notch .notch-theme-toggle{height:36px;min-height:36px}.ruler-notch .notch-theme-toggle>span{font-size:initial}.ruler-notch .notch-theme-toggle .site-theme-mark{font-size:15px}.ruler-notch .notch-theme-toggle .site-theme-thumb>span{font-size:16px}.ruler-notch .notch-theme-toggle.site-theme-switch{width:68px;min-width:68px;height:38px;min-height:38px;padding:0;border:0;border-radius:999px;background:transparent}
 	.ruler-notch .notch-start{gap:16px}
 	.ruler-notch .notch-fullscreen svg{width:18px;height:18px;fill:currentColor;stroke:none}
 	.ruler-notch{position:fixed;z-index:1200;border-bottom:0}
@@ -697,6 +887,16 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	:global(html[data-theme="dark"]) .app-shell.calibration-experience .calibration-note{border-color:#303a49;background:#17191d}
 	.calibration-hidden{display:none!important}
 	.ruler-notch .notch-fullscreen{width:40px;min-width:40px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+	.notch-control{position:relative;display:inline-flex;align-items:center}
+	.notch-control + .notch-control{margin-left:4px}
+	.ruler-notch .notch-tool-button{width:38px;min-width:38px;height:36px;min-height:36px;padding:0;display:inline-grid;place-items:center}
+	.notch-tool-button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+	.ruler-notch .notch-tool-button.is-on{background:#e7f1ff;border-color:#8bbaff;color:#0759b4;box-shadow:inset 0 0 0 1px #b8d5ff}
+	.notch-tooltip{position:absolute;top:calc(100% + 7px);left:50%;z-index:1400;display:flex;align-items:center;gap:9px;padding:8px 10px;border:1px solid #333;border-radius:7px;background:#171717;color:#fff;font-size:11px;line-height:1.2;white-space:nowrap;box-shadow:0 6px 18px #0003;opacity:0;visibility:hidden;transform:translate(-50%,-3px);transition:opacity .12s ease,transform .12s ease,visibility .12s ease;pointer-events:none}
+	.notch-control:hover .notch-tooltip,.notch-control:focus-within .notch-tooltip{opacity:1;visibility:visible;transform:translate(-50%,0)}
+	.notch-tooltip kbd{min-width:19px;padding:3px 5px;border:1px solid #555;border-radius:4px;background:#2b2b2b;color:#fff;font:600 10px ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center}
+	:global(html[data-theme="dark"]) .ruler-notch .notch-tool-button.is-on{background:#203752;border-color:#4b83c2;color:#b5d5ff;box-shadow:inset 0 0 0 1px #315b91}
+	.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:50%;transform:translateY(-50%)}
 	.screen-edge-top{top:46px}.screen-edge-left,.screen-edge-right{top:46px}.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:0}
 	.screen-edge-bottom .screen-number{top:auto;bottom:16px}
 	.screen-edge-bottom .screen-edge-scale{background-position:left bottom}
@@ -722,10 +922,169 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	:global(html[data-theme="dark"]) .coordinate-line-x{border-color:#78b6ff}:global(html[data-theme="dark"]) .coordinate-line-y{border-color:#78b6ff}:global(html[data-theme="dark"]) .coordinate-label{background:#126ac4;border-color:#7db8ff}
 	.screen-edge-top .screen-number,.screen-edge-bottom .screen-number{left:50%;transform:translateX(-50%)}
 	.screen-edge-top .screen-mark:first-child .screen-number,.screen-edge-bottom .screen-mark:first-child .screen-number{left:5px;transform:none}
-	.calibration-modal{width:min(720px,calc(100vw - 32px));max-height:calc(100vh - 32px);margin:auto;padding:0;border:1px solid #ddd;border-radius:16px;background:#fafafa;color:#171717;box-shadow:0 20px 70px #00000033}.calibration-modal::backdrop{background:#0008;backdrop-filter:blur(2px)}.calibration-modal-header{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #e7e7e7;background:#fafafa}.calibration-modal-header h2{margin:0;font-size:18px;letter-spacing:-.03em}.modal-close{width:34px;height:34px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#444;font-size:21px;line-height:1;cursor:pointer}.modal-close:hover{background:#f3f3f3}.calibration-modal #calibration{padding:22px 18px 28px}.calibration-modal .section-heading{margin-bottom:18px}.calibration-modal .calibration-grid{grid-template-columns:1fr;gap:10px}.calibration-modal .cal-card{min-height:0;padding:16px}
+	.calibration-modal{box-sizing:border-box;width:min(660px,calc(100vw - 32px));max-height:min(82vh,760px);overflow-y:auto;overscroll-behavior:contain;margin:auto;padding:0;border:1px solid #ddd;border-radius:16px;background:#fafafa;color:#171717;box-shadow:0 20px 70px #00000033}.calibration-modal::backdrop{background:#0008;backdrop-filter:blur(2px)}.calibration-modal-header{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #e7e7e7;background:#fafafa}.calibration-modal-header h2{margin:0;font-size:18px;letter-spacing:-.03em}.modal-close{width:34px;height:34px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#444;font-size:21px;line-height:1;cursor:pointer}.modal-close:hover{background:#f3f3f3}.calibration-modal #calibration{padding:18px 16px 22px}.calibration-modal .section-heading{margin-bottom:18px}.calibration-modal .calibration-grid{grid-template-columns:1fr;gap:10px}.calibration-modal .cal-card{min-height:0;padding:14px}
 	:global(html[data-theme="dark"]) .ruler-notch .notch-brand{background:transparent;color:#eee}:global(html[data-theme="dark"]) .ruler-notch .notch-button,:global(html[data-theme="dark"]) .modal-close{background:#171717;border-color:#444;color:#eee}:global(html[data-theme="dark"]) .ruler-notch .notch-brand:hover{background:transparent;color:#fff}:global(html[data-theme="dark"]) .ruler-notch .notch-button:hover,:global(html[data-theme="dark"]) .modal-close:hover{background:#252525;border-color:#777}:global(html[data-theme="dark"]) .calibration-modal{border-color:#383838;background:#0f0f10;color:#eee}:global(html[data-theme="dark"]) .calibration-modal-header{border-color:#383838;background:#0f0f10}
-	@media(max-width:700px){.ruler-notch{display:flex;min-height:84px;align-items:stretch;flex-direction:column;justify-content:center;gap:2px;padding:4px 10px;overflow:visible}.ruler-notch .notch-start,.ruler-notch .notch-actions{width:100%;justify-content:space-between;gap:5px}.ruler-notch .notch-start{gap:8px}.ruler-notch .notch-brand{font-size:11px}.ruler-notch .notch-edges,.ruler-notch .notch-actions{flex:none}.ruler-notch .notch-actions{position:static;top:auto;right:auto;margin-left:auto;transform:none;justify-content:flex-end}.ruler-notch .edge-option,.ruler-notch .segment{min-width:32px;padding:5px 7px}.ruler-notch .notch-button{min-height:36px;padding:0 8px}.ruler-notch .notch-fullscreen{width:36px;min-width:36px;padding:0}.ruler-notch .notch-theme-toggle{width:36px;min-width:36px;height:36px;min-height:36px}.screen-edge-top{top:84px}.screen-edge-left,.screen-edge-right{top:84px}.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:0}.coordinate-line-y{top:84px}}
+	@media(max-width:700px){.ruler-notch{display:flex;min-height:84px;align-items:stretch;flex-direction:column;justify-content:center;gap:2px;padding:4px 10px;overflow:visible}.ruler-notch .notch-start,.ruler-notch .notch-actions{width:100%;justify-content:space-between;gap:5px}.ruler-notch .notch-control + .notch-control{margin-left:2px}.ruler-notch .notch-start{gap:8px}.ruler-notch .notch-brand{font-size:11px}.ruler-notch .notch-edges,.ruler-notch .notch-actions{flex:none}.ruler-notch .notch-actions{position:static;top:auto;right:auto;margin-left:auto;transform:none;justify-content:flex-end}.ruler-notch .edge-option,.ruler-notch .segment{min-width:32px;padding:5px 7px}.ruler-notch .notch-button{min-height:36px;padding:0 8px}.ruler-notch .notch-fullscreen{width:36px;min-width:36px;padding:0}.ruler-notch .notch-theme-toggle{width:36px;min-width:36px;height:36px;min-height:36px}.ruler-notch .notch-theme-toggle.site-theme-switch{width:68px;min-width:68px;height:38px;min-height:38px;padding:0}.screen-edge-top{top:84px}.screen-edge-left,.screen-edge-right{top:84px}.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:0}.coordinate-line-y{top:84px}}
 	@media(max-width:700px){.app-shell.calibration-experience{padding:0 18px}.app-shell.calibration-experience .calibration-section{margin:28px 0 48px;padding:24px 20px;border-radius:15px}.app-shell.calibration-experience .section-heading{display:block}.app-shell.calibration-experience .section-heading>p{padding:0;margin-top:12px}.app-shell.calibration-experience .calibration-grid{grid-template-columns:1fr}.app-shell.calibration-experience .cal-card{min-height:0}}
 	@media(max-width:580px){.coordinate-line-x{left:32px;right:32px}.coordinate-line-y{bottom:32px}.screen-edge-left,.screen-edge-right{width:32px}}
 	@media(max-width:380px){.ruler-notch{padding-right:6px;padding-left:6px}.ruler-notch .notch-start,.ruler-notch .notch-actions{gap:3px}.ruler-notch .notch-brand{gap:5px;font-size:10px}.ruler-notch .notch-edges{gap:1px}.ruler-notch .edge-option,.ruler-notch .segment{min-width:28px;padding:5px}.ruler-notch .notch-actions{gap:4px}.ruler-notch .notch-button{padding:0 6px}.ruler-notch .notch-fullscreen{width:32px;min-width:32px;padding:0}}
+	/* Focused calibration workspace, modeled on the compact dark reference. */
+	:global(html[data-theme="dark"]){background:#131315;color:#e8e8eb}
+	:global(body:has(.calibration-experience)){min-height:100vh;background:#131315;color:#e8e8eb}
+	.app-shell.calibration-experience{box-sizing:border-box;width:min(100%,720px);max-width:720px;min-height:100vh;padding:18px 16px 28px}
+	.app-shell.calibration-experience::before{content:"";position:fixed;z-index:2;top:0;left:0;right:0;height:17px;border-bottom:1px solid #45464b;background-color:#17181b;background-image:repeating-linear-gradient(90deg,transparent 0 13px,#55565b 13px 14px,transparent 14px 28px),repeating-linear-gradient(90deg,transparent 0 132px,#aaaab0 132px 134px,transparent 134px 266px)}
+	.app-shell.calibration-experience .topbar{display:none}
+	.app-shell.calibration-experience .calibration-section{margin:20px 0 0;padding:22px 0 0;border:0;border-radius:0;background:transparent;box-shadow:none}
+	.app-shell.calibration-experience :global(.language-selector){display:none}
+	.calibration-dialog-heading{display:flex;align-items:center;justify-content:space-between;margin:18px 0 33px}
+	.calibration-dialog-heading h1{margin:0;font-size:24px;line-height:1.2;font-weight:650;letter-spacing:-.035em}
+	.calibration-close{display:grid;place-items:center;width:32px;height:32px;color:#a9aab0;text-decoration:none;font-size:31px;font-weight:300;line-height:1}
+	.ppi-readout{display:flex;align-items:center;gap:16px;min-height:92px;margin-bottom:24px;padding:18px;border:1px solid #292a2e;border-radius:14px;background:#09090a}
+	.ppi-readout>span,.card-align>label{color:#777980;font-size:14px;font-weight:600;letter-spacing:.025em}
+	.ppi-readout output{padding:8px 12px;border:1px solid #303136;border-radius:6px;background:#151518;color:#e9e9ed;font:28px ui-monospace,SFMono-Regular,Menlo,monospace}
+	.calibration-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));overflow:hidden;margin-bottom:24px;border:1px solid #303136;border-radius:13px}
+	.calibration-tabs button{min-height:48px;padding:8px 4px;border:0;border-right:1px solid #303136;background:#17181b;color:#999ba2;font-size:15px;font-weight:600;cursor:pointer}
+	.calibration-tabs button:last-child{border-right:0}
+	.calibration-tabs button[aria-selected="true"]{background:#397ff0;color:#fff}
+	.calibration-instructions{margin:0 0 18px;color:#a7a8ae;font-size:17px;line-height:1.6}
+	.app-shell.calibration-experience .calibration-grid{display:block}
+	.app-shell.calibration-experience .cal-card{min-height:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none}
+	.app-shell.calibration-experience .cal-card[hidden]{display:none}
+	.app-shell.calibration-experience .cal-card .card-top,.app-shell.calibration-experience .cal-card h3,.app-shell.calibration-experience .cal-card>p,.app-shell.calibration-experience .cal-card>.fine-print,.app-shell.calibration-experience .cal-card>.card-button,.app-shell.calibration-experience .cal-card>.method-detail,.app-shell.calibration-experience .cal-card>.device-select-label,.app-shell.calibration-experience .cal-card>.device-select,.app-shell.calibration-experience .cal-card>.custom-device,.app-shell.calibration-experience .cal-card>.inline-fields,.app-shell.calibration-experience .cal-card>.card-reference{display:none}
+	.app-shell.calibration-experience[data-calibration-method="auto"] .cal-card[data-method-card="auto"]>.method-detail{display:none}
+	.app-shell.calibration-experience[data-calibration-method="auto"] .cal-card[data-method-card="auto"]>[data-calibrate="auto"]{display:flex}
+	.app-shell.calibration-experience[data-calibration-method="device"] .cal-card[data-method-card="auto"]>.method-detail,.app-shell.calibration-experience[data-calibration-method="device"] .cal-card[data-method-card="auto"]>.device-select-label,.app-shell.calibration-experience[data-calibration-method="device"] .cal-card[data-method-card="auto"]>.device-select,.app-shell.calibration-experience[data-calibration-method="device"] .cal-card[data-method-card="auto"]>.custom-device,.app-shell.calibration-experience[data-calibration-method="device"] .cal-card[data-method-card="auto"]>.manual-device-button{display:block}
+	.app-shell.calibration-experience[data-calibration-method="diagonal"] .cal-card[data-method-card="diagonal"]>.inline-fields,.app-shell.calibration-experience[data-calibration-method="diagonal"] .cal-card[data-method-card="diagonal"]>[data-calibrate="diagonal"]{display:flex}
+	.app-shell.calibration-experience[data-calibration-method="card"] .cal-card[data-method-card="card"]>.card-align{display:grid}
+	.app-shell.calibration-experience .card-align{grid-template-columns:auto minmax(0,1fr) auto;gap:12px 16px;margin:0;padding:0;border:0;background:transparent}
+	.app-shell.calibration-experience .orientation-control{grid-column:1/-1;grid-row:1;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 12px;border:1px solid #303136;border-radius:13px;background:#101012;color:#999ba2;font-size:13px;font-weight:600}
+	.app-shell.calibration-experience .orientation-options{display:flex;gap:7px}
+	.app-shell.calibration-experience .orientation-options button{min-height:40px;padding:0 13px;border:1px solid #303136;border-radius:999px;background:#17181b;color:#a7a8ae;font-size:13px;font-weight:600;cursor:pointer}
+	.app-shell.calibration-experience .orientation-options button[aria-pressed="true"]{border-color:#397ff0;background:#397ff0;color:#fff}
+	.app-shell.calibration-experience .orientation-options button:focus-visible{outline:3px solid #80b2ff;outline-offset:2px}
+	.app-shell.calibration-experience .align-preview-stage{grid-column:1/-1;grid-row:2;min-height:var(--preview-height,276px);display:grid;place-items:center;overflow:auto;border-radius:14px;background:#09090a}
+	.app-shell.calibration-experience .align-reference{box-sizing:border-box;width:var(--reference-width,324px);max-width:none;height:var(--reference-height,204px);aspect-ratio:auto;display:flex;flex:none;flex-direction:column;align-items:center;justify-content:space-between;padding:20px 14px 12px;border:3px dashed #3984ff;border-radius:14px;background:transparent;color:#777980}
+	.app-shell.calibration-experience .align-card-name{color:#71737c;font-size:16px;letter-spacing:.08em}
+	.app-shell.calibration-experience .align-card-size{align-self:flex-end;color:#3984ff;font:18px ui-monospace,SFMono-Regular,Menlo,monospace}
+	.app-shell.calibration-experience .card-align>label{grid-column:1;grid-row:3;align-self:center;white-space:nowrap}
+	.app-shell.calibration-experience .card-align input[type="range"]{grid-column:2;grid-row:3;align-self:center;width:100%;accent-color:#3984ff;color-scheme:dark}
+	.app-shell.calibration-experience .card-width-value{grid-column:3;grid-row:3;color:#e8e8eb;font:24px ui-monospace,SFMono-Regular,Menlo,monospace}
+	.app-shell.calibration-experience .slider-help{grid-column:1/-1;grid-row:4;margin-top:-4px;color:#777980;font-size:14px;font-style:italic}
+	.app-shell.calibration-experience .align-actions{grid-column:1/-1;grid-row:5;display:flex;margin-top:8px}
+	.app-shell.calibration-experience .cancel-align{display:none}
+	.app-shell.calibration-experience .apply-align{width:100%;min-height:54px;border:0;border-radius:13px;background:#397ff0;color:white;font-size:16px;font-weight:700;cursor:pointer}
+	.app-shell.calibration-experience .calibration-note{display:none}
+	.saved-profiles{margin-top:24px;padding-top:30px;border-top:1px solid #292a2e}
+	.saved-profiles-heading{display:flex;align-items:center;justify-content:space-between}
+	.saved-profiles-heading h2{margin:0;font-size:24px;font-weight:500;letter-spacing:-.03em}
+	.saved-profiles-heading button{border:0;background:transparent;color:#a7a8ae;font-size:14px;cursor:pointer}
+	.saved-profile-list{margin-top:24px;color:#777980;font-size:14px}
+	.saved-profile-list em{font-style:italic}
+	.saved-profile{margin:0 8px 8px 0;padding:8px 11px;border:1px solid #303136;border-radius:7px;background:#17181b;color:#ddd;cursor:pointer}
+	:global(html:not([data-theme="dark"])) body:has(.calibration-experience){background:#131315;color:#e8e8eb}
+	@media(max-width:520px){.app-shell.calibration-experience{padding-right:16px;padding-left:16px}.app-shell.calibration-experience .calibration-section{margin-top:18px;padding-top:12px}.calibration-dialog-heading{margin-bottom:28px}.calibration-instructions{font-size:16px}.app-shell.calibration-experience .align-preview-stage{min-height:var(--preview-height,276px)}.app-shell.calibration-experience .card-align{grid-template-columns:1fr auto;gap:12px}.app-shell.calibration-experience .orientation-control{grid-row:1}.app-shell.calibration-experience .align-preview-stage{grid-row:2}.app-shell.calibration-experience .card-align>label{grid-column:1;grid-row:3}.app-shell.calibration-experience .card-align input[type="range"]{grid-column:1/-1;grid-row:4}.app-shell.calibration-experience .card-width-value{grid-column:2;grid-row:3}.app-shell.calibration-experience .slider-help{grid-row:5}.app-shell.calibration-experience .align-actions{grid-row:6}.app-shell.calibration-experience .calibration-tabs button{font-size:13px}}
+	@media(max-width:380px){.ruler-notch .notch-tool-button{width:30px;min-width:30px}.ruler-notch .notch-control + .notch-control{margin-left:1px}.ruler-notch .notch-actions{gap:3px}}
+	/* Calibration follows the site's light, blue-accented rounded panel style. */
+	:global(body:has(.calibration-experience)){min-height:100vh;background:#fafafa;color:#171717}
+	:global(html[data-theme="dark"] body:has(.calibration-experience)){background:#111214;color:#ededf0}
+	.app-shell.calibration-experience{width:min(100%,1072px);max-width:1072px;min-height:100vh;margin:0 auto;padding:28px 36px 48px;color:#171717}
+	.app-shell.calibration-experience::before{content:none;display:none}
+	.app-shell.calibration-experience .calibration-section{margin:26px auto 48px;padding:38px 40px;border:1px solid #e3eaf2;border-radius:18px;background:linear-gradient(145deg,#fff 0%,#f0f6ff 100%);box-shadow:0 16px 40px #31557912}
+	.calibration-dialog-heading{margin:0 0 28px}
+	.calibration-dialog-heading h1{color:#171717;font-size:26px}
+	.calibration-close{border-radius:10px;color:#627286}
+	.calibration-close:hover{background:#eaf2fc;color:#176cc2}
+	.ppi-readout{border-color:#e3eaf2;border-radius:14px;background:#fff;box-shadow:0 4px 16px #3155790a}
+	.ppi-readout>span,.card-align>label{color:#657386}
+	.ppi-readout output{border-color:#dce5f0;border-radius:9px;background:#f7faff;color:#202b38}
+	.calibration-tabs{border-color:#dce5f0;border-radius:13px;background:#f6f9fd}
+	.calibration-tabs button{border-right-color:#dce5f0;background:#f6f9fd;color:#526174}
+	.calibration-tabs button[aria-selected="true"]{background:#397ff0;color:#fff}
+	.calibration-instructions{color:#536174}
+	.app-shell.calibration-experience .orientation-control{border-color:#dce5f0;border-radius:13px;background:#f7faff;color:#526174}
+	.app-shell.calibration-experience .orientation-options button{border-color:#dce5f0;background:#fff;color:#526174}
+	.app-shell.calibration-experience .align-preview-stage{border:1px solid #e3eaf2;border-radius:14px;background:#fff}
+	.app-shell.calibration-experience .align-reference{background:#f9fbff;color:#536174}
+	.app-shell.calibration-experience .align-card-name{color:#66758a}
+	.app-shell.calibration-experience .card-align input[type="range"]{color-scheme:light}
+	.app-shell.calibration-experience .card-width-value{color:#202b38}
+	.app-shell.calibration-experience .slider-help{color:#68778b}
+	.app-shell.calibration-experience .apply-align{border-radius:12px;background:#397ff0;box-shadow:0 6px 16px #397ff033}
+	.saved-profiles{border-top-color:#e3eaf2}
+	.saved-profiles-heading h2{color:#202b38}
+	.saved-profiles-heading button{color:#526174}
+	.saved-profile-list{color:#68778b}
+	.saved-profile{border-color:#dce5f0;border-radius:9px;background:#fff;color:#334155}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience{color:#ededf0}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .calibration-section{border-color:#2b2e34;background:linear-gradient(145deg,#17191d 0%,#1a2029 100%);box-shadow:0 16px 40px #0004}
+	:global(html[data-theme="dark"]) .calibration-dialog-heading h1,:global(html[data-theme="dark"]) .saved-profiles-heading h2{color:#ededf0}
+	:global(html[data-theme="dark"]) .calibration-close{color:#a9b3c1}
+	:global(html[data-theme="dark"]) .ppi-readout{border-color:#30343b;background:#101114}
+	:global(html[data-theme="dark"]) .ppi-readout>span,:global(html[data-theme="dark"]) .card-align>label{color:#a4adbb}
+	:global(html[data-theme="dark"]) .ppi-readout output{border-color:#343943;background:#1b1d22;color:#ededf0}
+	:global(html[data-theme="dark"]) .calibration-tabs{border-color:#343943;background:#191b20}
+	:global(html[data-theme="dark"]) .calibration-tabs button{border-right-color:#343943;background:#191b20;color:#aab1bd}
+	:global(html[data-theme="dark"]) .calibration-instructions{color:#b4bbc6}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .orientation-control{border-color:#343943;background:#191b20;color:#b4bbc6}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .orientation-options button{border-color:#343943;background:#22252b;color:#c1c7d0}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .align-preview-stage{border-color:#30343b;background:#101114}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .align-reference{background:transparent}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .align-card-name,:global(html[data-theme="dark"]) .app-shell.calibration-experience .slider-help{color:#a4adbb}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .card-width-value{color:#ededf0}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .card-align input[type="range"]{color-scheme:dark}
+	:global(html[data-theme="dark"]) .saved-profiles{border-top-color:#30343b}
+	:global(html[data-theme="dark"]) .saved-profiles-heading button{color:#b4bbc6}
+	:global(html[data-theme="dark"]) .saved-profile-list{color:#a4adbb}
+	:global(html[data-theme="dark"]) .saved-profile{border-color:#343943;background:#22252b;color:#ededf0}
+	.app-shell.calibration-experience[data-calibration-method="auto"] .calibration-tabs [data-calibration-tab="auto"],
+	.app-shell.calibration-experience[data-calibration-method="device"] .calibration-tabs [data-calibration-tab="device"],
+	.app-shell.calibration-experience[data-calibration-method="diagonal"] .calibration-tabs [data-calibration-tab="diagonal"],
+	.app-shell.calibration-experience[data-calibration-method="card"] .calibration-tabs [data-calibration-tab="card"]{background:#397ff0;color:#fff}
+	.app-shell.calibration-experience .cal-card > .card-button.primary[data-calibrate="auto"]{width:100%;min-height:54px;justify-content:center;gap:10px;padding:0 18px;border:0;border-radius:12px;background:#397ff0;box-shadow:0 6px 16px #397ff033;color:#fff;font-size:16px;font-weight:700;outline:none}
+	.app-shell.calibration-experience .cal-card > .card-button.primary[data-calibrate="auto"]:hover{background:#286ddc;box-shadow:0 8px 20px #397ff044}
+	.app-shell.calibration-experience .cal-card > .card-button.primary[data-calibrate="auto"]:focus{outline:0!important;box-shadow:0 6px 16px #397ff033}
+	.app-shell.calibration-experience .cal-card.selected{border:0!important;outline:0!important;box-shadow:none!important}
+	.app-shell.calibration-experience .manual-device-button{min-height:48px;justify-content:center;gap:8px;border:0;border-radius:12px;background:#397ff0;color:#fff;font-size:15px;font-weight:650;box-shadow:0 5px 14px #397ff024}
+	.app-shell.calibration-experience .manual-device-button:hover{background:#286ddc}
+	.app-shell.calibration-experience .inline-fields label{font-size:15px;font-weight:600;color:#43536a}
+	.app-shell.calibration-experience .inline-fields .input-wrap input,.app-shell.calibration-experience .inline-fields select{font-size:15px}
+	.app-shell.calibration-experience .cal-card > [data-calibrate="diagonal"]{width:100%;min-height:50px;justify-content:center;gap:8px;border:0;border-radius:12px;background:#397ff0;color:#fff;font-size:15px;font-weight:650;box-shadow:0 5px 14px #397ff024}
+	.app-shell.calibration-experience .cal-card > [data-calibrate="diagonal"]:hover{background:#286ddc}
+	.app-shell.calibration-experience .orientation-options button{min-height:40px;padding:0 16px;border:0;border-radius:999px;background:#eaf1fa;color:#526174;outline:none;transition:background .15s ease,color .15s ease,transform .15s ease}
+	.app-shell.calibration-experience .orientation-options button[aria-pressed="true"]{border:0;background:#397ff0;color:#fff}
+	.app-shell.calibration-experience .orientation-options button:hover{transform:translateY(-1px)}
+	.app-shell.calibration-experience .orientation-options button:focus-visible{outline:2px solid #334155;outline-offset:3px}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method] .calibration-tabs [aria-selected="true"]{background:#397ff0;color:#fff}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .orientation-options button{background:#272b33;color:#c1c7d0}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience .orientation-options button[aria-pressed="true"]{background:#397ff0;color:#fff}
+	/* Guided styling for the screen-size picker. */
+	.app-shell.calibration-experience[data-calibration-method="device"] .cal-card[data-method-card="auto"]>.method-detail{display:flex;align-items:flex-start;gap:14px;margin:0 0 24px;padding:16px 18px;border:1px solid #dce7f5;border-radius:14px;background:linear-gradient(135deg,#f4f8ff,#fff)}
+	.app-shell.calibration-experience[data-calibration-method="device"] .device-glyph{flex:none;width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:#e5efff;color:#276bd0;font-size:19px}
+	.app-shell.calibration-experience[data-calibration-method="device"] .device-reading{display:grid;gap:5px;min-width:0}
+	.app-shell.calibration-experience[data-calibration-method="device"] #device-info{color:#1e293b;font-size:15px;font-weight:700;line-height:1.4}
+	.app-shell.calibration-experience[data-calibration-method="device"] #device-help{color:#64748b;font-size:13px;line-height:1.55}
+	.app-shell.calibration-experience[data-calibration-method="device"] .device-select-label{display:block;margin:0 0 9px;color:#334155;font-size:14px;font-weight:700}
+	.app-shell.calibration-experience[data-calibration-method="device"] .device-select{width:100%;min-height:54px;padding:0 15px;border:1px solid #d4deeb;border-radius:12px;background:#fff;color:#1e293b;font-size:16px;box-shadow:0 2px 7px #172f4a0a}
+	.app-shell.calibration-experience[data-calibration-method="device"] .device-select:focus-visible,.app-shell.calibration-experience[data-calibration-method="device"] .custom-device-fields input:focus-visible,.app-shell.calibration-experience[data-calibration-method="device"] .custom-device-fields select:focus-visible{outline:3px solid #9bc2ff;outline-offset:2px}
+	.app-shell.calibration-experience[data-calibration-method="device"] .custom-device{margin-top:18px;padding:17px;border:1px solid #e1e8f0;border-radius:13px;background:#f8faff}
+	.app-shell.calibration-experience[data-calibration-method="device"] .custom-device>label{display:block;margin-bottom:10px;color:#334155;font-size:14px;font-weight:700}
+	.app-shell.calibration-experience[data-calibration-method="device"] .custom-device-fields{display:grid;grid-template-columns:minmax(90px,126px) auto minmax(0,1fr);align-items:center;gap:10px}
+	.app-shell.calibration-experience[data-calibration-method="device"] .custom-device-fields input,.app-shell.calibration-experience[data-calibration-method="device"] .custom-device-fields select{box-sizing:border-box;width:100%;min-height:48px;padding:0 12px;border:1px solid #d4deeb;border-radius:10px;background:#fff;color:#1e293b;font-size:15px}
+	.app-shell.calibration-experience[data-calibration-method="device"] .custom-device-fields>span{color:#64748b;font-size:13px}
+	.app-shell.calibration-experience[data-calibration-method="device"] .manual-device-button{width:100%;margin-top:20px}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] .cal-card[data-method-card="auto"]>.method-detail{border-color:#303b4b;background:linear-gradient(135deg,#1b2635,#17191d)}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] .device-glyph{background:#243a57;color:#a9d0ff}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] #device-info,:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] .device-select-label,:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] .custom-device>label{color:#e4eaf2}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] #device-help,:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] .custom-device-fields>span{color:#a4adbb}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] .device-select,:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] .custom-device-fields input,:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] .custom-device-fields select{border-color:#343943;background:#111318;color:#ededf0}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] .custom-device{border-color:#30343b;background:#191b20}
+	@media(max-width:700px){.app-shell.calibration-experience{padding:18px 18px 36px}.app-shell.calibration-experience .calibration-section{margin:20px auto 32px;padding:26px 20px;border-radius:16px}}
+	@media(max-width:520px){.app-shell.calibration-experience{padding-right:14px;padding-left:14px}.app-shell.calibration-experience .calibration-section{margin-top:14px;padding:22px 16px}.calibration-dialog-heading{margin-bottom:22px}.ppi-readout{gap:12px;min-height:76px;margin-bottom:18px;padding:13px}.ppi-readout output{font-size:24px}.calibration-tabs{margin-bottom:18px}.calibration-tabs button{font-size:12px}.calibration-instructions{font-size:15px}.app-shell.calibration-experience .align-preview-stage{min-height:var(--preview-height,230px)}}
+	/* Reuse the calibration page's exact panel styles in a compact dialog. */
+	.calibration-modal.app-shell.calibration-experience{box-sizing:border-box;width:min(760px,calc(100vw - 40px));max-width:760px;min-height:0;max-height:min(86vh,780px);margin:auto;padding:0;overflow-y:auto;border:0;border-radius:0;background:transparent;box-shadow:none;color:inherit}
+	.calibration-modal.app-shell.calibration-experience #calibration{margin:26px auto 48px;padding:38px 40px;border:1px solid #e3eaf2;border-radius:18px;background:linear-gradient(145deg,#fff 0%,#f0f6ff 100%);box-shadow:0 16px 40px #31557912}
+	.calibration-modal .calibration-close{padding:0;border:0;background:transparent;font:inherit;cursor:pointer}
+	:global(html[data-theme="dark"]) .calibration-modal.app-shell.calibration-experience #calibration{border-color:#2b2e34;background:linear-gradient(145deg,#17191d 0%,#1a2029 100%);box-shadow:0 16px 40px #0004}
+	@media(max-width:700px){.calibration-modal.app-shell.calibration-experience{width:calc(100vw - 24px);max-height:calc(100vh - 24px)}.calibration-modal.app-shell.calibration-experience #calibration{margin:20px auto 32px;padding:26px 20px;border-radius:16px}}
+	@media(max-width:520px){.calibration-modal.app-shell.calibration-experience{padding-right:0;padding-left:0}.calibration-modal.app-shell.calibration-experience #calibration{margin-top:14px;padding:22px 16px}}
 </style>

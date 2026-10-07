@@ -1,0 +1,12 @@
+---
+import HomePage from '../../components/HomePage.astro';
+import { supportedLocales } from '../../data/locales';
+
+export function getStaticPaths() {
+	return supportedLocales.filter((locale) => locale !== 'en').map((locale) => ({ params: { locale }, props: { locale } }));
+}
+
+const { locale } = Astro.props;
+---
+
+<HomePage locale={locale} />

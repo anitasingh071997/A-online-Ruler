@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import TopRuler from './TopRuler.astro';
+import LanguageSelector from './LanguageSelector.astro';
 
 interface Section {
 	 heading: string;
@@ -14,17 +15,18 @@ interface Props {
 	 intro: string;
 	 sections: Section[];
 	showTopRuler?: boolean;
+	locale?: string;
 }
 
-const { title, description, eyebrow, intro, sections, showTopRuler = false } = Astro.props;
+const { title, description, eyebrow, intro, sections, showTopRuler = false, locale = 'en' } = Astro.props;
 ---
 
-<Layout title={`${title} | A Online Ruler`} description={description} canonical={`https://aonlineruler.com${Astro.url.pathname}`}>
+<Layout title={`${title} | A Online Ruler`} description={description} canonical={`https://aonlineruler.com${Astro.url.pathname}`} locale={locale}>
 	<div class="info-shell">
 		{showTopRuler && <TopRuler />}
 		<header class="info-topbar">
 			<a class="brand" href="/" aria-label="A Online Ruler home">
-				<span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+				<img class="brand-logo" src="/favicon.svg" alt="" aria-hidden="true" />
 				<span>A Online Ruler</span>
 			</a>
 			<nav aria-label="Site navigation">
@@ -32,7 +34,7 @@ const { title, description, eyebrow, intro, sections, showTopRuler = false } = A
 				<a href="/about-us">About</a>
 				<a href="/contact-us">Contact</a>
 			</nav>
-			<button class="theme-toggle" id="info-theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="info-theme-icon" aria-hidden="true">☾</span></button>
+			<button class="theme-toggle site-theme-switch" id="info-theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="site-theme-track" aria-hidden="true"><span class="site-theme-mark site-theme-sun">☀</span><span class="site-theme-mark site-theme-moon">☾</span><span class="site-theme-thumb"><span id="info-theme-icon">☾</span></span></span></button>
 		</header>
 		<main class="info-main">
 			<div class="eyebrow">{eyebrow}</div>
@@ -48,10 +50,11 @@ const { title, description, eyebrow, intro, sections, showTopRuler = false } = A
 			</div>
 			<slot name="after" />
 		</main>
+		<LanguageSelector show={false} />
 		<footer class="info-footer">
 			<div class="info-footer-branding">
 				<a class="footer-brand" href="/" aria-label="A Online Ruler home">
-					<span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+					<img class="brand-logo" src="/favicon.svg" alt="" aria-hidden="true" />
 					<span>A Online Ruler</span>
 				</a>
 				<span class="footer-copyright">&copy; 2026</span>
@@ -76,9 +79,10 @@ const { title, description, eyebrow, intro, sections, showTopRuler = false } = A
 			theme = nextTheme;
 			document.documentElement.dataset.theme = theme;
 			const dark = theme === 'dark';
+			themeToggle.setAttribute('aria-checked', String(dark));
 			themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
 			themeToggle.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
-			themeIcon.textContent = dark ? '☀' : '☾';
+			themeIcon.textContent = dark ? '☾' : '☀';
 			document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0c0c0d' : '#fafafa');
 			try { localStorage.setItem('aor-theme', theme); } catch { /* Keep the preference for this session. */ }
 		};

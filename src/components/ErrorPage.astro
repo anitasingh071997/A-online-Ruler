@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import LanguageSelector from './LanguageSelector.astro';
 
 interface Props {
 	status: string;
@@ -14,11 +15,11 @@ const { status, title, description } = Astro.props;
 	<div class="error-shell">
 		<header class="error-topbar">
 			<a class="brand" href="/" aria-label="A Online Ruler home">
-				<span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+				<img class="brand-logo" src="/favicon.svg" alt="" aria-hidden="true" />
 				<span>A Online Ruler</span>
 			</a>
 			<a href="/ruler">Open ruler <span aria-hidden="true">↗</span></a>
-			<button class="error-theme-toggle" id="error-theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="error-theme-icon" aria-hidden="true">&#9790;</span></button>
+			<button class="error-theme-toggle site-theme-switch" id="error-theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="site-theme-track" aria-hidden="true"><span class="site-theme-mark site-theme-sun">☀</span><span class="site-theme-mark site-theme-moon">☾</span><span class="site-theme-thumb"><span id="error-theme-icon">☾</span></span></span></button>
 		</header>
 		<main class="error-main" aria-labelledby="error-title">
 			<div class="error-status">{status}</div>
@@ -29,8 +30,9 @@ const { status, title, description } = Astro.props;
 				<a href="/ruler">Open the ruler</a>
 			</div>
 		</main>
+		<LanguageSelector show={false} />
 		<footer class="error-footer">
-			<div class="error-footer-branding"><a class="brand" href="/" aria-label="A Online Ruler home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>A Online Ruler</span></a><span>&copy; 2026</span></div>
+			<div class="error-footer-branding"><a class="brand" href="/" aria-label="A Online Ruler home"><img class="brand-logo" src="/favicon.svg" alt="" aria-hidden="true" /><span>A Online Ruler</span></a><span>&copy; 2026</span></div>
 			<a href="/about-us">About us</a>
 			<a href="/contact-us">Contact us</a>
 			<a href="/privacy-policy">Privacy policy</a>
@@ -48,9 +50,10 @@ const { status, title, description } = Astro.props;
 			theme = nextTheme;
 			document.documentElement.dataset.theme = theme;
 			const dark = theme === 'dark';
+			themeToggle.setAttribute('aria-checked', String(dark));
 			themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
 			themeToggle.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
-		themeIcon.textContent = dark ? '\u2600' : '\u263e';
+		themeIcon.textContent = dark ? '\u263e' : '\u2600';
 			document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0c0c0d' : '#fafafa');
 			try { localStorage.setItem('aor-theme', theme); } catch { /* Keep the preference for this session. */ }
 		};

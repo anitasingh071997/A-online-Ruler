@@ -1,0 +1,29 @@
+---
+import { supportedLocales, localeNames, localizePath } from '../data/locales';
+
+interface Props { show?: boolean; locale?: string; currentPath?: string; }
+const { show = true, locale = 'en', currentPath = '/' } = Astro.props;
+const safeLocale = supportedLocales.includes(locale as (typeof supportedLocales)[number]) ? locale : 'en';
+---
+
+<section class="language-selector" aria-label="Choose website language" hidden={!show}>
+	<details class="language-menu">
+		<summary class="language-control" aria-label={`Website language: ${localeNames[safeLocale]}`}>
+			<span class="language-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9s1.2-6.5 3.6-9Z"/></svg></span>
+			<span class="language-current">{localeNames[safeLocale]}</span>
+			<svg class="language-chevron" viewBox="0 0 12 12" aria-hidden="true"><path d="m2.5 4.5 3.5 3 3.5-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+		</summary>
+		<nav class="language-options" aria-label="Website languages">
+			{supportedLocales.map((code) => <a href={localizePath(currentPath, code)} hreflang={code} lang={code} aria-current={code === safeLocale ? 'page' : undefined}>{localeNames[code]}{code === safeLocale && <span aria-hidden="true">✓</span>}</a>)}
+		</nav>
+	</details>
+</section>
+
+<style>
+	.language-selector{box-sizing:border-box;width:min(100%,920px);min-height:82px;margin:58px auto 30px;padding:17px 20px;display:flex;align-items:center;justify-content:flex-end;border:1px solid #e3eaf2;border-radius:14px;background:linear-gradient(120deg,#fff 58%,#f4f8ff);box-shadow:0 8px 24px #172b4d0a;color:#344255}
+	.language-selector[hidden]{display:none!important}.language-menu{position:relative;width:min(100%,260px);min-width:180px}.language-menu[open]{z-index:20}.language-control{box-sizing:border-box;position:relative;display:flex;align-items:center;gap:9px;width:100%;min-height:44px;padding:0 11px;border:1px solid #dbe3ee;border-radius:10px;background:#fff;color:#253348;cursor:pointer;list-style:none;transition:border-color .15s ease,box-shadow .15s ease}.language-control::-webkit-details-marker{display:none}.language-control::marker{content:""}.language-menu[open] .language-control,.language-control:hover{border-color:#7eade8;box-shadow:0 0 0 3px #4b9aff18}.language-icon{width:20px;height:20px;flex:none;display:grid;place-items:center;color:#2872c8}.language-icon svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.language-current{flex:1;min-width:0;color:#253348;font:600 13px/1.2 Arial,Helvetica,sans-serif}.language-chevron{width:13px;height:13px;flex:none;color:#64748b;transition:transform .18s ease}.language-menu[open] .language-chevron{transform:rotate(180deg)}.language-options{position:absolute;top:calc(100% + 7px);left:0;right:0;display:grid;gap:3px;padding:6px;border:1px solid #dbe3ee;border-radius:11px;background:#fff;box-shadow:0 12px 30px #172b4d24;animation:language-menu-in .14s ease-out}.language-options a{display:flex;align-items:center;justify-content:space-between;min-height:36px;padding:0 10px;border-radius:7px;color:#344255;font:500 13px/1.2 Arial,Helvetica,sans-serif;text-decoration:none;transition:background-color .12s ease,color .12s ease}.language-options a:hover,.language-options a:focus-visible{outline:0;background:#edf5ff;color:#1558a6}.language-options a[aria-current="page"]{background:#e5f0ff;color:#145bb0;font-weight:700}.language-options a[aria-current="page"] span{color:#2872c8}.language-menu:focus-within .language-control{border-color:#4b9aff;box-shadow:0 0 0 3px #4b9aff33}
+	:global(html[data-theme="dark"]) .language-selector{border-color:#303a49;background:linear-gradient(120deg,#14171c 58%,#111b28);color:#e1e2e6}:global(html[data-theme="dark"]) .language-control{border-color:#35363a;background:#17181b;color:#e1e2e6}:global(html[data-theme="dark"]) .language-menu[open] .language-control,:global(html[data-theme="dark"]) .language-control:hover{border-color:#568ac8;box-shadow:0 0 0 3px #4b9aff22}:global(html[data-theme="dark"]) .language-icon{color:#a9d0ff}:global(html[data-theme="dark"]) .language-current{color:#e1e2e6}:global(html[data-theme="dark"]) .language-chevron{color:#aab8ca}:global(html[data-theme="dark"]) .language-options{border-color:#35363a;background:#17181b;box-shadow:0 12px 30px #0009}:global(html[data-theme="dark"]) .language-options a{color:#d9e2ed}:global(html[data-theme="dark"]) .language-options a:hover,:global(html[data-theme="dark"]) .language-options a:focus-visible{background:#263b54;color:#fff}:global(html[data-theme="dark"]) .language-options a[aria-current="page"]{background:#1d3652;color:#b9d8ff}:global(html[data-theme="dark"]) .language-options a[aria-current="page"] span{color:#9ac6ff}
+	:global(.home-top-controls) .language-selector{width:auto;min-height:0;max-width:none;flex:0 1 auto;margin:0;padding:0;justify-content:flex-end;border:0;border-radius:0;background:none;box-shadow:none}:global(.home-top-controls) .language-menu{width:190px;min-width:0}:global(.home-top-controls) .language-control{min-height:38px;gap:7px;padding:0 9px;border-radius:9px}:global(.home-top-controls) .language-icon,:global(.home-top-controls) .language-icon svg{width:18px;height:18px}:global(.home-top-controls) .language-current,:global(.home-top-controls) .language-options a{font-size:12px}:global(.home-top-controls) .language-options a{min-height:34px}
+	@keyframes language-menu-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+	@media(max-width:640px){.language-selector:not(.home-top-controls .language-selector){justify-content:center;padding:14px}.language-menu{width:100%;min-width:0}.home-top-controls .language-menu{width:150px}}
+</style>

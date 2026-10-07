@@ -28,3 +28,10 @@ pnpm-debug.log*
 
 .vercel
 .env*
+/.dev.vars
+/.wrangler/
+/.wrangler-config/
+
+# local tooling caches and extracted package files
+.codex-npm-cache/
+.tmp-flag-icons/

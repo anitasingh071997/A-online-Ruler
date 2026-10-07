@@ -1,5 +1,7 @@
 # Astro Starter Kit: Basics
 
+For the site's Cloudflare deployment and on-site translation setup, see [TRANSLATION_SETUP.md](./TRANSLATION_SETUP.md).
+
 ```sh
 npm create astro@latest -- --template basics
 ```

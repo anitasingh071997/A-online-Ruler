@@ -1,11 +1,14 @@
 ---
 import '../styles/global.css';
+import { translateText } from '../data/siteTranslations';
+import { localizePath, localizedPageSlugs, supportedLocales } from '../data/locales';
 
 interface Props {
 	 title?: string;
 	 description?: string;
 	 canonical?: string;
 	robots?: string;
+	locale?: string;
 }
 
 const {
@@ -13,18 +16,23 @@ const {
 	 description = 'Use a free online ruler in inches, centimeters and millimeters. Calibrate your screen for actual-size measurements on your phone, tablet or computer.',
 	 canonical = 'https://aonlineruler.com/',
 	robots = 'index,follow,max-image-preview:large',
+	locale = 'en',
 } = Astro.props;
+const localizedTitle = translateText(locale, title);
+const localizedDescription = translateText(locale, description);
+const localeBasePath = Astro.url.pathname.replace(/^\/(?:hi|fr|es|ja|zh-CN|de|pt|ar|bn|ur)(?=\/|$)/, '') || '/';
+const hasLocalizedRoute = localizedPageSlugs.has(localeBasePath.replace(/^\/+|\/+$/g, ''));
 ---
 <!doctype html>
-<html lang="en">
+<html lang={locale} dir={locale === 'ar' || locale === 'ur' ? 'rtl' : 'ltr'}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="theme-color" content="#fafafa" />
-		<meta name="description" content={description} />
+		<meta name="description" content={localizedDescription} />
 		<meta name="robots" content={robots} />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
+		<meta property="og:title" content={localizedTitle} />
+		<meta property="og:description" content={localizedDescription} />
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="A Online Ruler" />
 		<meta property="og:url" content={canonical} />
@@ -35,11 +43,13 @@ const {
 		<meta property="og:image:height" content="630" />
 		<meta property="og:image:alt" content="Online ruler with inch, centimeter and millimeter markings" />
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content={title} />
-		<meta name="twitter:description" content={description} />
+		<meta name="twitter:title" content={localizedTitle} />
+		<meta name="twitter:description" content={localizedDescription} />
 		<meta name="twitter:image" content="https://aonlineruler.com/og-image.png" />
 		<meta name="twitter:image:alt" content="Online ruler with inch, centimeter and millimeter markings" />
 		<link rel="canonical" href={canonical} />
+		{hasLocalizedRoute && supportedLocales.map((language) => <link rel="alternate" hreflang={language} href={`https://aonlineruler.com${localizePath(Astro.url.pathname, language)}`} />)}
+		{hasLocalizedRoute && <link rel="alternate" hreflang="x-default" href={`https://aonlineruler.com${localizePath(Astro.url.pathname, 'en')}`} />}
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-EM32LYCCYJ"></script>
@@ -49,10 +59,14 @@ const {
 			gtag('js', new Date());
 			gtag('config', 'G-EM32LYCCYJ');
 		</script>
-		<title>{title}</title>
+		<title>{localizedTitle}</title>
 	</head>
 	<body>
 		<slot />
+		<script>
+			import { localizeText } from '../scripts/localize';
+			localizeText(document.documentElement.lang);
+		</script>
 	</body>
 </html>
 

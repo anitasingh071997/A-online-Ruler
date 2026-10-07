@@ -1,0 +1,38 @@
+---
+import CategoryExperience from '../../components/CategoryExperience.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import InfoPage from '../../components/InfoPage.astro';
+import RulerExperience from '../../components/RulerExperience.astro';
+import { infoPages } from '../../data/infoPages';
+import { toolCategories } from '../../data/toolCategories';
+import { supportedLocales } from '../../data/locales';
+
+export function getStaticPaths() {
+	const rulerPages = ['ruler', 'calibration'] as const;
+	const infoSlugs = Object.keys(infoPages) as Array<keyof typeof infoPages>;
+	const pages = [...rulerPages, ...infoSlugs, ...toolCategories.map((category) => category.slug)];
+	return supportedLocales.filter((locale) => locale !== 'en').flatMap((locale) =>
+		pages.map((page) => ({
+			params: { locale, page },
+			props: {
+				locale,
+				page,
+				category: toolCategories.find((entry) => entry.slug === page),
+				infoPage: infoPages[page as keyof typeof infoPages],
+			},
+		})),
+	);
+}
+
+const { locale, page, category, infoPage } = Astro.props;
+---
+
+{page === 'ruler' || page === 'calibration' ? (
+	<RulerExperience locale={locale} mode={page === 'calibration' ? 'calibration' : 'ruler'} />
+) : category ? (
+	<CategoryExperience locale={locale} category={category} />
+) : infoPage ? (
+	<InfoPage {...infoPage} locale={locale}>
+		{page === 'contact-us' && <ContactForm locale={locale} slot="after" />}
+	</InfoPage>
+) : null}
