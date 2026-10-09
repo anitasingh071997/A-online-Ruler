@@ -21,8 +21,14 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 		))}
 	</div>
 	<div class:list={['coordinate-layer', mode === 'calibration' && 'calibration-hidden']} id="coordinate-layer" aria-hidden="true">
-		<div class="coordinate-line coordinate-line-x" id="coordinate-line-x"></div>
-		<div class="coordinate-line coordinate-line-y" id="coordinate-line-y"></div>
+		<div class="coordinate-lines coordinate-gridlines" id="coordinate-gridlines">
+			<div class="coordinate-line coordinate-line-x" id="coordinate-gridline-x"></div>
+			<div class="coordinate-line coordinate-line-y" id="coordinate-gridline-y"></div>
+		</div>
+		<div class="coordinate-lines coordinate-hairline" id="coordinate-hairline">
+			<div class="coordinate-line coordinate-line-x" id="coordinate-hairline-x"></div>
+			<div class="coordinate-line coordinate-line-y" id="coordinate-hairline-y"></div>
+		</div>
 		<div class="coordinate-label" id="coordinate-label"></div>
 	</div>
 	<header class:list={['ruler-notch', mode === 'calibration' && 'calibration-hidden']}>
@@ -48,10 +54,10 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 				<span class="notch-tooltip" id="guidelines-tooltip" role="tooltip">Toggle guidelines <kbd>G</kbd></span>
 			</div>
 			<div class="notch-control">
-				<button class="notch-button notch-tool-button" id="toggle-crosshair" type="button" aria-label="Toggle crosshair" aria-describedby="crosshair-tooltip" aria-pressed="false" title="Toggle crosshair (C)">
+				<button class="notch-button notch-tool-button" id="toggle-crosshair" type="button" aria-label="Toggle hairline" aria-describedby="crosshair-tooltip" aria-pressed="false" title="Toggle hairline (C)">
 					<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6" /><path d="M12 2v4m0 12v4M2 12h4m12 0h4" /></svg>
 				</button>
-				<span class="notch-tooltip" id="crosshair-tooltip" role="tooltip">Toggle crosshair <kbd>C</kbd></span>
+				<span class="notch-tooltip" id="crosshair-tooltip" role="tooltip">Toggle hairline <kbd>C</kbd></span>
 			</div>
 			<div class="notch-control">
 				<button class="notch-button notch-tool-button notch-calibration-button" id="open-calibration" type="button" aria-label="Calibrate screen" aria-keyshortcuts="K" title="Calibrate screen (K)">
@@ -148,7 +154,7 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 				</div>
 				<div class="ppi-readout"><span>CURRENT PPI</span><output id="calibration-ppi">92.00</output></div>
 				<div class="calibration-tabs" role="tablist" aria-label="Calibration method">
-					<button type="button" role="tab" aria-selected="true" data-calibration-tab="auto">Auto</button>
+					<button type="button" role="tab" aria-selected="true" data-calibration-tab="auto">Auto-detect</button>
 					<button type="button" role="tab" aria-selected="false" data-calibration-tab="device">Device</button>
 					<button type="button" role="tab" aria-selected="false" data-calibration-tab="diagonal">Diagonal</button>
 					<button type="button" role="tab" aria-selected="false" data-calibration-tab="card">Credit Card</button>
@@ -200,6 +206,29 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 						<button class="card-button primary" type="button" data-calibrate="auto">Use quick estimate <span aria-hidden="true">→</span></button>
 						<small class="fine-print">Best for a quick start. Fine-tune with a known-size object.</small>
 					</article>
+					<article class="cal-card device-catalog-card" data-method-card="device" hidden>
+						<div class="card-top"><span class="step-number">DEVICE LIBRARY</span><span class="card-icon" aria-hidden="true">▣</span></div>
+						<h3>Select your device</h3>
+						<p>Search the factory PPI catalog or browse by device type.</p>
+						<div class="device-catalog-summary"><strong id="device-catalog-count">366 devices</strong><span>Phones · Tablets · Laptops · Monitors</span></div>
+						<div class="device-filter-list" role="group" aria-label="Filter devices">
+							<button type="button" data-device-filter="All" aria-pressed="true">All</button>
+							<button type="button" data-device-filter="Phones" aria-pressed="false">Phones</button>
+							<button type="button" data-device-filter="Tablets" aria-pressed="false">Tablets</button>
+							<button type="button" data-device-filter="Monitors" aria-pressed="false">Monitors</button>
+							<button type="button" data-device-filter="Laptops" aria-pressed="false">Laptops</button>
+						</div>
+						<label class="device-search-label" for="device-search">Search model</label>
+						<div class="device-search-area">
+							<input id="device-search" class="device-search" type="search" placeholder="Search model or brand…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="device-results" aria-expanded="false" />
+							<div class="device-results" id="device-results" role="listbox" aria-label="Available devices" hidden></div>
+						</div>
+						<div class="device-selection" id="device-selection" aria-live="polite">
+							<div><strong id="device-selection-name">Windows 13.3″ FHD @ 150% DPI</strong><span id="device-selection-ppi">124.5 PPI</span></div>
+							<p>Uses the listed factory PPI as a starting point. You can fine-tune it with a physical reference.</p>
+						</div>
+						<button class="card-button primary" id="apply-catalog-device" type="button">Apply device PPI <span aria-hidden="true">→</span></button>
+					</article>
 					<article class="cal-card" data-method-card="diagonal" hidden={mode === 'calibration'}>
 						<div class="card-top"><span class="step-number">02</span><span class="card-icon" aria-hidden="true">⌁</span></div>
 						<h3>Screen diagonal</h3>
@@ -217,14 +246,14 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 						<p>Match this reference to a standard bank card for the most reliable scale.</p>
 						<div class="card-reference"><div class="credit-card-visual"><span>A</span><i></i><i></i></div><div><strong>Standard card</strong><small>85.60 mm wide</small></div></div>
 						<button class="card-button secondary" type="button" data-calibrate="card">Align credit card <span aria-hidden="true">→</span></button>
+						{mode === 'calibration' && <div class="orientation-control" role="group" aria-label="Credit card orientation">
+							<span>Card orientation</span>
+							<div class="orientation-options">
+								<button type="button" data-card-orientation="horizontal" aria-pressed="true">↔ <span>Horizontal</span></button>
+								<button type="button" data-card-orientation="vertical" aria-pressed="false">↕ <span>Vertical</span></button>
+							</div>
+						</div>}
 						<div class="card-align" id="card-align" hidden>
-							{mode === 'calibration' && <div class="orientation-control" role="group" aria-label="Credit card orientation">
-								<span>Card orientation</span>
-								<div class="orientation-options">
-									<button type="button" data-card-orientation="horizontal" aria-pressed="true">↔ <span>Horizontal</span></button>
-									<button type="button" data-card-orientation="vertical" aria-pressed="false">↕ <span>Vertical</span></button>
-								</div>
-							</div>}
 							<div class="align-preview-stage"><div class="align-reference" id="align-reference"><span class="align-card-name">CREDIT CARD</span><span class="align-card-size">85.60 × 53.98 mm</span></div></div>
 							<label for="card-width">ADJUST SIZE</label>
 							<input id="card-width" name="card-width" type="range" min="180" max="620" step="1" value="324" aria-label="Adjust reference card width" />
@@ -289,7 +318,7 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 					<article class="category-card" id="cat-text"><h3>Text Tool</h3><p>Format, transform, and work with text.</p><span>Coming soon</span></article>
 					<article class="category-card" id="cat-programming"><h3>Programming</h3><p>Handy utilities for developers.</p><span>Coming soon</span></article>
 					<article class="category-card" id="cat-lifestyle"><h3>Lifestyle</h3><p>Helpful tools for day-to-day life.</p><span>Coming soon</span></article>
-					<article class="category-card" id="cat-blog"><h3>Blog</h3><p>Guides and practical how-to articles.</p><span>Coming soon</span></article>
+					<article class="category-card" id="cat-blog"><h3>Blog</h3><p>Guides and practical how-to articles about screen measurement.</p><a href="/blog">Read the guides <span aria-hidden="true">↗</span></a></article>
 				</div>
 			</section>
 		</main>
@@ -310,6 +339,7 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 
 <script>
 	import { translateText } from '../data/siteTranslations';
+	import deviceCatalog from '../data/deviceCatalog.json';
 	const pageLocale = document.documentElement.lang;
 	const tx = (source: string) => translateText(pageLocale, source);
 	const frame = document.querySelector<HTMLElement>('#ruler-frame')!;
@@ -327,8 +357,12 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	const customDevice = document.querySelector<HTMLElement>('#custom-device')!;
 	const measurementReadout = document.querySelector<HTMLElement>('#measurement-readout')!;
 	const coordinateLayer = document.querySelector<HTMLElement>('#coordinate-layer')!;
-	const coordinateLineX = document.querySelector<HTMLElement>('#coordinate-line-x')!;
-	const coordinateLineY = document.querySelector<HTMLElement>('#coordinate-line-y')!;
+	const hairline = document.querySelector<HTMLElement>('#coordinate-hairline')!;
+	const gridlines = document.querySelector<HTMLElement>('#coordinate-gridlines')!;
+	const hairlineX = document.querySelector<HTMLElement>('#coordinate-hairline-x')!;
+	const hairlineY = document.querySelector<HTMLElement>('#coordinate-hairline-y')!;
+	const gridlineX = document.querySelector<HTMLElement>('#coordinate-gridline-x')!;
+	const gridlineY = document.querySelector<HTMLElement>('#coordinate-gridline-y')!;
 	const coordinateLabel = document.querySelector<HTMLElement>('#coordinate-label')!;
 	const topScreenRuler = document.querySelector<HTMLElement>('[data-screen-edge="top"]')!;
 	const bottomScreenRuler = document.querySelector<HTMLElement>('[data-screen-edge="bottom"]')!;
@@ -369,14 +403,14 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 		const bottomRect = bottomScreenRuler.getBoundingClientRect();
 		const leftRect = leftScreenRuler.getBoundingClientRect();
 		const rightRect = rightScreenRuler.getBoundingClientRect();
-		coordinateLineX.style.display = y < topRect.bottom || y >= bottomRect.top ? 'none' : '';
-		coordinateLineX.style.top = `${y}px`;
-		coordinateLineY.style.display = x < leftRect.right || x >= rightRect.left ? 'none' : '';
-		coordinateLineY.style.left = `${x}px`;
 		coordinateLabel.textContent = `X ${formatCoordinate(x)} · Y ${formatCoordinate(y)}`;
 		coordinateLabel.style.left = `${Math.max(leftRect.right + 8, Math.min(x + 12, rightRect.left - coordinateLabel.offsetWidth - 8))}px`;
 		coordinateLabel.style.top = `${Math.max(topRect.bottom + 8, Math.min(y + 12, bottomRect.top - coordinateLabel.offsetHeight - 8))}px`;
 		coordinateLayer.classList.add('is-visible');
+	}
+	function positionLines(lineX: HTMLElement, lineY: HTMLElement, x: number, y: number) {
+		lineX.style.top = `${y}px`;
+		lineY.style.left = `${x}px`;
 	}
 	function hideCoordinate() {
 		lastCoordinate = null;
@@ -463,40 +497,45 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 		crosshairButton.setAttribute('aria-pressed', String(crosshairEnabled));
 		guidelinesButton.classList.toggle('is-on', guidelinesEnabled);
 		crosshairButton.classList.toggle('is-on', crosshairEnabled);
-		if (guidelinesEnabled || crosshairEnabled) showCoordinate(lastPointer.x, lastPointer.y);
-		else hideCoordinate();
+		if (crosshairEnabled) {
+			positionLines(hairlineX, hairlineY, lastPointer.x, lastPointer.y);
+			hairline.classList.add('is-visible');
+		} else hairline.classList.remove('is-visible');
+		showCoordinate(lastPointer.x, lastPointer.y);
 	}
 	guidelinesButton.addEventListener('click', () => {
 		guidelinesEnabled = !guidelinesEnabled;
 		coordinatePinned = false;
 		syncGuideControls();
+		if (guidelinesEnabled) {
+			positionLines(gridlineX, gridlineY, lastPointer.x, lastPointer.y);
+			gridlines.classList.add('is-visible');
+		} else gridlines.classList.remove('is-visible');
 	});
 	crosshairButton.addEventListener('click', () => {
 		crosshairEnabled = !crosshairEnabled;
 		coordinatePinned = false;
-		if (crosshairEnabled) lastPointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 		syncGuideControls();
 	});
 	document.addEventListener('pointermove', (event) => {
 		lastPointer = { x: event.clientX, y: event.clientY };
-		if ((guidelinesEnabled || crosshairEnabled) && !coordinatePinned) showCoordinate(event.clientX, event.clientY);
+		showCoordinate(event.clientX, event.clientY);
+		if (crosshairEnabled) positionLines(hairlineX, hairlineY, event.clientX, event.clientY);
 	});
 	document.addEventListener('click', (event) => {
 		const target = event.target as HTMLElement;
 		if (target.closest('a, button, input, select, textarea, summary, details, [contenteditable="true"]')) return;
 		lastPointer = { x: event.clientX, y: event.clientY };
-		if (crosshairEnabled || guidelinesEnabled) {
-			// Every ruler-area click moves the pin; pointer movement stays free to update lastPointer only.
-			showCoordinate(event.clientX, event.clientY);
-			coordinatePinned = true;
-		}
-		else hideCoordinate();
+		showCoordinate(event.clientX, event.clientY);
+		positionLines(gridlineX, gridlineY, event.clientX, event.clientY);
+		gridlines.classList.add('is-visible');
 	}, true);
 	document.addEventListener('keydown', (event) => {
 		if (event.key === 'Escape') {
 			guidelinesEnabled = false;
 			crosshairEnabled = false;
 			coordinatePinned = false;
+			gridlines.classList.remove('is-visible');
 			syncGuideControls();
 			if (document.fullscreenElement) document.exitFullscreen();
 		}
@@ -652,9 +691,112 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	}));
 	updateCardPreview();
 	const calibrationInstructions = document.querySelector<HTMLElement>('#calibration-instructions')!;
+	const deviceSearch = document.querySelector<HTMLInputElement>('#device-search')!;
+	const deviceResults = document.querySelector<HTMLElement>('#device-results')!;
+	const deviceCount = document.querySelector<HTMLElement>('#device-catalog-count')!;
+	const deviceSelectionName = document.querySelector<HTMLElement>('#device-selection-name')!;
+	const deviceSelectionPpi = document.querySelector<HTMLElement>('#device-selection-ppi')!;
+	let activeDeviceFilter = 'All';
+	let catalogOpen = false;
+	let deviceQuery = '';
+	let selectedDevice = deviceCatalog.find((device) => device.name === 'Windows 13.3″ FHD @ 150% DPI') ?? deviceCatalog[0];
+	deviceSearch.value = selectedDevice.name;
+	function renderDeviceCatalog() {
+		const query = deviceQuery.trim().toLocaleLowerCase();
+		const matches = deviceCatalog
+			.map((device, index) => ({ device, index }))
+			.filter(({ device }) => (activeDeviceFilter === 'All' || device.category === activeDeviceFilter)
+				&& (!query || `${device.name} ${device.brand} ${device.category}`.toLocaleLowerCase().includes(query)));
+		deviceCount.textContent = `${matches.length} ${matches.length === 1 ? 'device' : 'devices'}`;
+		deviceResults.hidden = !catalogOpen;
+		deviceSearch.setAttribute('aria-expanded', String(catalogOpen));
+		deviceResults.replaceChildren();
+		if (!matches.length) {
+			const empty = document.createElement('p');
+			empty.className = 'device-empty-state';
+			empty.textContent = 'No devices match that search. Try another model or category.';
+			deviceResults.append(empty);
+			return;
+		}
+		const fragment = document.createDocumentFragment();
+		for (const { device, index } of matches) {
+			const option = document.createElement('button');
+			option.type = 'button';
+			option.className = `device-result${selectedDevice.name === device.name ? ' is-selected' : ''}`;
+			option.dataset.deviceIndex = String(index);
+			option.setAttribute('role', 'option');
+			option.setAttribute('aria-selected', String(selectedDevice.name === device.name));
+			const copy = document.createElement('span');
+			copy.className = 'device-result-copy';
+			const name = document.createElement('strong');
+			name.textContent = device.name;
+			const meta = document.createElement('small');
+			meta.textContent = `${device.category} · ${device.brand}`;
+			copy.append(name, meta);
+			const ppi = document.createElement('span');
+			ppi.className = 'device-result-ppi';
+			ppi.append(`${device.ppi.toFixed(1)}`);
+			const ppiUnit = document.createElement('small');
+			ppiUnit.textContent = 'PPI';
+			ppi.append(ppiUnit);
+			option.append(copy, ppi);
+			if (selectedDevice.name === device.name) {
+				const check = document.createElement('span');
+				check.className = 'device-result-check';
+				check.setAttribute('aria-hidden', 'true');
+				check.textContent = '✓';
+				option.append(check);
+			}
+			fragment.append(option);
+		}
+		deviceResults.append(fragment);
+	}
+	deviceSearch.addEventListener('focus', () => {
+		catalogOpen = true;
+		if (deviceSearch.value === selectedDevice.name) {
+			deviceQuery = '';
+			deviceSearch.select();
+		}
+		renderDeviceCatalog();
+	});
+	deviceSearch.addEventListener('input', () => { deviceQuery = deviceSearch.value; catalogOpen = true; renderDeviceCatalog(); });
+	document.querySelectorAll<HTMLButtonElement>('[data-device-filter]').forEach((button) => button.addEventListener('click', () => {
+		activeDeviceFilter = button.dataset.deviceFilter!;
+		catalogOpen = true;
+		document.querySelectorAll('[data-device-filter]').forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+		renderDeviceCatalog();
+	}));
+	document.addEventListener('pointerdown', (event) => {
+		const target = event.target as HTMLElement;
+		if (target.closest('.device-search-area, .device-filter-list')) return;
+		if (catalogOpen) { catalogOpen = false; renderDeviceCatalog(); }
+	});
+	deviceResults.addEventListener('click', (event) => {
+		const option = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-device-index]');
+		if (!option) return;
+		selectedDevice = deviceCatalog[Number(option.dataset.deviceIndex)];
+		deviceSearch.value = selectedDevice.name;
+		deviceQuery = '';
+		deviceSelectionName.textContent = selectedDevice.name;
+		deviceSelectionPpi.textContent = `${selectedDevice.ppi.toFixed(1)} PPI`;
+		catalogOpen = false;
+		renderDeviceCatalog();
+	});
+	deviceResults.addEventListener('pointerdown', (event) => {
+		if ((event.target as HTMLElement).closest('[data-device-index]')) event.preventDefault();
+	});
+	document.querySelector<HTMLButtonElement>('#apply-catalog-device')!.addEventListener('click', () => {
+		pixelsPerCm = selectedDevice.ppi / 2.54;
+		saveCalibration();
+		updateScale();
+		deviceInfo.textContent = `${selectedDevice.name} — selected`;
+		deviceHelp.textContent = `${selectedDevice.ppi.toFixed(1)} PPI from the device catalog. Fine-tune against a physical reference for best accuracy.`;
+		status.textContent = `${selectedDevice.name} applied at ${selectedDevice.ppi.toFixed(1)} PPI`;
+	});
+	renderDeviceCatalog();
 	const tabCopy: Record<string, string> = {
 		auto: 'Use your browser’s display information for a quick starting estimate.',
-		device: 'Choose your display size to estimate its pixel density.',
+		device: 'Search the device library and apply a listed factory PPI.',
 		diagonal: 'Enter your screen diagonal and aspect ratio for a tailored estimate.',
 		card: 'Hold a credit/debit card against the screen and adjust the slider until the outline matches exactly. This is the most accurate method.'
 	};
@@ -663,7 +805,7 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 		document.querySelectorAll('[data-calibration-tab]').forEach((item) => item.setAttribute('aria-selected', String(item === tab)));
 		document.querySelectorAll<HTMLElement>('[data-method-card]').forEach((card) => {
 			const key = card.dataset.methodCard;
-			card.hidden = method === 'device' ? key !== 'auto' : key !== method;
+			card.hidden = key !== method;
 		});
 		document.querySelector<HTMLElement>('.app-shell')?.setAttribute('data-calibration-method', method);
 		calibrationModal.dataset.calibrationMethod = method;
@@ -915,6 +1057,8 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	:global(html[data-theme="dark"]) .screen-rulers .screen-edge.is-highlighted .screen-number{color:#b5d5ff}
 	.coordinate-layer{position:fixed;inset:0;z-index:1100;display:none;pointer-events:none}
 	.coordinate-layer.is-visible{display:block}
+	.coordinate-lines{display:none}
+	.coordinate-lines.is-visible{display:block}
 	.coordinate-line{position:absolute;pointer-events:none}
 	.coordinate-line-x{left:36px;right:36px;height:0;border-top:1px dashed #0875e1}
 	.coordinate-line-y{top:46px;bottom:36px;width:0;border-left:1px dashed #0875e1}
@@ -924,9 +1068,9 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	.screen-edge-top .screen-mark:first-child .screen-number,.screen-edge-bottom .screen-mark:first-child .screen-number{left:5px;transform:none}
 	.calibration-modal{box-sizing:border-box;width:min(660px,calc(100vw - 32px));max-height:min(82vh,760px);overflow-y:auto;overscroll-behavior:contain;margin:auto;padding:0;border:1px solid #ddd;border-radius:16px;background:#fafafa;color:#171717;box-shadow:0 20px 70px #00000033}.calibration-modal::backdrop{background:#0008;backdrop-filter:blur(2px)}.calibration-modal-header{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #e7e7e7;background:#fafafa}.calibration-modal-header h2{margin:0;font-size:18px;letter-spacing:-.03em}.modal-close{width:34px;height:34px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#444;font-size:21px;line-height:1;cursor:pointer}.modal-close:hover{background:#f3f3f3}.calibration-modal #calibration{padding:18px 16px 22px}.calibration-modal .section-heading{margin-bottom:18px}.calibration-modal .calibration-grid{grid-template-columns:1fr;gap:10px}.calibration-modal .cal-card{min-height:0;padding:14px}
 	:global(html[data-theme="dark"]) .ruler-notch .notch-brand{background:transparent;color:#eee}:global(html[data-theme="dark"]) .ruler-notch .notch-button,:global(html[data-theme="dark"]) .modal-close{background:#171717;border-color:#444;color:#eee}:global(html[data-theme="dark"]) .ruler-notch .notch-brand:hover{background:transparent;color:#fff}:global(html[data-theme="dark"]) .ruler-notch .notch-button:hover,:global(html[data-theme="dark"]) .modal-close:hover{background:#252525;border-color:#777}:global(html[data-theme="dark"]) .calibration-modal{border-color:#383838;background:#0f0f10;color:#eee}:global(html[data-theme="dark"]) .calibration-modal-header{border-color:#383838;background:#0f0f10}
-	@media(max-width:700px){.ruler-notch{display:flex;min-height:84px;align-items:stretch;flex-direction:column;justify-content:center;gap:2px;padding:4px 10px;overflow:visible}.ruler-notch .notch-start,.ruler-notch .notch-actions{width:100%;justify-content:space-between;gap:5px}.ruler-notch .notch-control + .notch-control{margin-left:2px}.ruler-notch .notch-start{gap:8px}.ruler-notch .notch-brand{font-size:11px}.ruler-notch .notch-edges,.ruler-notch .notch-actions{flex:none}.ruler-notch .notch-actions{position:static;top:auto;right:auto;margin-left:auto;transform:none;justify-content:flex-end}.ruler-notch .edge-option,.ruler-notch .segment{min-width:32px;padding:5px 7px}.ruler-notch .notch-button{min-height:36px;padding:0 8px}.ruler-notch .notch-fullscreen{width:36px;min-width:36px;padding:0}.ruler-notch .notch-theme-toggle{width:36px;min-width:36px;height:36px;min-height:36px}.ruler-notch .notch-theme-toggle.site-theme-switch{width:68px;min-width:68px;height:38px;min-height:38px;padding:0}.screen-edge-top{top:84px}.screen-edge-left,.screen-edge-right{top:84px}.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:0}.coordinate-line-y{top:84px}}
+	@media(max-width:700px){.ruler-notch{display:flex;min-height:84px;align-items:stretch;flex-direction:column;justify-content:center;gap:2px;padding:4px 10px;overflow:visible}.ruler-notch .notch-start,.ruler-notch .notch-actions{width:100%;justify-content:space-between;gap:5px}.ruler-notch .notch-control + .notch-control{margin-left:2px}.ruler-notch .notch-start{gap:8px}.ruler-notch .notch-brand{font-size:11px}.ruler-notch .notch-edges,.ruler-notch .notch-actions{flex:none}.ruler-notch .notch-actions{position:static;top:auto;right:auto;margin-left:auto;transform:none;justify-content:flex-end}.ruler-notch .edge-option,.ruler-notch .segment{min-width:32px;padding:5px 7px}.ruler-notch .notch-button{min-height:36px;padding:0 8px}.ruler-notch .notch-fullscreen{width:36px;min-width:36px;padding:0}.ruler-notch .notch-theme-toggle{width:36px;min-width:36px;height:36px;min-height:36px}.ruler-notch .notch-theme-toggle.site-theme-switch{width:68px;min-width:68px;height:38px;min-height:38px;padding:0}.screen-edge-top{top:84px}.screen-edge-left,.screen-edge-right{top:84px}.screen-edge-left .screen-number,.screen-edge-right .screen-number{top:0}}
 	@media(max-width:700px){.app-shell.calibration-experience{padding:0 18px}.app-shell.calibration-experience .calibration-section{margin:28px 0 48px;padding:24px 20px;border-radius:15px}.app-shell.calibration-experience .section-heading{display:block}.app-shell.calibration-experience .section-heading>p{padding:0;margin-top:12px}.app-shell.calibration-experience .calibration-grid{grid-template-columns:1fr}.app-shell.calibration-experience .cal-card{min-height:0}}
-	@media(max-width:580px){.coordinate-line-x{left:32px;right:32px}.coordinate-line-y{bottom:32px}.screen-edge-left,.screen-edge-right{width:32px}}
+	@media(max-width:580px){.screen-edge-left,.screen-edge-right{width:32px}}
 	@media(max-width:380px){.ruler-notch{padding-right:6px;padding-left:6px}.ruler-notch .notch-start,.ruler-notch .notch-actions{gap:3px}.ruler-notch .notch-brand{gap:5px;font-size:10px}.ruler-notch .notch-edges{gap:1px}.ruler-notch .edge-option,.ruler-notch .segment{min-width:28px;padding:5px}.ruler-notch .notch-actions{gap:4px}.ruler-notch .notch-button{padding:0 6px}.ruler-notch .notch-fullscreen{width:32px;min-width:32px;padding:0}}
 	/* Focused calibration workspace, modeled on the compact dark reference. */
 	:global(html[data-theme="dark"]){background:#131315;color:#e8e8eb}
@@ -1002,6 +1146,7 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	.calibration-tabs button[aria-selected="true"]{background:#397ff0;color:#fff}
 	.calibration-instructions{color:#536174}
 	.app-shell.calibration-experience .orientation-control{border-color:#dce5f0;border-radius:13px;background:#f7faff;color:#526174}
+	.app-shell.calibration-experience[data-calibration-method="card"] .cal-card[data-method-card="card"]>.orientation-control{display:flex;width:100%;margin:0 0 14px}
 	.app-shell.calibration-experience .orientation-options button{border-color:#dce5f0;background:#fff;color:#526174}
 	.app-shell.calibration-experience .align-preview-stage{border:1px solid #e3eaf2;border-radius:14px;background:#fff}
 	.app-shell.calibration-experience .align-reference{background:#f9fbff;color:#536174}
@@ -1015,6 +1160,68 @@ const marks = Array.from({ length: 301 }, (_, i) => i);
 	.saved-profiles-heading button{color:#526174}
 	.saved-profile-list{color:#68778b}
 	.saved-profile{border-color:#dce5f0;border-radius:9px;background:#fff;color:#334155}
+	.app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card{display:flex;align-items:stretch;gap:0;padding:22px;border:1px solid #dce7f5;border-radius:16px;background:linear-gradient(145deg,#fff 0%,#f7faff 100%);box-shadow:0 10px 28px #3155790c}
+	.app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card .card-top,.app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card h3,.app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card>p,.app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card>.card-button{display:flex}
+	.app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card h3{margin:15px 0 5px;color:#172334;font-size:20px}
+	.app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card>p{min-height:0;margin:0 0 17px;color:#657386;font-size:13px}
+	.device-catalog-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 17px;padding:12px 14px;border:1px solid #dce7f5;border-radius:12px;background:linear-gradient(110deg,#edf5ff,#fff);color:#66768b;font-size:12px}
+	.device-catalog-summary strong{color:#246aca;font-size:13px}
+	.device-search-label{margin:0 0 7px;color:#334155;font-size:12px;font-weight:700}
+	.device-search{width:100%;min-height:46px;padding:0 14px;border:1px solid #d4deeb;border-radius:11px;background:#fff;color:#1e293b;font-size:14px;box-shadow:0 2px 7px #172f4a0a}
+	.device-search:focus-visible{outline:3px solid #9bc2ff;outline-offset:2px}
+	.device-filter-list{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 15px}
+	.device-filter-list button{min-height:34px;padding:0 12px;border:1px solid #dbe3ee;border-radius:9px;background:#fff;color:#344255;font-size:11px;font-weight:600;cursor:pointer;transition:background-color .12s ease,color .12s ease,border-color .12s ease}
+	.device-filter-list button[aria-pressed="true"]{border-color:#397ff0;background:#397ff0;color:#fff;box-shadow:0 4px 10px #397ff02b}
+	.device-filter-list button:hover,.device-filter-list button:focus-visible{outline:0;border-color:#7eade8;background:#edf5ff;color:#1558a6}
+	.device-search-area{position:relative;width:100%}
+	.device-results{position:absolute;top:calc(100% + 7px);left:0;right:0;z-index:40;display:grid;gap:3px;max-height:min(52vh,390px);overflow:auto;padding:6px;border:1px solid #dbe3ee;border-radius:11px;background:#fff;box-shadow:0 12px 30px #172b4d24;overscroll-behavior:contain;scrollbar-color:#c9d7e9 transparent;scrollbar-width:thin}
+	.device-results[hidden]{display:none}
+	.device-result{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:10px;min-height:44px;padding:7px 10px;border:0;border-radius:7px;background:transparent;color:#344255;text-align:left;direction:ltr;cursor:pointer;transition:background-color .12s ease,color .12s ease}
+	.device-result:hover,.device-result:focus-visible{outline:0;background:#edf5ff;color:#1558a6}
+	.device-result.is-selected{background:#e5f0ff;color:#145bb0;font-weight:700}
+	.device-result-copy{flex:1;min-width:0;display:grid;justify-items:start;gap:3px;padding-right:12px;border-right:1px solid #dbe3ee;text-align:left;direction:ltr}
+	.device-result-copy strong{overflow:hidden;color:inherit;font-size:12px;font-weight:600;text-overflow:ellipsis;white-space:nowrap}
+	.device-result-copy small{color:#8491a2;font-size:10px;font-weight:400}
+	.device-result-ppi{display:grid;justify-items:end;color:#2267c5;font:600 13px ui-monospace,SFMono-Regular,Menlo,monospace}
+	.device-result-ppi small{margin-top:3px;color:#8292a8;font:9px Arial,Helvetica,sans-serif;letter-spacing:.08em}
+	.device-result-check{flex:none;color:#2872c8;font-size:13px;font-weight:700}
+	.device-empty-state{margin:0;padding:24px 16px;border:1px dashed #ccd9e8;border-radius:11px;color:#718096;font-size:13px;text-align:center}
+	.device-selection{display:flex;flex-direction:column;gap:5px;margin:15px 0;padding:14px 16px;border:1px solid #d8e7fa;border-radius:13px;background:linear-gradient(115deg,#eaf3ff,#fff)}
+	.device-selection>div{display:flex;align-items:center;justify-content:space-between;gap:12px}
+	.device-selection strong{color:#20334c;font-size:13px}
+	.device-selection span{flex:none;color:#246aca;font:600 13px ui-monospace,SFMono-Regular,Menlo,monospace}
+	.device-selection p{margin:0;color:#68788e;font-size:11px;line-height:1.5}
+	.app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card>.card-button{min-height:48px;align-items:center;justify-content:space-between;border:0;border-radius:11px;background:#397ff0;color:#fff;font-size:13px;box-shadow:0 7px 16px #397ff02b}
+	.app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card>.card-button:hover{background:#246bdc}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card{border-color:#303b4b;background:linear-gradient(145deg,#1b2635,#17191d);box-shadow:0 10px 28px #0002}
+	:global(html[data-theme="dark"]) .app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card h3,:global(html[data-theme="dark"]) .device-result-copy strong,:global(html[data-theme="dark"]) .device-selection strong{color:#e4eaf2}
+	:global(html[data-theme="dark"]) .device-catalog-summary,:global(html[data-theme="dark"]) .device-filter-list button,:global(html[data-theme="dark"]) .device-search{border-color:#343943;background:#111318;color:#dce4f0}
+	:global(html[data-theme="dark"]) .device-results{border-color:#35363a;background:#17181b;box-shadow:0 12px 30px #0009}
+	:global(html[data-theme="dark"]) .device-result{background:transparent;color:#d9e2ed}
+	:global(html[data-theme="dark"]) .device-result-copy{border-right-color:#343943}
+	:global(html[data-theme="dark"]) .device-result:hover,:global(html[data-theme="dark"]) .device-result:focus-visible{background:#263b54;color:#fff}
+	:global(html[data-theme="dark"]) .device-result.is-selected{background:#1d3652;color:#b9d8ff}
+	:global(html[data-theme="dark"]) .device-catalog-summary{background:linear-gradient(110deg,#1c293a,#17191d)}
+	:global(html[data-theme="dark"]) .device-selection{border-color:#303b4b;background:linear-gradient(115deg,#1c293a,#17191d)}
+	:global(html[data-theme="dark"]) .device-selection p,:global(html[data-theme="dark"]) .device-catalog-card>p{color:#aab5c4}
+	:global(html[data-theme="dark"]) .device-result-check{color:#9ac6ff}
+	@media(max-width:520px){.app-shell.calibration-experience[data-calibration-method="device"] .device-catalog-card{padding:16px 12px}.device-filter-list{gap:5px}.device-filter-list button{padding:0 9px}.device-result{gap:7px;padding:7px 8px}.device-selection>div{align-items:flex-start;flex-direction:column;gap:6px}}
+	:global(.device-result){box-sizing:border-box!important;width:100%!important;display:grid!important;grid-template-columns:minmax(0,1fr) auto auto!important;align-items:center!important;justify-content:initial!important;gap:10px!important;min-height:44px!important;padding:7px 10px!important;border:0!important;border-radius:7px!important;background:transparent!important;color:#344255!important;text-align:left!important;direction:ltr!important;font:500 13px/1.2 Arial,Helvetica,sans-serif!important;cursor:pointer!important}
+	:global(.device-result:hover),:global(.device-result:focus-visible){outline:0!important;background:#edf5ff!important;color:#1558a6!important}
+	:global(.device-result.is-selected){background:#e5f0ff!important;color:#145bb0!important;font-weight:700!important}
+	:global(.device-result-copy){box-sizing:border-box!important;min-width:0!important;display:grid!important;grid-template-columns:minmax(0,1fr)!important;justify-items:start!important;justify-self:stretch!important;gap:3px!important;padding-right:12px!important;border-right:1px solid #dbe3ee!important;text-align:left!important;direction:ltr!important}
+	:global(.device-result-copy strong){display:block!important;justify-self:start!important;max-width:100%!important;overflow:hidden!important;color:inherit!important;font:600 12px/1.25 Arial,Helvetica,sans-serif!important;text-align:left!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+	:global(.device-result-copy small){display:block!important;justify-self:start!important;color:#8491a2!important;font:400 10px/1.2 Arial,Helvetica,sans-serif!important;text-align:left!important}
+	:global(.device-result-ppi){display:grid!important;justify-items:end!important;color:#2267c5!important;font:600 13px/1.1 ui-monospace,SFMono-Regular,Menlo,monospace!important;text-align:right!important}
+	:global(.device-result-ppi small){margin-top:3px!important;color:#8292a8!important;font:9px/1 Arial,Helvetica,sans-serif!important;letter-spacing:.08em!important}
+	:global(.device-result-check){flex:none!important;color:#2872c8!important;font:700 13px/1 Arial,Helvetica,sans-serif!important}
+	:global(html[data-theme="dark"]) .device-result-copy{border-right-color:#343943!important}
+	:global(html[data-theme="dark"]) .device-result{color:#d9e2ed!important}
+	:global(html[data-theme="dark"]) .device-result:hover,:global(html[data-theme="dark"]) .device-result:focus-visible{background:#263b54!important;color:#fff!important}
+	:global(html[data-theme="dark"]) .device-result.is-selected{background:#1d3652!important;color:#b9d8ff!important}
+	:global(html[data-theme="dark"]) .device-result-copy small{color:#a3b1c3!important}
+	:global(html[data-theme="dark"]) .device-result-ppi{color:#9ac6ff!important}
+	:global(html[data-theme="dark"]) .device-result-ppi small{color:#a3b1c3!important}
 	:global(html[data-theme="dark"]) .app-shell.calibration-experience{color:#ededf0}
 	:global(html[data-theme="dark"]) .app-shell.calibration-experience .calibration-section{border-color:#2b2e34;background:linear-gradient(145deg,#17191d 0%,#1a2029 100%);box-shadow:0 16px 40px #0004}
 	:global(html[data-theme="dark"]) .calibration-dialog-heading h1,:global(html[data-theme="dark"]) .saved-profiles-heading h2{color:#ededf0}

@@ -1,0 +1,131 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LanguageSelector from '../components/LanguageSelector.astro';
+
+const guides = [
+	{ id: 'calibrate-screen', category: 'CALIBRATION', number: '01', title: 'How to calibrate an online ruler for your screen', summary: 'Set a useful starting scale, then check it against a physical reference for a closer match.', read: '4 min read' },
+	{ id: 'measure-cm-mm', category: 'MEASUREMENT BASICS', number: '02', title: 'Centimeters, millimeters, and inches: a quick guide', summary: 'Read the small marks on a ruler and convert common metric and imperial lengths.', read: '3 min read' },
+	{ id: 'phone-ruler', category: 'ON YOUR DEVICE', number: '03', title: 'How to use a screen ruler on a phone or tablet', summary: 'Make the most of a compact screen, choose an edge, and keep the scale easy to read.', read: '3 min read' },
+	{ id: 'screen-accuracy', category: 'ACCURACY', number: '04', title: 'How accurate is an online ruler?', summary: 'Understand what affects screen measurements and when to verify with a physical tool.', read: '4 min read' },
+];
+---
+
+<Layout
+	title="Online Ruler Guides: Calibration & Measuring Tips | A Online Ruler"
+	description="Practical guides to calibrating your screen, reading ruler markings, measuring on phones and tablets, and understanding screen ruler accuracy."
+	canonical="https://aonlineruler.com/blog"
+>
+	<div class="blog-shell">
+		<a class="skip-link" href="#blog-main">Skip to blog guides</a>
+		<header class="blog-header">
+			<a class="blog-brand" href="/" aria-label="A Online Ruler home"><img src="/favicon.svg" alt="" aria-hidden="true" /><span>A Online Ruler</span></a>
+			<nav aria-label="Main navigation"><a href="/ruler">Ruler</a><a href="/calibration">Calibration</a><a href="/about-us">About</a></nav>
+			<a class="blog-header-cta" href="/ruler">Open the ruler <span aria-hidden="true">→</span></a>
+			<button class="blog-theme-toggle site-theme-switch" id="blog-theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="site-theme-track" aria-hidden="true"><span class="site-theme-mark site-theme-sun">☀</span><span class="site-theme-mark site-theme-moon">☾</span><span class="site-theme-thumb"><span id="blog-theme-icon">☾</span></span></span></button>
+		</header>
+		<main id="blog-main">
+			<div class="blog-top-controls"><LanguageSelector currentPath="/blog" /></div>
+			<section class="blog-hero" aria-labelledby="blog-title">
+				<div class="blog-kicker"><span></span> THE A ONLINE RULER BLOG</div>
+				<h1 id="blog-title">Measure with a little more confidence.</h1>
+				<p>Clear, practical notes on screen measurement, display calibration, and getting a useful reading from the ruler you already have open.</p>
+				<a href="#guides" class="blog-hero-link">Browse the guides <span aria-hidden="true">↓</span></a>
+				<div class="blog-hero-art" aria-hidden="true"><div class="art-screen"><div class="art-screen-top"></div><div class="art-crosshair art-crosshair-x"></div><div class="art-crosshair art-crosshair-y"></div><span class="art-coordinate">X 4.2 cm&nbsp; · &nbsp;Y 2.8 cm</span></div><div class="art-ruler"><span>0</span><i></i><span>1</span><i></i><span>2</span><i></i><span>3</span><i></i><span>4</span></div><span class="art-glow"></span></div>
+			</section>
+
+			<section class="guide-index" id="guides" aria-labelledby="guides-title">
+				<div class="guide-index-heading"><div><div class="blog-kicker">FIELD NOTES</div><h2 id="guides-title">Guides for everyday measuring</h2></div><span>01 — 04</span></div>
+				<div class="guide-grid">
+					{guides.map((guide) => <a class="guide-card" href={`#${guide.id}`}><div class="guide-card-top"><span>{guide.category}</span><span>{guide.number}</span></div><h3>{guide.title}</h3><p>{guide.summary}</p><div class="guide-card-bottom"><span>{guide.read}</span><span class="guide-arrow" aria-hidden="true">↗</span></div></a>)}
+				</div>
+			</section>
+
+			<section class="featured-guide" aria-labelledby="calibrate-screen">
+				<div class="featured-guide-label"><span class="featured-dot"></span> START HERE <span class="featured-rule"></span> {guides[0].read.toUpperCase()}</div>
+				<article class="article-body">
+					<div class="article-heading"><span class="article-number">01</span><div><div class="blog-kicker">CALIBRATION</div><h2 id="calibrate-screen">How to calibrate an online ruler for your screen</h2></div></div>
+					<p class="article-lead">A screen does not have one universal physical size. Display density, scaling, and browser zoom all affect how large a ruler appears, so calibration gives the on-screen marks a more useful starting point.</p>
+					<h3>Choose a starting point</h3>
+					<p>Open the <a href="/calibration">calibration page</a> and choose a method. A device preset uses a model’s listed pixel density. If you do not know the model, enter the screen diagonal and aspect ratio for an estimate. Browser display information can help as a quick baseline, but it cannot reliably identify every panel’s physical density.</p>
+					<h3>Check it against something you know</h3>
+					<p>For a closer result, align the on-screen reference with a standard bank card or compare a measured length with a physical ruler. Adjust until the known object matches the displayed scale. Keep browser zoom steady after calibration; changing zoom changes the relationship between screen pixels and the ruler.</p>
+					<div class="article-callout"><span aria-hidden="true">i</span><p>Recheck calibration if you move the browser to another display, change zoom, or switch devices. Use a physical ruler or caliper when a close tolerance matters.</p></div>
+					<a class="article-action" href="/calibration">Calibrate your display <span aria-hidden="true">→</span></a>
+				</article>
+			</section>
+
+			<section class="article-list" aria-label="More measuring guides">
+				<article class="article-body compact-article">
+					<div class="article-heading"><span class="article-number">02</span><div><div class="blog-kicker">MEASUREMENT BASICS</div><h2 id="measure-cm-mm">Centimeters, millimeters, and inches: a quick guide</h2></div></div>
+					<p class="article-lead">Choose the unit that matches the dimension you need to read. The ruler switches between centimeters, inches, and pixels from its unit control.</p>
+					<h3>Read the small marks</h3><p>Each centimeter is divided into ten equal millimeter steps. If an object ends three small marks after 2 cm, its length is about 2.3 cm, or 23 mm. On an inch scale, use the numbered inch marks first, then count the smaller divisions between them.</p>
+					<h3>Convert when you need to</h3><p>One inch equals 2.54 centimeters, and one centimeter equals 10 millimeters. For example, 5 cm is 50 mm and about 1.97 inches. When converting a measurement, keep the original unit nearby so it is clear which value came from the ruler.</p>
+					<a class="article-action" href="/ruler">Try the ruler in another unit <span aria-hidden="true">→</span></a>
+				</article>
+				<article class="article-body compact-article">
+					<div class="article-heading"><span class="article-number">03</span><div><div class="blog-kicker">ON YOUR DEVICE</div><h2 id="phone-ruler">How to use a screen ruler on a phone or tablet</h2></div></div>
+					<p class="article-lead">A phone can show a handy ruler for small objects, even though its screen only displays part of a long scale at one time.</p>
+					<h3>Make room for the measurement</h3><p>Open the <a href="/ruler">ruler workspace</a>, select centimeters or inches, and place the object along the visible marks. Use the edge controls to put the scale where it is easiest to reach. On a smaller screen, scroll the ruler to bring another section into view.</p>
+					<h3>Calibrate before relying on the reading</h3><p>Choose a matching device preset if one is available, or compare the scale with a known reference. Avoid changing browser zoom after calibration. Touch screens can be convenient for a quick check, but keep the object flat and aligned with zero for the clearest reading.</p>
+					<a class="article-action" href="/ruler">Open the measuring workspace <span aria-hidden="true">→</span></a>
+				</article>
+				<article class="article-body compact-article">
+					<div class="article-heading"><span class="article-number">04</span><div><div class="blog-kicker">ACCURACY</div><h2 id="screen-accuracy">How accurate is an online ruler?</h2></div></div>
+					<p class="article-lead">An online ruler can show a useful screen scale, but the result depends on how well that scale matches the physical display.</p>
+					<h3>What changes the reading?</h3><p>Screen size and pixel density vary between devices. Operating system scaling, browser zoom, and calibration also affect the physical size of each displayed mark. A preset or diagonal-based estimate is a starting point; comparing it with a known physical reference usually improves it.</p>
+					<h3>Use the right tool for the tolerance</h3><p>For crafts, classroom activities, and quick household checks, a carefully calibrated screen ruler can be convenient. For a precise fit, a regulated measurement, or safety-critical work, verify the result with a physical ruler, caliper, or other suitable instrument.</p>
+					<a class="article-action" href="/calibration">Review calibration options <span aria-hidden="true">→</span></a>
+				</article>
+			</section>
+			<section class="blog-endcap"><div><div class="blog-kicker">READY WHEN YOU ARE</div><h2>Put the guide to work.</h2><p>Open the ruler, choose a unit, and calibrate the display when the measurement calls for it.</p></div><a class="blog-header-cta" href="/ruler">Open the ruler <span aria-hidden="true">→</span></a></section>
+		</main>
+		<footer class="blog-footer"><a class="blog-brand" href="/"><img src="/favicon.svg" alt="" aria-hidden="true" /><span>A Online Ruler</span></a><span>&copy; 2026</span><nav aria-label="Footer navigation"><a href="/ruler">Ruler</a><a href="/calibration">Calibration</a><a href="/about-us">About</a><a href="/privacy-policy">Privacy</a></nav></footer>
+	</div>
+</Layout>
+
+<style>
+	.blog-shell{--blog-ink:#172334;--blog-body:#59697d;--blog-muted:#8491a2;--blog-line:#e2eaf3;--blog-blue:#397ff0;min-height:100vh;padding:0 max(22px,calc((100vw - 1140px)/2));background:radial-gradient(ellipse at 84% 18%,#edf5ff 0,transparent 30%),#fafbfd;color:var(--blog-ink)}
+	.blog-header{min-height:74px;display:flex;align-items:center;gap:32px;border-bottom:1px solid var(--blog-line)}
+	.blog-brand{display:inline-flex;align-items:center;gap:9px;color:#172334;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap}.blog-brand img{width:25px;height:25px}
+	.blog-header nav{display:flex;align-items:center;gap:24px;flex:1}.blog-header nav a,.blog-footer nav a{color:#59697d;font-size:12px;text-decoration:none}.blog-header nav a:hover,.blog-footer nav a:hover{color:#145bb0}
+	.blog-header-cta{display:inline-flex;align-items:center;justify-content:space-between;gap:15px;min-height:38px;padding:0 13px;border:1px solid #397ff0;border-radius:8px;background:#397ff0;color:#fff;font-size:12px;font-weight:650;text-decoration:none;box-shadow:0 5px 13px #397ff027}.blog-header-cta:hover{background:#246bdc}
+	.blog-top-controls{display:flex;justify-content:flex-end;margin:14px 0 -16px}.blog-top-controls .language-selector{width:auto;min-height:0;margin:0;padding:0;border:0;background:transparent;box-shadow:none}
+	.blog-shell main{max-width:1000px;margin:0 auto}.blog-hero{position:relative;isolation:isolate;min-height:350px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;margin:24px 0 58px;padding:54px 56px;border:1px solid #dce8f6;border-radius:22px;background:linear-gradient(113deg,#f0f6ff 0%,#fff 62%,#f6faff 100%);box-shadow:0 18px 45px #385a8010}
+	.blog-kicker{display:flex;align-items:center;gap:8px;color:#5680b5;font:600 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.11em}.blog-kicker>span{width:7px;height:7px;border-radius:50%;background:#397ff0;box-shadow:0 0 0 4px #397ff018}
+	.blog-hero h1{max-width:570px;margin:18px 0 13px;color:#172334;font-size:clamp(38px,5vw,58px);font-weight:650;line-height:1.02;letter-spacing:-.06em;text-wrap:balance}.blog-hero>p{max-width:510px;margin:0;color:#59697d;font-size:15px;line-height:1.7}.blog-hero-link{display:inline-flex;align-items:center;gap:10px;width:max-content;margin-top:24px;color:#2267c5;font-size:12px;font-weight:700;text-decoration:none}.blog-hero-link span{display:grid;place-items:center;width:25px;height:25px;border:1px solid #d7e5f6;border-radius:50%;background:#fff}
+	.blog-hero-art{position:absolute;z-index:-1;right:38px;bottom:42px;width:350px;height:235px;transform:rotate(-5deg)}.art-glow{position:absolute;z-index:-1;inset:10px 20px;background:#b9d8ff66;filter:blur(38px)}.art-screen{position:absolute;inset:0 0 24px;border:1px solid #b9cce2;border-radius:14px;background:linear-gradient(145deg,#fff,#f2f7fd);box-shadow:0 18px 40px #24436520}.art-screen-top{height:21px;border-bottom:1px solid #e3ebf5;border-radius:14px 14px 0 0;background:repeating-linear-gradient(90deg,transparent 0 12px,#9db3cd 12px 13px,transparent 13px 25px)}.art-crosshair{position:absolute;background:#5793e8}.art-crosshair-x{top:57%;left:12%;right:12%;height:1px;border-top:1px dashed #5793e8;background:transparent}.art-crosshair-y{top:19%;bottom:14%;left:57%;width:1px;border-left:1px dashed #5793e8;background:transparent}.art-coordinate{position:absolute;top:61%;left:60%;padding:7px 9px;border:1px solid #c7dcf7;border-radius:6px;background:#eaf3ff;color:#246aca;font:10px ui-monospace,monospace}.art-ruler{position:absolute;right:-12px;bottom:0;left:15px;height:42px;display:flex;align-items:flex-start;justify-content:space-around;padding:6px 9px;border:1px solid #d4c9a4;border-radius:5px;background:repeating-linear-gradient(90deg,#fffdf4 0 8px,#a99c7b 8px 9px,#fffdf4 9px 16px);color:#4d4b3f;font:9px ui-monospace,monospace;box-shadow:0 7px 15px #604f2924}.art-ruler i{width:1px;height:12px;background:#4d4b3f}
+	.guide-index{margin:0 0 70px}.guide-index-heading{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:19px}.guide-index-heading h2{margin:9px 0 0;color:#172334;font-size:25px;letter-spacing:-.04em}.guide-index-heading>span{padding-bottom:4px;color:#94a2b4;font:10px ui-monospace,monospace;letter-spacing:.08em}.guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.guide-card{min-height:195px;display:flex;flex-direction:column;padding:19px 21px;border:1px solid var(--blog-line);border-radius:13px;background:#fff;color:inherit;text-decoration:none;transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease}.guide-card:hover{transform:translateY(-2px);border-color:#b8cfee;box-shadow:0 10px 24px #3155790d}.guide-card-top,.guide-card-bottom{display:flex;align-items:center;justify-content:space-between}.guide-card-top{color:#70839a;font:600 9px ui-monospace,monospace;letter-spacing:.09em}.guide-card-top span:last-child{color:#a5b2c2}.guide-card h3{margin:19px 0 7px;color:#20334c;font-size:16px;line-height:1.3;letter-spacing:-.025em}.guide-card p{margin:0;color:#68788e;font-size:12px;line-height:1.55}.guide-card-bottom{margin-top:auto;padding-top:17px;color:#8795a7;font-size:10px}.guide-arrow{color:#397ff0;font-size:15px}
+	.featured-guide{display:grid;grid-template-columns:190px minmax(0,1fr);gap:32px;padding:32px 0 45px;border-top:1px solid var(--blog-line)}.featured-guide-label{display:flex;align-items:center;gap:8px;height:max-content;padding-top:8px;color:#70839a;font:600 9px ui-monospace,monospace;letter-spacing:.08em}.featured-dot{width:7px;height:7px;border-radius:50%;background:#397ff0}.featured-rule{width:20px;height:1px;background:#cfd9e6}
+	.article-body{max-width:680px}.article-heading{display:flex;align-items:flex-start;gap:15px}.article-number{flex:none;display:grid;place-items:center;width:34px;height:34px;border:1px solid #dce7f5;border-radius:9px;background:#f0f6ff;color:#397ff0;font:11px ui-monospace,monospace}.article-heading .blog-kicker{margin:2px 0 8px}.article-heading h2{margin:0;color:#172334;font-size:26px;line-height:1.17;letter-spacing:-.04em}.article-lead{margin:16px 0 22px;color:#42566e;font-size:15px;line-height:1.75}.article-body h3{margin:22px 0 7px;color:#263a52;font-size:15px;letter-spacing:-.015em}.article-body>p:not(.article-lead){margin:0 0 14px;color:#59697d;font-size:13px;line-height:1.8}.article-body>p a{color:#2267c5;text-decoration-thickness:1px;text-underline-offset:3px}.article-callout{display:flex;gap:11px;margin:22px 0;padding:14px 15px;border:1px solid #d8e7fa;border-radius:10px;background:linear-gradient(110deg,#edf5ff,#fff)}.article-callout>span{flex:none;display:grid;place-items:center;width:20px;height:20px;border:1px solid #b8d1f1;border-radius:50%;color:#397ff0;font:12px Georgia,serif}.article-callout p{margin:0;color:#52667f;font-size:12px;line-height:1.65}.article-action{display:inline-flex;align-items:center;gap:9px;margin-top:5px;color:#2267c5;font-size:12px;font-weight:700;text-decoration:none}.article-action:hover{color:#144f9c}.article-list{display:grid;grid-template-columns:1fr 1fr;gap:40px 36px;padding:36px 0 70px;border-top:1px solid var(--blog-line)}.compact-article{padding:7px 0}.compact-article .article-heading h2{font-size:21px}.compact-article .article-lead{font-size:13px}.blog-endcap{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:0 0 55px;padding:27px 30px;border:1px solid #dce7f5;border-radius:15px;background:linear-gradient(105deg,#eef5ff,#fff)}.blog-endcap h2{margin:8px 0 5px;font-size:21px;letter-spacing:-.035em}.blog-endcap p{margin:0;color:#68788e;font-size:12px;line-height:1.6}.blog-endcap .blog-header-cta{flex:none}
+	.blog-footer{min-height:72px;display:flex;align-items:center;gap:17px;border-top:1px solid var(--blog-line);color:#8795a7;font-size:11px}.blog-footer>span{flex:1}.blog-footer nav{display:flex;gap:18px}
+	:global(html[data-theme="dark"]) .blog-shell{--blog-ink:#e7ecf3;--blog-body:#b1bdcb;--blog-muted:#8795a7;--blog-line:#303743;background:radial-gradient(ellipse at 84% 18%,#1d2a3b 0,transparent 32%),#111419;color:var(--blog-ink)}
+	:global(html[data-theme="dark"]) .blog-brand,:global(html[data-theme="dark"]) .blog-hero h1,:global(html[data-theme="dark"]) .guide-index-heading h2,:global(html[data-theme="dark"]) .guide-card h3,:global(html[data-theme="dark"]) .article-heading h2,:global(html[data-theme="dark"]) .article-body h3,:global(html[data-theme="dark"]) .blog-endcap h2{color:#e7ecf3}
+	:global(html[data-theme="dark"]) .blog-header nav a,:global(html[data-theme="dark"]) .blog-footer nav a{color:#b1bdcb}
+	:global(html[data-theme="dark"]) .blog-hero,:global(html[data-theme="dark"]) .guide-card{border-color:#303b4b;background:linear-gradient(120deg,#171d25,#171a20);box-shadow:none}
+	:global(html[data-theme="dark"]) .blog-hero>p,:global(html[data-theme="dark"]) .guide-card p,:global(html[data-theme="dark"]) .article-lead,:global(html[data-theme="dark"]) .article-body>p:not(.article-lead),:global(html[data-theme="dark"]) .blog-endcap p{color:#b1bdcb}
+	:global(html[data-theme="dark"]) .article-number{border-color:#36455a;background:#1b2a3d;color:#9ac6ff}
+	:global(html[data-theme="dark"]) .article-callout,:global(html[data-theme="dark"]) .blog-endcap{border-color:#303b4b;background:linear-gradient(110deg,#1a2635,#171a20)}
+	:global(html[data-theme="dark"]) .article-callout p{color:#b1bdcb}
+	:global(html[data-theme="dark"]) .art-screen{border-color:#39495d;background:linear-gradient(145deg,#222d3a,#171d26)}:global(html[data-theme="dark"]) .art-screen-top{border-color:#39495d}:global(html[data-theme="dark"]) .art-coordinate{border-color:#354b67;background:#1d2e43;color:#9ac6ff}
+	@media(max-width:760px){.blog-header{gap:16px}.blog-header nav{gap:13px}.blog-hero{min-height:390px;padding:38px 30px 210px}.blog-hero-art{right:50%;bottom:20px;width:min(350px,80vw);transform:translateX(50%) rotate(-5deg)}.featured-guide{grid-template-columns:1fr;gap:13px}.featured-guide-label{padding-top:0}.article-list{grid-template-columns:1fr;gap:36px}}
+	@media(max-width:540px){.blog-shell{padding:0 15px}.blog-header{min-height:65px;flex-wrap:wrap;padding:10px 0}.blog-header nav{order:3;flex-basis:100%;justify-content:space-between;padding:8px 0 1px;border-top:1px solid var(--blog-line)}.blog-header nav a{font-size:11px}.blog-header-cta{margin-left:auto;min-height:35px;padding:0 10px;font-size:11px}.blog-top-controls{margin-top:10px}.blog-hero{min-height:400px;margin-top:16px;padding:31px 21px 205px;border-radius:17px}.blog-hero h1{font-size:39px}.blog-hero>p{font-size:13px}.guide-index-heading h2{font-size:21px}.guide-grid{grid-template-columns:1fr;gap:9px}.guide-card{min-height:170px;padding:16px}.guide-card h3{margin-top:13px;font-size:15px}.featured-guide{padding-top:25px}.article-heading h2{font-size:22px}.article-lead{font-size:14px}.compact-article .article-heading h2{font-size:20px}.blog-endcap{align-items:flex-start;flex-direction:column;padding:20px}.blog-footer{flex-wrap:wrap;padding:17px 0}.blog-footer nav{width:100%;justify-content:space-between;gap:8px}.blog-footer nav a{font-size:10px}}
+</style>
+
+<script>
+	const themeToggle = document.querySelector<HTMLButtonElement>('#blog-theme-toggle')!;
+	let theme = 'light';
+	try { theme = localStorage.getItem('aor-theme') === 'dark' ? 'dark' : 'light'; } catch { /* Keep the theme available for this visit. */ }
+	function setTheme(nextTheme: string) {
+		theme = nextTheme;
+		document.documentElement.dataset.theme = theme;
+		const dark = theme === 'dark';
+		themeToggle.setAttribute('aria-checked', String(dark));
+		themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+		themeToggle.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+		document.querySelector<HTMLElement>('#blog-theme-icon')!.textContent = dark ? '☀' : '☾';
+		document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', dark ? '#111419' : '#fafbfd');
+		try { localStorage.setItem('aor-theme', theme); } catch { /* Keep the theme active for this visit. */ }
+	}
+	setTheme(theme);
+	themeToggle.addEventListener('click', () => setTheme(theme === 'dark' ? 'light' : 'dark'));
+</script>

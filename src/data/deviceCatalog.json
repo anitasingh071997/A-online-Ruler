@@ -1,0 +1,2198 @@
+[
+  {
+    "name": "Apple MacBook Air 13″ (M1-M3, 2020-2024)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 113.5
+  },
+  {
+    "name": "Apple MacBook Air 13″ M4 (2025)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 113.5
+  },
+  {
+    "name": "Apple MacBook Air 13″ M5 (2026)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 113.5
+  },
+  {
+    "name": "Apple MacBook Air 15″ (M2-M3, 2023-2024)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 112.0
+  },
+  {
+    "name": "Apple MacBook Air 15″ M4 (2025)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 112.0
+  },
+  {
+    "name": "Apple MacBook Air 15″ M5 (2026)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 112.0
+  },
+  {
+    "name": "Apple MacBook Pro 13″ (M1-M2, 2020-2022)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 113.5
+  },
+  {
+    "name": "Apple MacBook Pro 14″ (M1-M3, 2021-2023)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 127.0
+  },
+  {
+    "name": "Apple MacBook Pro 14″ M4 (2024)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 127.0
+  },
+  {
+    "name": "Apple MacBook Pro 14″ M5 (2025)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 127.0
+  },
+  {
+    "name": "Apple MacBook Pro 16″ (M1-M3, 2021-2023)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 127.0
+  },
+  {
+    "name": "Apple MacBook Pro 16″ M4 Pro/Max (2024)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 127.0
+  },
+  {
+    "name": "Apple MacBook Pro 16″ M5 Pro/Max (2025)",
+    "brand": "Apple",
+    "category": "Laptops",
+    "ppi": 127.0
+  },
+  {
+    "name": "Apple Pro Display XDR 32″",
+    "brand": "Apple",
+    "category": "Monitors",
+    "ppi": 92.0
+  },
+  {
+    "name": "Apple Studio Display 27″",
+    "brand": "Apple",
+    "category": "Monitors",
+    "ppi": 109.0
+  },
+  {
+    "name": "Apple iMac 24″ (M1/M3, 2021-2023)",
+    "brand": "Apple",
+    "category": "Monitors",
+    "ppi": 109.0
+  },
+  {
+    "name": "Apple iMac 24″ M4 (2024)",
+    "brand": "Apple",
+    "category": "Monitors",
+    "ppi": 109.0
+  },
+  {
+    "name": "Apple iMac 24″ M5 (2026)",
+    "brand": "Apple",
+    "category": "Monitors",
+    "ppi": 109.0
+  },
+  {
+    "name": "Apple iPad (10 gen, 2022)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad (Gen 7-9)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad 11 (A16, 2025)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad Air (4-5 gen, 2020-2022)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad Air 11″ M2 (2024)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad Air 11″ M3 (2025)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad Air 13″ M2 (2024)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad Air 13″ M3 (2025)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad Pro 11″ (2020-2022)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad Pro 11″ M4 (2024)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad Pro 11″ M5 (2025)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad Pro 12.9″ (M1/M2, 2021-2022)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad Pro 13″ M4 (2024)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad Pro 13″ M5 (2025)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Apple iPad mini (6 gen, 2021)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 163.0
+  },
+  {
+    "name": "Apple iPad mini 7 (A17 Pro, 2024)",
+    "brand": "Apple",
+    "category": "Tablets",
+    "ppi": 163.0
+  },
+  {
+    "name": "Apple iPhone 11",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 163.0
+  },
+  {
+    "name": "Apple iPhone 11 Pro",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 152.7
+  },
+  {
+    "name": "Apple iPhone 11 Pro Max",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 152.7
+  },
+  {
+    "name": "Apple iPhone 12",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 12 Pro",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 12 Pro Max",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 152.7
+  },
+  {
+    "name": "Apple iPhone 12 mini",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 158.7
+  },
+  {
+    "name": "Apple iPhone 13",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 13 Pro",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 13 Pro Max",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 152.7
+  },
+  {
+    "name": "Apple iPhone 13 mini",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 158.7
+  },
+  {
+    "name": "Apple iPhone 14",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 14 Plus",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 152.7
+  },
+  {
+    "name": "Apple iPhone 14 Pro",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 14 Pro Max",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 15",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 15 Plus",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 15 Pro",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 15 Pro Max",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 16",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 16 Plus",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 16 Pro",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 16 Pro Max",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 16e",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 17",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 17 Air",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 17 Pro",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone 17 Pro Max",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 153.3
+  },
+  {
+    "name": "Apple iPhone SE (3rd gen, 2022)",
+    "brand": "Apple",
+    "category": "Phones",
+    "ppi": 163.0
+  },
+  {
+    "name": "Samsung Galaxy A13",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A14 5G",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A15 5G",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A23",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A24",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A25 5G",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A33 5G",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A34 5G",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A35 5G",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A53 5G",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A54 5G",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A55 5G",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy A75 5G",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy Note 10",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy Note 10+",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy Note 20",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy Note 20 Ultra",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Samsung Galaxy Note 8",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy Note 9",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S10",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S10 5G",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Samsung Galaxy S10 Lite",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S10+",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S10e",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S20",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S20 FE",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S20 Ultra",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Samsung Galaxy S20+",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S21",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S21 FE",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S21 Ultra",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Samsung Galaxy S21+",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S22",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S22 Ultra",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Samsung Galaxy S22+",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S23",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S23 FE",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy S23 Ultra",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Samsung Galaxy S23+",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S24",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S24 FE",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy S24 Ultra",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Samsung Galaxy S24+",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S25",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S25 Edge",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S25 Ultra",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Samsung Galaxy S25+",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S26",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S26 Edge",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S26 Ultra",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Samsung Galaxy S26+",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S9",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy S9+",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 138.8
+  },
+  {
+    "name": "Samsung Galaxy Tab S10 Ultra",
+    "brand": "Samsung",
+    "category": "Tablets",
+    "ppi": 119.0
+  },
+  {
+    "name": "Samsung Galaxy Tab S10+",
+    "brand": "Samsung",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy Tab S11",
+    "brand": "Samsung",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy Tab S11 Ultra",
+    "brand": "Samsung",
+    "category": "Tablets",
+    "ppi": 119.0
+  },
+  {
+    "name": "Samsung Galaxy Tab S11+",
+    "brand": "Samsung",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy Tab S9",
+    "brand": "Samsung",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy Tab S9 FE",
+    "brand": "Samsung",
+    "category": "Tablets",
+    "ppi": 120.0
+  },
+  {
+    "name": "Samsung Galaxy Tab S9 FE+",
+    "brand": "Samsung",
+    "category": "Tablets",
+    "ppi": 120.0
+  },
+  {
+    "name": "Samsung Galaxy Tab S9 Ultra",
+    "brand": "Samsung",
+    "category": "Tablets",
+    "ppi": 119.0
+  },
+  {
+    "name": "Samsung Galaxy Tab S9+",
+    "brand": "Samsung",
+    "category": "Tablets",
+    "ppi": 132.0
+  },
+  {
+    "name": "Samsung Galaxy Z Flip 4",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 125.0
+  },
+  {
+    "name": "Samsung Galaxy Z Flip 5",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 125.0
+  },
+  {
+    "name": "Samsung Galaxy Z Flip 6",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 125.0
+  },
+  {
+    "name": "Samsung Galaxy Z Flip 7",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 125.0
+  },
+  {
+    "name": "Samsung Galaxy Z Fold 4",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 157.5
+  },
+  {
+    "name": "Samsung Galaxy Z Fold 5",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 157.5
+  },
+  {
+    "name": "Samsung Galaxy Z Fold 6",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 157.5
+  },
+  {
+    "name": "Samsung Galaxy Z Fold 7",
+    "brand": "Samsung",
+    "category": "Phones",
+    "ppi": 157.5
+  },
+  {
+    "name": "Google Pixel 10",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 129.0
+  },
+  {
+    "name": "Google Pixel 10 Pro",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 129.0
+  },
+  {
+    "name": "Google Pixel 10 Pro XL",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 121.0
+  },
+  {
+    "name": "Google Pixel 10a",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Google Pixel 7",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 133.5
+  },
+  {
+    "name": "Google Pixel 7 Pro",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 135.5
+  },
+  {
+    "name": "Google Pixel 7a",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Google Pixel 8",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 129.0
+  },
+  {
+    "name": "Google Pixel 8 Pro",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 121.0
+  },
+  {
+    "name": "Google Pixel 8a",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Google Pixel 9",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 129.0
+  },
+  {
+    "name": "Google Pixel 9 Pro",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 129.0
+  },
+  {
+    "name": "Google Pixel 9 Pro Fold",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 157.0
+  },
+  {
+    "name": "Google Pixel 9 Pro XL",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 121.0
+  },
+  {
+    "name": "Google Pixel 9a",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Google Pixel Fold",
+    "brand": "Google",
+    "category": "Phones",
+    "ppi": 157.0
+  },
+  {
+    "name": "Google Pixel Tablet",
+    "brand": "Google",
+    "category": "Tablets",
+    "ppi": 141.0
+  },
+  {
+    "name": "Xiaomi Mi 10",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Mi 10 Lite",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Mi 10 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Mi 10 Ultra",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Mi 10T",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Mi 10T Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Mi 8",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Mi 8 Lite",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Mi 8 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Mi 8 SE",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Mi 9",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Mi 9 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Mi 9 SE",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Mi 9T",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Mi 9T Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Mix Flip",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 125.0
+  },
+  {
+    "name": "Xiaomi Mix Fold 2",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 157.5
+  },
+  {
+    "name": "Xiaomi Mix Fold 3",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 157.5
+  },
+  {
+    "name": "Xiaomi Mix Fold 4",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 157.5
+  },
+  {
+    "name": "Xiaomi POCO F6",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi POCO F6 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi POCO X6 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi POCO X7 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Poco C31",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Poco C40",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Poco C50",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Poco C55",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Poco C65",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Poco C75",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Poco F1",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Poco F2 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Poco F3",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Poco F4",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Poco F4 GT",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Poco F5",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Poco F5 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Poco F7",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Poco M2",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "Xiaomi Poco M2 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "Xiaomi Poco M3",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "Xiaomi Poco M3 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "Xiaomi Poco M4",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "Xiaomi Poco M4 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "Xiaomi Poco M5",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "Xiaomi Poco M5s",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "Xiaomi Poco M6",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "Xiaomi Poco M6 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "Xiaomi Poco X2",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Poco X3",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Poco X3 NFC",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Poco X3 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Poco X4 GT",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Poco X4 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Poco X5",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Poco X5 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Poco X6",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Poco X7",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Poco X7 Ultra",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi 12C",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Redmi 13C",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Redmi 14C",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Redmi A1",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Redmi A2",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Redmi A3",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 10",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 10 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 11",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 11 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 11 Pro+",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 12",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 12 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 12 Pro+",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 13",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 13 Pro+",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 14",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 14 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 14 Pro+",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 15",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 15 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 15 Pro+",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 7",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 7 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 8",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 8 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 9",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Redmi Note 9 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 11",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 11 Lite 5G NE",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 11 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 11 Ultra",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 11T",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 11T Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 12",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 12 Lite",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 12 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 12 Ultra",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 12T",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 12T Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 13",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 13 Lite",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 13 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 13 Ultra",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 13T",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 13T Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 14",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 14 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 14 Ultra",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 14T",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 14T Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 15",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 15 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 128.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 15 Ultra",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi 16",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 16 Pro",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 128.0
+  },
+  {
+    "name": "Xiaomi Xiaomi 16 Ultra",
+    "brand": "Xiaomi",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "Xiaomi Xiaomi Pad 6",
+    "brand": "Xiaomi",
+    "category": "Tablets",
+    "ppi": 150.0
+  },
+  {
+    "name": "Xiaomi Xiaomi Pad 6 Pro",
+    "brand": "Xiaomi",
+    "category": "Tablets",
+    "ppi": 150.0
+  },
+  {
+    "name": "Xiaomi Xiaomi Pad 7",
+    "brand": "Xiaomi",
+    "category": "Tablets",
+    "ppi": 171.0
+  },
+  {
+    "name": "Xiaomi Xiaomi Pad 7 Pro",
+    "brand": "Xiaomi",
+    "category": "Tablets",
+    "ppi": 171.0
+  },
+  {
+    "name": "Xiaomi Xiaomi Pad 8",
+    "brand": "Xiaomi",
+    "category": "Tablets",
+    "ppi": 171.0
+  },
+  {
+    "name": "Xiaomi Xiaomi Pad 8 Pro",
+    "brand": "Xiaomi",
+    "category": "Tablets",
+    "ppi": 171.0
+  },
+  {
+    "name": "OnePlus OnePlus 12",
+    "brand": "OnePlus",
+    "category": "Phones",
+    "ppi": 121.0
+  },
+  {
+    "name": "OnePlus OnePlus 12R",
+    "brand": "OnePlus",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "OnePlus OnePlus 13",
+    "brand": "OnePlus",
+    "category": "Phones",
+    "ppi": 121.0
+  },
+  {
+    "name": "OnePlus OnePlus 13R",
+    "brand": "OnePlus",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "OnePlus OnePlus 14",
+    "brand": "OnePlus",
+    "category": "Phones",
+    "ppi": 121.0
+  },
+  {
+    "name": "OnePlus OnePlus 14R",
+    "brand": "OnePlus",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "OnePlus OnePlus Open",
+    "brand": "OnePlus",
+    "category": "Phones",
+    "ppi": 157.0
+  },
+  {
+    "name": "OnePlus OnePlus Pad",
+    "brand": "OnePlus",
+    "category": "Tablets",
+    "ppi": 144.0
+  },
+  {
+    "name": "OnePlus OnePlus Pad 2",
+    "brand": "OnePlus",
+    "category": "Tablets",
+    "ppi": 142.0
+  },
+  {
+    "name": "OPPO A18",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "OPPO A38",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "OPPO A58 5G",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "OPPO A78 5G",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "OPPO A98 5G",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "OPPO Find N3 (Foldable)",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 157.0
+  },
+  {
+    "name": "OPPO Find N5 (Foldable)",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 157.0
+  },
+  {
+    "name": "OPPO Find X",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "OPPO Find X2",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "OPPO Find X2 Lite",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "OPPO Find X2 Neo",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "OPPO Find X2 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "OPPO Find X3",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "OPPO Find X3 Lite",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "OPPO Find X3 Neo",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "OPPO Find X3 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "OPPO Find X5",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "OPPO Find X5 Lite",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "OPPO Find X5 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "OPPO Find X6",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "OPPO Find X6 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "OPPO Find X7",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Find X7 Ultra",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 127.5
+  },
+  {
+    "name": "OPPO Find X8",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Find X8 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 121.0
+  },
+  {
+    "name": "OPPO Find X9",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Find X9 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 121.0
+  },
+  {
+    "name": "OPPO K10",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "OPPO K11",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "OPPO K12",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 135.0
+  },
+  {
+    "name": "OPPO K9",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO K9 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO K9x",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "OPPO Reno 10",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Reno 10 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Reno 10 Pro+",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Reno 11",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Reno 11 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Reno 12 5G",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Reno 12 FS 5G",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Reno 12 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Reno 13",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Reno 13 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Reno 14",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "OPPO Reno 14 Pro",
+    "brand": "OPPO",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Honor Magic 6 Pro",
+    "brand": "Honor",
+    "category": "Phones",
+    "ppi": 127.0
+  },
+  {
+    "name": "Honor Magic 7",
+    "brand": "Honor",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Honor Magic 7 Pro",
+    "brand": "Honor",
+    "category": "Phones",
+    "ppi": 127.0
+  },
+  {
+    "name": "Honor Magic 8",
+    "brand": "Honor",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Honor Magic 8 Pro",
+    "brand": "Honor",
+    "category": "Phones",
+    "ppi": 127.0
+  },
+  {
+    "name": "Honor Magic V2 (Foldable)",
+    "brand": "Honor",
+    "category": "Phones",
+    "ppi": 156.0
+  },
+  {
+    "name": "Honor Magic V3 (Foldable)",
+    "brand": "Honor",
+    "category": "Phones",
+    "ppi": 156.0
+  },
+  {
+    "name": "Nothing CMF Phone 1",
+    "brand": "Nothing",
+    "category": "Phones",
+    "ppi": 132.0
+  },
+  {
+    "name": "Nothing Nothing Phone 2",
+    "brand": "Nothing",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Nothing Nothing Phone 2a",
+    "brand": "Nothing",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Nothing Nothing Phone 2a Plus",
+    "brand": "Nothing",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "Nothing Nothing Phone 3",
+    "brand": "Nothing",
+    "category": "Phones",
+    "ppi": 138.0
+  },
+  {
+    "name": "ASUS ROG Phone 10",
+    "brand": "ASUS",
+    "category": "Phones",
+    "ppi": 130.0
+  },
+  {
+    "name": "ASUS ROG Phone 10 Pro",
+    "brand": "ASUS",
+    "category": "Phones",
+    "ppi": 130.0
+  },
+  {
+    "name": "ASUS ROG Phone 7",
+    "brand": "ASUS",
+    "category": "Phones",
+    "ppi": 130.0
+  },
+  {
+    "name": "ASUS ROG Phone 8 Pro",
+    "brand": "ASUS",
+    "category": "Phones",
+    "ppi": 130.0
+  },
+  {
+    "name": "ASUS ROG Phone 9 Pro",
+    "brand": "ASUS",
+    "category": "Phones",
+    "ppi": 130.0
+  },
+  {
+    "name": "ASUS Zenfone 11 Ultra",
+    "brand": "ASUS",
+    "category": "Phones",
+    "ppi": 127.0
+  },
+  {
+    "name": "Microsoft Surface Laptop 13.5″ @ 150%",
+    "brand": "Microsoft",
+    "category": "Laptops",
+    "ppi": 150.0
+  },
+  {
+    "name": "Microsoft Surface Laptop 7 (2024)",
+    "brand": "Microsoft",
+    "category": "Laptops",
+    "ppi": 150.0
+  },
+  {
+    "name": "Microsoft Surface Laptop Studio",
+    "brand": "Microsoft",
+    "category": "Laptops",
+    "ppi": 167.0
+  },
+  {
+    "name": "Microsoft Surface Laptop Studio 2",
+    "brand": "Microsoft",
+    "category": "Laptops",
+    "ppi": 167.0
+  },
+  {
+    "name": "Microsoft Surface Pro 10 / 9 @ 200% DPI",
+    "brand": "Microsoft",
+    "category": "Tablets",
+    "ppi": 165.0
+  },
+  {
+    "name": "Microsoft Surface Pro 11 (2024)",
+    "brand": "Microsoft",
+    "category": "Tablets",
+    "ppi": 165.0
+  },
+  {
+    "name": "Windows 13.3″ FHD @ 150% DPI",
+    "brand": "Windows",
+    "category": "Laptops",
+    "ppi": 124.5
+  },
+  {
+    "name": "Windows 13.3″ QHD @ 200% DPI",
+    "brand": "Windows",
+    "category": "Laptops",
+    "ppi": 166.0
+  },
+  {
+    "name": "Windows 14″ FHD @ 125% DPI",
+    "brand": "Windows",
+    "category": "Laptops",
+    "ppi": 125.5
+  },
+  {
+    "name": "Windows 15.6″ 4K @ 250% DPI",
+    "brand": "Windows",
+    "category": "Laptops",
+    "ppi": 188.0
+  },
+  {
+    "name": "Windows 15.6″ FHD @ 125% DPI",
+    "brand": "Windows",
+    "category": "Laptops",
+    "ppi": 112.0
+  },
+  {
+    "name": "Windows 16″ OLED 2.8K @ 150% DPI (2024+)",
+    "brand": "Windows",
+    "category": "Laptops",
+    "ppi": 138.0
+  },
+  {
+    "name": "Windows 17.3″ FHD @ 100% DPI",
+    "brand": "Windows",
+    "category": "Laptops",
+    "ppi": 96.0
+  },
+  {
+    "name": "Monitor 24″ FHD @ 100% DPI",
+    "brand": "Monitor",
+    "category": "Monitors",
+    "ppi": 92.0
+  },
+  {
+    "name": "Monitor 27″ 4K @ 150% DPI",
+    "brand": "Monitor",
+    "category": "Monitors",
+    "ppi": 163.0
+  },
+  {
+    "name": "Monitor 27″ FHD @ 100% DPI",
+    "brand": "Monitor",
+    "category": "Monitors",
+    "ppi": 82.0
+  },
+  {
+    "name": "Monitor 27″ QHD @ 125% DPI",
+    "brand": "Monitor",
+    "category": "Monitors",
+    "ppi": 109.0
+  },
+  {
+    "name": "Monitor 32″ 4K @ 100% DPI",
+    "brand": "Monitor",
+    "category": "Monitors",
+    "ppi": 138.0
+  },
+  {
+    "name": "Monitor 32″ 4K @ 150% DPI",
+    "brand": "Monitor",
+    "category": "Monitors",
+    "ppi": 138.0
+  },
+  {
+    "name": "Monitor 32″ QHD @ 125% DPI",
+    "brand": "Monitor",
+    "category": "Monitors",
+    "ppi": 93.0
+  },
+  {
+    "name": "Monitor 34″ UWQHD @ 100% DPI",
+    "brand": "Monitor",
+    "category": "Monitors",
+    "ppi": 109.0
+  },
+  {
+    "name": "Monitor 49″ DQHD @ 100% DPI",
+    "brand": "Monitor",
+    "category": "Monitors",
+    "ppi": 108.0
+  }
+]

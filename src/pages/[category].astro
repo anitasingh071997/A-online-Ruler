@@ -3,7 +3,7 @@ import CategoryExperience from '../components/CategoryExperience.astro';
 import { toolCategories } from '../data/toolCategories';
 
 export function getStaticPaths() {
-	return toolCategories.map((category) => ({ params: { category: category.slug }, props: { category } }));
+	return toolCategories.filter((category) => category.slug !== 'blog').map((category) => ({ params: { category: category.slug }, props: { category } }));
 }
 
 const { category } = Astro.props;
